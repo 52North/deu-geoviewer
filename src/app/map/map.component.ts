@@ -1,11 +1,14 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Map, View } from 'ol';
 import { defaults as defaultControls, ScaleLine } from 'ol/control';
 import { Extent } from 'ol/extent';
+import GeoJSON from 'ol/format/GeoJSON';
+import Layer from 'ol/layer/Layer';
 import TileLayer from 'ol/layer/Tile';
-import { fromLonLat } from 'ol/proj';
+import VectorLayer from 'ol/layer/Vector';
 import { register } from 'ol/proj/proj4';
 import { OSM, TileArcGISRest } from 'ol/source';
+import VectorSource from 'ol/source/Vector';
 import proj4 from 'proj4';
 
 export enum MapProjection {
@@ -17,12 +20,28 @@ export enum MapProjection {
 proj4.defs("EPSG:3035", "+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs");
 register(proj4);
 
+export class MapOptions { }
+
+export class GeoJSONOptions extends MapOptions {
+  constructor(public geojson: any) {
+    super();
+  }
+}
+
+export class WmsOptions extends MapOptions {
+  constructor(public url: string) {
+    super();
+  }
+}
+
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss']
 })
-export class MapComponent implements OnInit, AfterViewInit {
+export class MapComponent implements AfterViewInit, OnChanges {
+
+  @Input() options: MapOptions | undefined;
 
   public mapId: string = 'mapid';
 
@@ -30,31 +49,55 @@ export class MapComponent implements OnInit, AfterViewInit {
 
   constructor() { }
 
-  ngOnInit(): void {
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes && changes.options) {
+      this.drawMap();
+    }
   }
 
   ngAfterViewInit(): void {
-    const map = new Map({
-      layers: this.createLayers(),
-      controls: defaultControls(),
-      target: this.mapId,
-      view: new View({
-        projection: this.projection,
-        center: fromLonLat([0, 0]),
-        zoom: 1
-      })
-    })
+    this.drawMap();
+  }
 
-    map.getView().fit(this.getExtent());
+  private drawMap() {
+    if (this.options) {
+      const layers = this.createBaseLayers();
+      let extent;
 
-    const scaleLine = new ScaleLine({ units: 'metric' });
-    map.addControl(scaleLine);
+      if (this.options instanceof GeoJSONOptions) {
+        var vectorSource = new VectorSource({
+          features: new GeoJSON().readFeatures(this.options.geojson),
+        });
+        var vectorLayer = new VectorLayer({
+          source: vectorSource
+          // style: styleFunction,
+        });
+        layers.push(vectorLayer);
+        // TODO: detect projection
+        extent = vectorSource.getExtent();
+        console.log(extent);
+      }
 
-    map.getView().on('change:resolution', (evt) => {
-      // console.log(evt.target.get('resolution'));
-      // console.log(map.getView().getZoom());
-      // console.log(`Scale: ${scaleLine.getScaleForResolution()}`);
-    })
+
+      const map = new Map({
+        layers,
+        controls: defaultControls(),
+        target: this.mapId,
+        view: new View({
+          projection: this.projection,
+          maxZoom: 18
+        })
+      });
+
+      map.getView().fit(extent ? extent : this.getExtent());
+
+      const scaleLine = new ScaleLine({ units: 'metric' });
+      map.addControl(scaleLine);
+
+      map.getView().on('change:resolution', (evt) => {
+        console.log(map.getView().getZoom());
+      });
+    }
   }
 
   private getExtent(): Extent {
@@ -70,8 +113,8 @@ export class MapComponent implements OnInit, AfterViewInit {
     }
   }
 
-  private createLayers() {
-    const layers = [];
+  private createBaseLayers() {
+    const layers: Layer[] = [];
     layers.push(new TileLayer({
       source: new OSM(), // TODO: change layer
       minZoom: 10
