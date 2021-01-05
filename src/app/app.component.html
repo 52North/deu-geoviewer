@@ -1,12 +1,17 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <div class="container">
-    <a class="navbar-brand" href="#">
-      <img src="https://www.europeandataportal.eu/themes/edp3/assets/images/edp-logo.png" alt="" width="45" height="45">
-      <span style="padding-left: 10px;">
-        European <strong>Data Portal</strong>
-      </span>
-    </a>
+<div class="wrapper">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="#">
+        <img src="https://www.europeandataportal.eu/themes/edp3/assets/images/edp-logo.png" alt="" width="45" height="45">
+        <span style="padding-left: 10px;">
+          European <strong>Data Portal</strong>
+        </span>
+      </a>
+    </div>
+  </nav>
+  
+  <div class="content">
+    <router-outlet></router-outlet>
   </div>
-</nav>
 
-<router-outlet></router-outlet>
+</div>
