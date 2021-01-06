@@ -5,6 +5,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { FeatureInfoPopupComponent } from './feature-info-popup/feature-info-popup.component';
 import { MapViewComponent } from './map-view/map-view.component';
 import { MapComponent } from './map/map.component';
 
@@ -12,7 +13,8 @@ import { MapComponent } from './map/map.component';
   declarations: [
     AppComponent,
     MapComponent,
-    MapViewComponent
+    MapViewComponent,
+    FeatureInfoPopupComponent
   ],
   imports: [
     BrowserModule,

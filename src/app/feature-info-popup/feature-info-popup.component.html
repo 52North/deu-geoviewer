@@ -1,0 +1,19 @@
+<div class="popup-wrapper">
+  <div>{{title}}</div>
+  <table *ngIf="properties.length" class="table table-sm">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th scope="col">Key</th>
+        <th scope="col">Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let country of properties; index as i">
+        <td>{{ i + 1 }}</td>
+        <td>{{ country.key }}</td>
+        <td>{{ country.value }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

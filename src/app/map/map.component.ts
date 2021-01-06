@@ -1,8 +1,19 @@
-import { AfterViewInit, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { Map, View } from 'ol';
+import {
+  AfterViewInit,
+  Component,
+  ComponentFactoryResolver,
+  Input,
+  OnChanges,
+  SimpleChanges,
+  ViewChild,
+  ViewContainerRef,
+} from '@angular/core';
+import { Map, Overlay, View } from 'ol';
 import { defaults as defaultControls, ScaleLine } from 'ol/control';
+import { pointerMove } from 'ol/events/condition';
 import { Extent } from 'ol/extent';
 import GeoJSON from 'ol/format/GeoJSON';
+import Select, { SelectEvent } from 'ol/interaction/Select';
 import Layer from 'ol/layer/Layer';
 import TileLayer from 'ol/layer/Tile';
 import VectorLayer from 'ol/layer/Vector';
@@ -10,6 +21,8 @@ import { register } from 'ol/proj/proj4';
 import { OSM, TileArcGISRest } from 'ol/source';
 import VectorSource from 'ol/source/Vector';
 import proj4 from 'proj4';
+
+import { FeatureInfoPopupComponent } from './../feature-info-popup/feature-info-popup.component';
 
 export enum MapProjection {
   EPSG_4326 = 'EPSG:4326',
@@ -45,9 +58,15 @@ export class MapComponent implements AfterViewInit, OnChanges {
 
   public mapId: string = 'mapid';
 
-  private projection = MapProjection.EPSG_4326;
+  private projection = MapProjection.EPSG_3035;
 
-  constructor() { }
+  private overlay: Overlay | undefined;
+
+  @ViewChild('dynamic', { read: ViewContainerRef }) viewContainerRef!: ViewContainerRef;
+
+  constructor(
+    private factoryResolver: ComponentFactoryResolver
+  ) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes && changes.options) {
@@ -57,28 +76,37 @@ export class MapComponent implements AfterViewInit, OnChanges {
 
   ngAfterViewInit(): void {
     this.drawMap();
+    this.createPopup();
+  }
+
+  private createPopup() {
+    const closer = document.getElementById('popup-closer');
+    if (closer) {
+      closer.onclick = () => {
+        if (this.overlay) {
+          this.overlay.setPosition(undefined);
+          closer.blur();
+        }
+        return false;
+      };
+    }
+
+    const popup = document.getElementById('popup');
+    if (popup) {
+      this.overlay = new Overlay({
+        element: popup,
+        autoPan: true,
+        autoPanAnimation: {
+          duration: 250,
+        },
+      });
+    }
   }
 
   private drawMap() {
     if (this.options) {
       const layers = this.createBaseLayers();
       let extent;
-
-      if (this.options instanceof GeoJSONOptions) {
-        var vectorSource = new VectorSource({
-          features: new GeoJSON().readFeatures(this.options.geojson),
-        });
-        var vectorLayer = new VectorLayer({
-          source: vectorSource
-          // style: styleFunction,
-        });
-        layers.push(vectorLayer);
-        // TODO: detect projection
-        extent = vectorSource.getExtent();
-        console.log(extent);
-      }
-
-
       const map = new Map({
         layers,
         controls: defaultControls(),
@@ -89,6 +117,40 @@ export class MapComponent implements AfterViewInit, OnChanges {
         })
       });
 
+      if (this.overlay) {
+        map.addOverlay(this.overlay);
+      }
+
+      if (this.options instanceof GeoJSONOptions) {
+        var vectorSource = new VectorSource({
+          features: new GeoJSON().readFeatures(this.options.geojson),
+        });
+        var vectorLayer = new VectorLayer({
+          source: vectorSource
+        });
+        map.addLayer(vectorLayer);
+        // TODO: detect projection
+        extent = vectorSource.getExtent();
+
+        const hoverSelect = new Select({
+          condition: pointerMove,
+          layers: [vectorLayer]
+        })
+        hoverSelect.on('select', (evt => {
+          map.getTargetElement().style.cursor = evt.selected.length > 0 ? 'pointer' : '';
+        }))
+        map.addInteraction(hoverSelect);
+
+        const clickSelect = new Select({
+          layers: [vectorLayer]
+        })
+        clickSelect.on('select', (evt => {
+          clickSelect.getFeatures().clear();
+          this.showPopup(evt, map);
+        }))
+        map.addInteraction(clickSelect);
+      }
+
       map.getView().fit(extent ? extent : this.getExtent());
 
       const scaleLine = new ScaleLine({ units: 'metric' });
@@ -97,6 +159,21 @@ export class MapComponent implements AfterViewInit, OnChanges {
       map.getView().on('change:resolution', (evt) => {
         console.log(map.getView().getZoom());
       });
+    }
+  }
+
+  private showPopup(evt: SelectEvent, map: Map) {
+    if (this.overlay) {
+      let coordinate = evt.mapBrowserEvent.coordinate;
+      this.overlay.setPosition(coordinate);
+      if (evt.selected.length) {
+        const properties = evt.selected[0].getKeys().filter(e => e !== 'geometry').map(e => ({ key: e, value: evt.selected[0].get(e) }))
+        this.viewContainerRef.clear();
+        const factory = this.factoryResolver.resolveComponentFactory(FeatureInfoPopupComponent);
+        const component = factory.create(this.viewContainerRef.parentInjector);
+        component.instance.properties = properties;
+        this.viewContainerRef.insert(component.hostView);
+      }
     }
   }
 
@@ -115,30 +192,53 @@ export class MapComponent implements AfterViewInit, OnChanges {
 
   private createBaseLayers() {
     const layers: Layer[] = [];
+    const mapswitch = 11;
     layers.push(new TileLayer({
       source: new OSM(), // TODO: change layer
-      minZoom: 10
+      minZoom: mapswitch
     }));
     switch (this.projection) {
       case MapProjection.EPSG_4326:
         layers.push(new TileLayer({
-          source: new TileArcGISRest({
-            url: 'https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CountriesEurope_4326/MapServer',
-          }),
-          maxZoom: 10
+          source: new TileArcGISRest({ url: 'https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CountriesEurope_4326/MapServer', }),
+          maxZoom: mapswitch
         }))
-        layers.push(new TileLayer({ source: new TileArcGISRest({ url: 'https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CitiesRoadsRiversLakes_4326/MapServer' }) }))
-        layers.push(new TileLayer({ source: new TileArcGISRest({ url: 'https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CityNamesEurope_4326/MapServer' }) }))
+        layers.push(new TileLayer({
+          source: new TileArcGISRest({ url: 'https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CitiesRoadsRiversLakes_4326/MapServer' }),
+          maxZoom: mapswitch
+        }))
+        layers.push(new TileLayer({
+          source: new TileArcGISRest({ url: 'https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CityNamesEurope_4326/MapServer' }),
+          maxZoom: mapswitch
+        }))
         break;
       case MapProjection.EPSG_3857:
-        layers.push(new TileLayer({ source: new TileArcGISRest({ url: 'https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CountriesEurope_3857/MapServer' }) }))
-        layers.push(new TileLayer({ source: new TileArcGISRest({ url: 'https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CitiesRoadsRiversLakes_3857/MapServer' }) }))
-        layers.push(new TileLayer({ source: new TileArcGISRest({ url: 'https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CityNamesEurope_3857/MapServer' }) }))
+        layers.push(new TileLayer({
+          source: new TileArcGISRest({ url: 'https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CountriesEurope_3857/MapServer' }),
+          maxZoom: mapswitch
+        }))
+        layers.push(new TileLayer({
+          source: new TileArcGISRest({ url: 'https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CitiesRoadsRiversLakes_3857/MapServer' }),
+          maxZoom: mapswitch
+        }))
+        layers.push(new TileLayer({
+          source: new TileArcGISRest({ url: 'https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CityNamesEurope_3857/MapServer' }),
+          maxZoom: mapswitch
+        }))
         break;
       case MapProjection.EPSG_3035:
-        layers.push(new TileLayer({ source: new TileArcGISRest({ url: 'https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CountriesEurope_3035/MapServer' }) }))
-        layers.push(new TileLayer({ source: new TileArcGISRest({ url: 'https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CitiesRoadsRiversLakes_3035/MapServer' }) }))
-        layers.push(new TileLayer({ source: new TileArcGISRest({ url: 'https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CityNamesEurope_3035/MapServer' }) }))
+        layers.push(new TileLayer({
+          source: new TileArcGISRest({ url: 'https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CountriesEurope_3035/MapServer' }),
+          maxZoom: mapswitch
+        }))
+        layers.push(new TileLayer({
+          source: new TileArcGISRest({ url: 'https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CitiesRoadsRiversLakes_3035/MapServer' }),
+          maxZoom: mapswitch
+        }))
+        layers.push(new TileLayer({
+          source: new TileArcGISRest({ url: 'https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CityNamesEurope_3035/MapServer' }),
+          maxZoom: mapswitch
+        }))
         break;
       default:
         break;
