@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import { ConfigurationService } from './configuration/configuration.service';
+
 export interface Dataset {
   title: string;
   description: string;
@@ -20,19 +22,18 @@ export interface DistributionResponse {
   '@graph': string;
 }
 
-const PROXY_URL = 'https://www.europeandataportal.eu/mapapps-proxy?'; // TODO: add to config
-
 @Injectable({
   providedIn: 'root'
 })
 export class DatasetService {
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private config: ConfigurationService
   ) { }
 
   getDataset(datasetId: string, format?: DatasetFormat): Observable<Dataset> {
-    return this.http.get(`${PROXY_URL}https://www.europeandataportal.eu/data/api/distributions/${datasetId}`) // TODO: add to config
+    return this.http.get(`${this.config.configuration.proxyUrl}${this.config.configuration.apiUrl}distributions/${datasetId}`)
       .pipe(map((res: any) => {
         if (!res || !res['@graph'] || res['@graph'].length === 0) {
           throw new Error('empty CKAN response');
@@ -57,7 +58,7 @@ export class DatasetService {
   }
 
   getGeoJSON(url: string): Observable<any> {
-    return this.http.get(`${PROXY_URL}${url}`);
+    return this.http.get(`${this.config.configuration.proxyUrl}${url}`);
   }
 
   private identifyFormat(format: string): DatasetFormat {
