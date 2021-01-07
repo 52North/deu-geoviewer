@@ -26,9 +26,9 @@ export class MapViewComponent implements OnInit {
       if (dataset.format === DatasetFormat.GEOJSON) {
         this.datasetSrvc.getGeoJSON(dataset.url).subscribe(geojson => {
           this.mapOptions = new GeoJSONOptions(geojson);
-        })
+        });
       }
-    })
+    });
   }
 
 }

@@ -9,7 +9,7 @@ import { KeyValuePair } from '../model';
 })
 export class FeatureInfoPopupComponent implements OnInit {
 
-  @Input() title: string = '';
+  @Input() title = '';
 
   @Input() properties: KeyValuePair[] = [];
 

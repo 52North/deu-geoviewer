@@ -17,7 +17,7 @@ export enum DatasetFormat {
 }
 
 export interface DistributionResponse {
-  '@graph': string
+  '@graph': string;
 }
 
 const PROXY_URL = 'https://www.europeandataportal.eu/mapapps-proxy?'; // TODO: add to config
@@ -35,7 +35,7 @@ export class DatasetService {
     return this.http.get(`${PROXY_URL}https://www.europeandataportal.eu/data/api/distributions/${datasetId}`) // TODO: add to config
       .pipe(map((res: any) => {
         if (!res || !res['@graph'] || res['@graph'].length === 0) {
-          throw new Error("empty CKAN response");
+          throw new Error('empty CKAN response');
         }
 
         let dist: any;
@@ -53,7 +53,7 @@ export class DatasetService {
           title: dist.title,
           url: dist.accessURL
         };
-      }))
+      }));
   }
 
   getGeoJSON(url: string): Observable<any> {
@@ -63,10 +63,10 @@ export class DatasetService {
   private identifyFormat(format: string): DatasetFormat {
     format = format.toLowerCase();
     if (format.indexOf('geojson') > -1) {
-      return DatasetFormat.GEOJSON
+      return DatasetFormat.GEOJSON;
     }
     if (format.indexOf('wms') > -1) {
-      return DatasetFormat.WMS
+      return DatasetFormat.WMS;
     }
     throw new Error(`Couldn't find supported format`);
   }
