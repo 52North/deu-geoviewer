@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { Configuration } from './configuration/configuration.model';
 import { ConfigurationService } from './configuration/configuration.service';
 import { FeatureInfoPopupComponent } from './feature-info-popup/feature-info-popup.component';
+import { LinkViewComponent } from './link-view/link-view.component';
 import { MapViewComponent } from './map-view/map-view.component';
 import { MapComponent } from './map/map.component';
 
@@ -20,7 +21,8 @@ export function loadConfiguration(configService: ConfigurationService): () => Pr
     AppComponent,
     MapComponent,
     MapViewComponent,
-    FeatureInfoPopupComponent
+    FeatureInfoPopupComponent,
+    LinkViewComponent
   ],
   imports: [
     BrowserModule,
