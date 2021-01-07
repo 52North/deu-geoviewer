@@ -23,6 +23,7 @@ import { OSM, TileArcGISRest } from 'ol/source';
 import VectorSource from 'ol/source/Vector';
 import proj4 from 'proj4';
 
+import { ConfigurationService } from './../configuration/configuration.service';
 import { FeatureInfoPopupComponent } from './../feature-info-popup/feature-info-popup.component';
 
 export enum MapProjection {
@@ -66,7 +67,8 @@ export class MapComponent implements AfterViewInit, OnChanges {
   @ViewChild('dynamic', { read: ViewContainerRef }) viewContainerRef!: ViewContainerRef;
 
   constructor(
-    private factoryResolver: ComponentFactoryResolver
+    private factoryResolver: ComponentFactoryResolver,
+    private config: ConfigurationService
   ) { }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -77,7 +79,6 @@ export class MapComponent implements AfterViewInit, OnChanges {
 
   ngAfterViewInit(): void {
     this.drawMap();
-    this.createPopup();
   }
 
   private createPopup(): void {
@@ -106,8 +107,7 @@ export class MapComponent implements AfterViewInit, OnChanges {
 
   private drawMap(): void {
     if (this.options) {
-      const layers = this.createBaseLayers();
-      let extent;
+      this.createPopup();
 
       if (this.options instanceof GeoJSONOptions) {
         const projection = new GeoJSON().readProjection(this.options.geojson);
@@ -118,12 +118,15 @@ export class MapComponent implements AfterViewInit, OnChanges {
         }
       }
 
+      const layers = this.createBaseLayers();
+      let extent;
+
       const map = new Map({
         layers,
         controls: defaultControls(),
         target: this.mapId,
         view: new View({
-          projection: this.projection,
+          projection: this.projection.getCode(),
           maxZoom: 18
         })
       });
@@ -140,7 +143,6 @@ export class MapComponent implements AfterViewInit, OnChanges {
           source: vectorSource
         });
         map.addLayer(vectorLayer);
-        // TODO: detect projection
         extent = vectorSource.getExtent();
 
         const hoverSelect = new Select({
@@ -162,7 +164,9 @@ export class MapComponent implements AfterViewInit, OnChanges {
         map.addInteraction(clickSelect);
       }
 
-      map.getView().fit(extent ? extent : this.getExtent());
+      extent = extent ? extent : this.getExtent();
+      console.log(`Extent: ${extent}`);
+      map.getView().fit(extent);
 
       const scaleLine = new ScaleLine({ units: 'metric' });
       map.addControl(scaleLine);
@@ -189,71 +193,36 @@ export class MapComponent implements AfterViewInit, OnChanges {
   }
 
   private getExtent(): Extent {
-    switch (this.projection.getCode()) {
-      case MapProjection.EPSG_4326:
-        return [-9.8814, 33.7852, 31.441, 61.7495];
-      case MapProjection.EPSG_3857:
-        return [-1100000, 4000000, 3500000, 8800000];
-      case MapProjection.EPSG_3035:
-        return [1896628, 1507846, 4662111, 6829874];
-      default:
-        return [-9.8814, 33.7852, 31.441, 61.7495];
+    const defExtent = this.config.configuration.defaultMapExtent.find(e => e.crs === this.projection.getCode());
+    if (defExtent) {
+      return defExtent.extent;
+    } else {
+      throw new Error(`No default extent configured for ${this.projection.getCode()}`);
     }
   }
 
   private createBaseLayers(): Layer[] {
     const layers: Layer[] = [];
-    const mapswitch = 11;
-    layers.push(new TileLayer({
-      source: new OSM(), // TODO: change layer
-      minZoom: mapswitch
-    }));
-    switch (this.projection.getCode()) {
-      case MapProjection.EPSG_4326:
-        layers.push(new TileLayer({
-          source: new TileArcGISRest({ url: 'https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CountriesEurope_4326/MapServer', }),
-          maxZoom: mapswitch
-        }));
-        layers.push(new TileLayer({
-          source: new TileArcGISRest({ url: 'https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CitiesRoadsRiversLakes_4326/MapServer' }),
-          maxZoom: mapswitch
-        }));
-        layers.push(new TileLayer({
-          source: new TileArcGISRest({ url: 'https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CityNamesEurope_4326/MapServer' }),
-          maxZoom: mapswitch
-        }));
-        break;
-      case MapProjection.EPSG_3857:
-        layers.push(new TileLayer({
-          source: new TileArcGISRest({ url: 'https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CountriesEurope_3857/MapServer' }),
-          maxZoom: mapswitch
-        }));
-        layers.push(new TileLayer({
-          source: new TileArcGISRest({ url: 'https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CitiesRoadsRiversLakes_3857/MapServer' }),
-          maxZoom: mapswitch
-        }));
-        layers.push(new TileLayer({
-          source: new TileArcGISRest({ url: 'https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CityNamesEurope_3857/MapServer' }),
-          maxZoom: mapswitch
-        }));
-        break;
-      case MapProjection.EPSG_3035:
-        layers.push(new TileLayer({
-          source: new TileArcGISRest({ url: 'https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CountriesEurope_3035/MapServer' }),
-          maxZoom: mapswitch
-        }));
-        layers.push(new TileLayer({
-          source: new TileArcGISRest({ url: 'https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CitiesRoadsRiversLakes_3035/MapServer' }),
-          maxZoom: mapswitch
-        }));
-        layers.push(new TileLayer({
-          source: new TileArcGISRest({ url: 'https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CityNamesEurope_3035/MapServer' }),
-          maxZoom: mapswitch
-        }));
-        break;
-      default:
-        break;
-    }
+    const crsCode = this.projection.getCode();
+    const layerConfs = this.config.configuration.baseLayer.filter(e => !e.crs || e.crs === crsCode);
+    layerConfs.forEach(lc => {
+      switch (lc.type) {
+        case 'OSM':
+          layers.push(new TileLayer({
+            source: new OSM(),
+            maxZoom: lc.maxZoom,
+            minZoom: lc.minZoom
+          }));
+          break;
+        case 'TileArcGIS':
+          layers.push(new TileLayer({
+            source: new TileArcGISRest({ url: lc.url }),
+            maxZoom: lc.maxZoom,
+            minZoom: lc.minZoom
+          }));
+          break;
+      }
+    });
     return layers;
   }
 }

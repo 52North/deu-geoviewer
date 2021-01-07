@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { ConfigurationService } from './configuration/configuration.service';
+import { DatasetFormat } from './model';
 
 export interface Dataset {
   title: string;
@@ -11,11 +12,6 @@ export interface Dataset {
   id: string;
   url: string;
   format: DatasetFormat;
-}
-
-export enum DatasetFormat {
-  WMS = 'WMS',
-  GEOJSON = 'GEOJSON'
 }
 
 export interface DistributionResponse {

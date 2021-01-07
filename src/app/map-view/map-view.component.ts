@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 import { DatasetService } from '../dataset.service';
 import { GeoJSONOptions, MapOptions } from '../map/map.component';
-import { DatasetFormat } from './../dataset.service';
+import { DatasetFormat } from '../model';
 
 @Component({
   selector: 'app-map-view',
@@ -14,21 +15,40 @@ export class MapViewComponent implements OnInit {
   public mapOptions: MapOptions | undefined;
 
   constructor(
-    private datasetSrvc: DatasetService
+    private datasetSrvc: DatasetService,
+    private route: ActivatedRoute,
   ) { }
 
   ngOnInit(): void {
-    // const id = 'a20be84f-375a-4dc6-9e6f-67dd4d84883e'; // WMS
-    const id = '124f8cb6-3d36-434a-a1a3-7022e380a7a6' // geoJSON
-    // const id = '9ff99ed4-a4fd-4cbd-863a-6cab5ae168e8'
-    this.datasetSrvc.getDataset(id).subscribe(dataset => {
-      console.log(dataset);
-      if (dataset.format === DatasetFormat.GEOJSON) {
-        this.datasetSrvc.getGeoJSON(dataset.url).subscribe(geojson => {
-          this.mapOptions = new GeoJSONOptions(geojson);
-        });
+    this.route.queryParams.subscribe(params => {
+      const datasetId = params.dataset;
+      const type = params.type;
+      if (datasetId) {
+        this.loadDataset(datasetId, type);
+      } else {
+        this.mapOptions = new MapOptions();
       }
     });
   }
 
+  private loadDataset(id: string, type: string): void {
+    // TODO: parse type
+    this.datasetSrvc.getDataset(id).subscribe(
+      dataset => {
+        if (dataset.format === DatasetFormat.GEOJSON) {
+          this.datasetSrvc.getGeoJSON(dataset.url).subscribe(
+            geojson => {
+              this.mapOptions = new GeoJSONOptions(geojson);
+            },
+            error => {
+              // TODO: handle error
+            }
+          );
+        }
+      },
+      error => {
+        // TODO: handle error
+      }
+    );
+  }
 }

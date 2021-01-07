@@ -1,4 +1,93 @@
 {
     "proxyUrl": "https://www.europeandataportal.eu/mapapps-proxy?",
-    "apiUrl": "https://www.europeandataportal.eu/data/api/"
+    "apiUrl": "https://www.europeandataportal.eu/data/api/",
+    "defaultMapExtent": [
+        {
+            "crs": "EPSG:4326",
+            "extent": [
+                -9.8814,
+                33.7852,
+                31.441,
+                61.7495
+            ]
+        },
+        {
+            "crs": "EPSG:3857",
+            "extent": [
+                -1100000,
+                4000000,
+                3500000,
+                8800000
+            ]
+        },
+        {
+            "crs": "EPSG:3035",
+            "extent": [
+                1896628,
+                1507846,
+                4662111,
+                6829874
+            ]
+        }
+    ],
+    "baseLayer": [
+        {
+            "type": "OSM",
+            "minZoom": 11
+        },
+        {
+            "type": "TileArcGIS",
+            "crs": "EPSG:4326",
+            "url": "https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CountriesEurope_4326/MapServer",
+            "maxZoom": 11
+        },
+        {
+            "type": "TileArcGIS",
+            "crs": "EPSG:4326",
+            "url": "https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CitiesRoadsRiversLakes_4326/MapServer",
+            "maxZoom": 11
+        },
+        {
+            "type": "TileArcGIS",
+            "crs": "EPSG:4326",
+            "url": "https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CityNamesEurope_4326/MapServer",
+            "maxZoom": 11
+        },
+        {
+            "type": "TileArcGIS",
+            "crs": "EPSG:3857",
+            "url": "https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CountriesEurope_3857/MapServer",
+            "maxZoom": 11
+        },
+        {
+            "type": "TileArcGIS",
+            "crs": "EPSG:3857",
+            "url": "https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CitiesRoadsRiversLakes_3857/MapServer",
+            "maxZoom": 11
+        },
+        {
+            "type": "TileArcGIS",
+            "crs": "EPSG:3857",
+            "url": "https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CityNamesEurope_3857/MapServer",
+            "maxZoom": 11
+        },
+        {
+            "type": "TileArcGIS",
+            "crs": "EPSG:3035",
+            "url": "https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CountriesEurope_3035/MapServer",
+            "maxZoom": 11
+        },
+        {
+            "type": "TileArcGIS",
+            "crs": "EPSG:3035",
+            "url": "https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CitiesRoadsRiversLakes_3035/MapServer",
+            "maxZoom": 11
+        },
+        {
+            "type": "TileArcGIS",
+            "crs": "EPSG:3035",
+            "url": "https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CityNamesEurope_3035/MapServer",
+            "maxZoom": 11
+        }
+    ]
 }
