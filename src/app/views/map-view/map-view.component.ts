@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { DatasetService } from '../dataset.service';
-import { GeoJSONOptions, MapOptions } from '../map/map.component';
-import { DatasetFormat } from '../model';
+import { GeoJSONOptions, MapOptions } from '../../components/map/map.component';
+import { NoServiceAvailableComponent } from '../../components/modals/no-service-available/no-service-available.component';
+import { DatasetFormat } from '../../model';
+import { DatasetService } from '../../services/dataset.service';
 
 @Component({
   selector: 'app-map-view',
@@ -17,6 +19,7 @@ export class MapViewComponent implements OnInit {
   constructor(
     private datasetSrvc: DatasetService,
     private route: ActivatedRoute,
+    private modalService: NgbModal
   ) { }
 
   ngOnInit(): void {
@@ -40,15 +43,16 @@ export class MapViewComponent implements OnInit {
             geojson => {
               this.mapOptions = new GeoJSONOptions(geojson);
             },
-            error => {
-              // TODO: handle error
-            }
+            error => this.serviceNoAvailable()
           );
         }
       },
-      error => {
-        // TODO: handle error
-      }
+      error => this.serviceNoAvailable()
     );
+  }
+
+  private serviceNoAvailable(): void {
+    this.mapOptions = new MapOptions();
+    const modalRef = this.modalService.open(NoServiceAvailableComponent, { centered: true });
   }
 }

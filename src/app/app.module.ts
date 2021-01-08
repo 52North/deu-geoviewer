@@ -5,12 +5,13 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { FeatureInfoPopupComponent } from './components/map/feature-info-popup/feature-info-popup.component';
+import { MapComponent } from './components/map/map.component';
+import { NoServiceAvailableComponent } from './components/modals/no-service-available/no-service-available.component';
 import { Configuration } from './configuration/configuration.model';
 import { ConfigurationService } from './configuration/configuration.service';
-import { FeatureInfoPopupComponent } from './feature-info-popup/feature-info-popup.component';
-import { LinkViewComponent } from './link-view/link-view.component';
-import { MapViewComponent } from './map-view/map-view.component';
-import { MapComponent } from './map/map.component';
+import { LinkViewComponent } from './views/link-view/link-view.component';
+import { MapViewComponent } from './views/map-view/map-view.component';
 
 export function loadConfiguration(configService: ConfigurationService): () => Promise<void | Configuration> {
   return () => configService.loadConfiguration();
@@ -22,7 +23,8 @@ export function loadConfiguration(configService: ConfigurationService): () => Pr
     MapComponent,
     MapViewComponent,
     FeatureInfoPopupComponent,
-    LinkViewComponent
+    LinkViewComponent,
+    NoServiceAvailableComponent
   ],
   imports: [
     BrowserModule,

@@ -14,6 +14,7 @@
         bottom: 12px;
         left: -50px;
         min-width: 280px;
+        display: none;
     }
 
     .ol-popup:after,
@@ -46,6 +47,10 @@
         position: absolute;
         top: 2px;
         right: 8px;
+
+        &:hover {
+            cursor: pointer;
+        }
     }
 
     .ol-popup-closer:after {

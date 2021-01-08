@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { KeyValuePair } from '../model';
+import { KeyValuePair } from '../../../model';
 
 @Component({
   selector: 'app-feature-info-popup',

@@ -23,8 +23,9 @@ import { OSM, TileArcGISRest } from 'ol/source';
 import VectorSource from 'ol/source/Vector';
 import proj4 from 'proj4';
 
-import { ConfigurationService } from './../configuration/configuration.service';
-import { FeatureInfoPopupComponent } from './../feature-info-popup/feature-info-popup.component';
+import { ConfigurationService } from '../../configuration/configuration.service';
+import { FeatureInfoPopupComponent } from './feature-info-popup/feature-info-popup.component';
+
 
 export enum MapProjection {
   EPSG_4326 = 'EPSG:4326',
@@ -95,6 +96,7 @@ export class MapComponent implements AfterViewInit, OnChanges {
 
     const popup = document.getElementById('popup');
     if (popup) {
+      popup.style.display = 'unset';
       this.overlay = new Overlay({
         element: popup,
         autoPan: true,
