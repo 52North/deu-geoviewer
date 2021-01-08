@@ -9,7 +9,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { Map, Overlay, View } from 'ol';
-import { defaults as defaultControls, ScaleLine } from 'ol/control';
+import { defaults as defaultControls, ScaleLine, ZoomToExtent } from 'ol/control';
 import { pointerMove } from 'ol/events/condition';
 import { Extent } from 'ol/extent';
 import GeoJSON from 'ol/format/GeoJSON';
@@ -57,13 +57,13 @@ export class WmsOptions extends MapOptions {
 })
 export class MapComponent implements AfterViewInit, OnChanges {
 
-  @Input() options: MapOptions | undefined;
+  @Input() options?: MapOptions;
 
   public mapId = 'mapid';
 
   private projection: Projection = new Projection({ code: MapProjection.EPSG_4326 });
 
-  private overlay: Overlay | undefined;
+  private overlay?: Overlay;
 
   @ViewChild('dynamic', { read: ViewContainerRef }) viewContainerRef!: ViewContainerRef;
 
@@ -164,6 +164,13 @@ export class MapComponent implements AfterViewInit, OnChanges {
           this.showPopup(evt, map);
         }));
         map.addInteraction(clickSelect);
+
+        if (extent) {
+          map.addControl(new ZoomToExtent({
+            extent,
+            tipLabel: 'Zoom to GeoJSON extent'
+          }));
+        }
       }
 
       extent = extent ? extent : this.getExtent();
