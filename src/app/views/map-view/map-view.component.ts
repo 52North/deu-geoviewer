@@ -4,7 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { GeoJSONOptions, MapOptions } from '../../components/map/map.component';
 import { NoServiceAvailableComponent } from '../../components/modals/no-service-available/no-service-available.component';
-import { DatasetFormat } from '../../model';
+import { DatasetType } from '../../model';
 import { DatasetService } from '../../services/dataset.service';
 
 @Component({
@@ -38,7 +38,7 @@ export class MapViewComponent implements OnInit {
     // TODO: parse type
     this.datasetSrvc.getDataset(id).subscribe(
       dataset => {
-        if (dataset.format === DatasetFormat.GEOJSON) {
+        if (dataset.type === DatasetType.GEOJSON) {
           this.datasetSrvc.getGeoJSON(dataset.url).subscribe(
             geojson => {
               this.mapOptions = new GeoJSONOptions(geojson);

@@ -4,15 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { ConfigurationService } from '../configuration/configuration.service';
-import { DatasetFormat } from '../model';
-
-export interface Dataset {
-  title: string;
-  description: string;
-  id: string;
-  url: string;
-  format: DatasetFormat;
-}
+import { Dataset, DatasetType as DatasetType } from '../model';
 
 export interface DistributionResponse {
   '@graph': string;
@@ -28,7 +20,7 @@ export class DatasetService {
     private config: ConfigurationService
   ) { }
 
-  getDataset(datasetId: string, format?: DatasetFormat): Observable<Dataset> {
+  getDataset(datasetId: string, format?: DatasetType): Observable<Dataset> {
     return this.http.get(`${this.config.configuration.proxyUrl}${this.config.configuration.apiUrl}distributions/${datasetId}`)
       .pipe(map((res: any) => {
         if (!res || !res['@graph'] || res['@graph'].length === 0) {
@@ -42,10 +34,10 @@ export class DatasetService {
           }
         });
 
-        const dsFormat = format ? format : this.identifyFormat(dist.format);
+        const dsFormat = format ? format : this.getFormat(dist.format);
         return {
           id: datasetId,
-          format: dsFormat,
+          type: dsFormat,
           description: dist.description,
           title: dist.title,
           url: dist.accessURL
@@ -57,15 +49,29 @@ export class DatasetService {
     return this.http.get(`${this.config.configuration.proxyUrl}${url}`);
   }
 
-  private identifyFormat(format: string): DatasetFormat {
+  private getFormat(format: string | string[]): DatasetType {
+    let type: DatasetType | undefined;
+    if (Array.isArray(format)) {
+      type = format.map(e => this.identifyFormat(e)).find(e => e !== undefined);
+    } else {
+      type = this.identifyFormat(format);
+    }
+    if (type) {
+      return type;
+    } else {
+      throw new Error(`Couldn't find supported format`);
+    }
+  }
+
+  private identifyFormat(format: string): DatasetType | undefined {
     format = format.toLowerCase();
     if (format.indexOf('geojson') > -1) {
-      return DatasetFormat.GEOJSON;
+      return DatasetType.GEOJSON;
     }
     if (format.indexOf('wms') > -1) {
-      return DatasetFormat.WMS;
+      return DatasetType.WMS;
     }
-    throw new Error(`Couldn't find supported format`);
+    return undefined;
   }
 
 }
