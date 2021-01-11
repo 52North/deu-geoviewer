@@ -17,6 +17,8 @@ import Select, { SelectEvent } from 'ol/interaction/Select';
 import Layer from 'ol/layer/Layer';
 import TileLayer from 'ol/layer/Tile';
 import VectorLayer from 'ol/layer/Vector';
+import { PROJECTIONS as EPSG_3857 } from 'ol/proj/epsg3857';
+import { PROJECTIONS as EPSG_4326 } from 'ol/proj/epsg4326';
 import { register } from 'ol/proj/proj4';
 import Projection from 'ol/proj/Projection';
 import { OSM, TileArcGISRest } from 'ol/source';
@@ -61,7 +63,7 @@ export class MapComponent implements AfterViewInit, OnChanges {
 
   public mapId = 'mapid';
 
-  private projection: Projection = new Projection({ code: MapProjection.EPSG_4326 });
+  // private projection: Projection = new Projection({ code: MapProjection.EPSG_4326 });
 
   private overlay?: Overlay;
 
@@ -110,17 +112,18 @@ export class MapComponent implements AfterViewInit, OnChanges {
   private drawMap(): void {
     if (this.options) {
       this.createPopup();
+      let projection = new Projection({ code: MapProjection.EPSG_4326 });
 
       if (this.options instanceof GeoJSONOptions) {
-        const projection = new GeoJSON().readProjection(this.options.geojson);
-        if (projection) {
-          this.projection = projection;
+        const geojsonProj = new GeoJSON().readProjection(this.options.geojson);
+        if (geojsonProj) {
+          projection = geojsonProj;
         } else {
           throw new Error('No projection found for geojson');
         }
       }
 
-      const layers = this.createBaseLayers();
+      const layers = this.createBaseLayers(projection);
       let extent;
 
       const map = new Map({
@@ -128,7 +131,7 @@ export class MapComponent implements AfterViewInit, OnChanges {
         controls: defaultControls(),
         target: this.mapId,
         view: new View({
-          projection: this.projection.getCode(),
+          projection: projection.getCode(),
           maxZoom: 18
         })
       });
@@ -173,16 +176,18 @@ export class MapComponent implements AfterViewInit, OnChanges {
         }
       }
 
-      extent = extent ? extent : this.getExtent();
+      extent = extent ? extent : this.getExtent(projection);
       console.log(`Extent: ${extent}`);
       map.getView().fit(extent);
 
       const scaleLine = new ScaleLine({ units: 'metric' });
       map.addControl(scaleLine);
 
+      // TODO: remove if not neccessary any more
       map.getView().on('change:resolution', (evt) => {
-        console.log(map.getView().getZoom());
       });
+
+      console.log(`Map with projection: ${projection.getCode()}`);
     }
   }
 
@@ -201,18 +206,18 @@ export class MapComponent implements AfterViewInit, OnChanges {
     }
   }
 
-  private getExtent(): Extent {
-    const defExtent = this.config.configuration.defaultMapExtent.find(e => e.crs === this.projection.getCode());
+  private getExtent(projection: Projection): Extent {
+    const defExtent = this.config.configuration.defaultMapExtent.find(e => e.crs === projection.getCode());
     if (defExtent) {
       return defExtent.extent;
     } else {
-      throw new Error(`No default extent configured for ${this.projection.getCode()}`);
+      throw new Error(`No default extent configured for ${projection.getCode()}`);
     }
   }
 
-  private createBaseLayers(): Layer[] {
+  private createBaseLayers(projection: Projection): Layer[] {
     const layers: Layer[] = [];
-    const crsCode = this.projection.getCode();
+    const crsCode = this.findMapProjection(projection);
     const layerConfs = this.config.configuration.baseLayer.filter(e => !e.crs || e.crs === crsCode);
     layerConfs.forEach(lc => {
       switch (lc.type) {
@@ -233,5 +238,16 @@ export class MapComponent implements AfterViewInit, OnChanges {
       }
     });
     return layers;
+  }
+
+  private findMapProjection(projection: Projection): string {
+    const code = projection.getCode();
+    if (EPSG_3857.find(e => e.getCode() === code)) {
+      return MapProjection.EPSG_3857;
+    }
+    if (EPSG_4326.find(e => e.getCode() === code)) {
+      return MapProjection.EPSG_4326;
+    }
+    return code;
   }
 }
