@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { GeoJSONOptions, MapOptions } from '../../components/map/map.component';
+import { GeoJSONOptions, MapOptions, WmsOptions } from '../../components/map/map.component';
 import { NoServiceAvailableComponent } from '../../components/modals/no-service-available/no-service-available.component';
 import { DatasetType } from '../../model';
 import { DatasetService } from '../../services/dataset.service';
+import { WmsService } from './../../services/wms.service';
 
 @Component({
   selector: 'app-map-view',
@@ -19,7 +20,8 @@ export class MapViewComponent implements OnInit {
   constructor(
     private datasetSrvc: DatasetService,
     private route: ActivatedRoute,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private wmsSrvc: WmsService
   ) { }
 
   ngOnInit(): void {
@@ -35,7 +37,6 @@ export class MapViewComponent implements OnInit {
   }
 
   private loadDataset(id: string, type: string): void {
-    // TODO: parse type
     this.datasetSrvc.getDataset(id).subscribe(
       dataset => {
         if (dataset.type === DatasetType.GEOJSON) {
@@ -45,6 +46,12 @@ export class MapViewComponent implements OnInit {
             },
             error => this.serviceNoAvailable()
           );
+        }
+        if (dataset.type === DatasetType.WMS) {
+          this.wmsSrvc.getLayerTree(dataset.url).subscribe(layerTree => {
+            const layerList = this.wmsSrvc.asList(layerTree, []);
+            this.mapOptions = new WmsOptions(layerList);
+          });
         }
       },
       error => this.serviceNoAvailable()

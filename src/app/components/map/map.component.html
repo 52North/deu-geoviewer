@@ -1,4 +1,23 @@
-<div class="map" [attr.id]="mapId"></div>
+<div class="content">
+  <div class="map" [attr.id]="mapId"></div>
+
+  <div *ngIf="wmsLayers.length > 0" style="width: 500px;">
+    <ngb-accordion #acc="ngbAccordion">
+      <ngb-panel *ngFor="let entry of wmsLayers">
+        <ng-template ngbPanelHeader let-opened="opened">
+          <div class="d-flex align-items-center justify-content-between" (click)="toggleVisibility(entry)">
+            <input type="checkbox" id="scales" name="scales" [checked]="entry.layer.getVisible()">
+            <div>{{entry.title}}</div>
+            <button ngbPanelToggle class="btn btn-link p-0" (click)="$event.stopPropagation()">Info</button>
+          </div>
+        </ng-template>
+        <ng-template ngbPanelContent *ngIf="getLegendUrl(entry)">
+          <img [src]="getLegendUrl(entry)" alt="">
+        </ng-template>
+      </ngb-panel>
+    </ngb-accordion>
+  </div>
+</div>
 
 <div id="popup" class="ol-popup">
   <a id="popup-closer" class="ol-popup-closer"></a>

@@ -21,11 +21,12 @@ import { PROJECTIONS as EPSG_3857 } from 'ol/proj/epsg3857';
 import { PROJECTIONS as EPSG_4326 } from 'ol/proj/epsg4326';
 import { register } from 'ol/proj/proj4';
 import Projection from 'ol/proj/Projection';
-import { OSM, TileArcGISRest } from 'ol/source';
+import { OSM, TileArcGISRest, TileWMS } from 'ol/source';
 import VectorSource from 'ol/source/Vector';
 import proj4 from 'proj4';
 
 import { ConfigurationService } from '../../configuration/configuration.service';
+import { WMSLayer } from '../../services/wms.service';
 import { FeatureInfoPopupComponent } from './feature-info-popup/feature-info-popup.component';
 
 
@@ -47,10 +48,15 @@ export class GeoJSONOptions extends MapOptions {
 }
 
 export class WmsOptions extends MapOptions {
-  constructor(public url: string) {
+  constructor(public layers: WMSLayer[]) {
     super();
   }
 }
+
+type MapWmsLayer = {
+  title: string;
+  layer: Layer;
+};
 
 @Component({
   selector: 'app-map',
@@ -63,11 +69,11 @@ export class MapComponent implements AfterViewInit, OnChanges {
 
   public mapId = 'mapid';
 
-  // private projection: Projection = new Projection({ code: MapProjection.EPSG_4326 });
-
   private overlay?: Overlay;
 
   @ViewChild('dynamic', { read: ViewContainerRef }) viewContainerRef!: ViewContainerRef;
+
+  public wmsLayers: MapWmsLayer[] = [];
 
   constructor(
     private factoryResolver: ComponentFactoryResolver,
@@ -82,6 +88,18 @@ export class MapComponent implements AfterViewInit, OnChanges {
 
   ngAfterViewInit(): void {
     this.drawMap();
+  }
+
+  public toggleVisibility(layer: MapWmsLayer) {
+    layer.layer.setVisible(!layer.layer.getVisible());
+  }
+
+  public getLegendUrl(layer: MapWmsLayer): string | undefined {
+    const source = layer.layer.getSource();
+    if (source instanceof TileWMS) {
+      return source.getLegendUrl();
+    }
+    return undefined;
   }
 
   private createPopup(): void {
@@ -112,19 +130,30 @@ export class MapComponent implements AfterViewInit, OnChanges {
   private drawMap(): void {
     if (this.options) {
       this.createPopup();
-      let projection = new Projection({ code: MapProjection.EPSG_4326 });
-
-      if (this.options instanceof GeoJSONOptions) {
-        const geojsonProj = new GeoJSON().readProjection(this.options.geojson);
-        if (geojsonProj) {
-          projection = geojsonProj;
-        } else {
-          throw new Error('No projection found for geojson');
-        }
-      }
-
+      const projection = this.detectProjection();
       const layers = this.createBaseLayers(projection);
       let extent;
+
+      if (this.options instanceof WmsOptions) {
+        this.options.layers.forEach((e, i) => {
+          const layer = new TileLayer({
+            visible: i === 5,
+            source: new TileWMS({
+              url: e.url,
+              // serverType: 'mapserver',
+              params: {
+                'LAYERS': e.name,
+                // 'TILED': true
+              }
+            })
+          })
+          layers.push(layer);
+          this.wmsLayers.push({
+            title: e.title,
+            layer
+          });
+        })
+      }
 
       const map = new Map({
         layers,
@@ -189,6 +218,20 @@ export class MapComponent implements AfterViewInit, OnChanges {
 
       console.log(`Map with projection: ${projection.getCode()}`);
     }
+  }
+
+  private detectProjection() {
+    let projection = new Projection({ code: MapProjection.EPSG_4326 });
+
+    if (this.options instanceof GeoJSONOptions) {
+      const geojsonProj = new GeoJSON().readProjection(this.options.geojson);
+      if (geojsonProj) {
+        projection = geojsonProj;
+      } else {
+        throw new Error('No projection found for geojson');
+      }
+    }
+    return projection;
   }
 
   private showPopup(evt: SelectEvent, map: Map): void {
