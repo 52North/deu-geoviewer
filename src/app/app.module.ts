@@ -8,6 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FeatureInfoPopupComponent } from './components/map/feature-info-popup/feature-info-popup.component';
 import { MapComponent } from './components/map/map.component';
+import { LoadingDatasetComponent } from './components/modals/loading-dataset/loading-dataset.component';
 import { NoServiceAvailableComponent } from './components/modals/no-service-available/no-service-available.component';
 import { Configuration } from './configuration/configuration.model';
 import { ConfigurationService } from './configuration/configuration.service';
@@ -21,11 +22,12 @@ export function loadConfiguration(configService: ConfigurationService): () => Pr
 @NgModule({
   declarations: [
     AppComponent,
-    MapComponent,
-    MapViewComponent,
     FeatureInfoPopupComponent,
     LinkViewComponent,
-    NoServiceAvailableComponent
+    LoadingDatasetComponent,
+    MapComponent,
+    MapViewComponent,
+    NoServiceAvailableComponent,
   ],
   imports: [
     AppRoutingModule,
