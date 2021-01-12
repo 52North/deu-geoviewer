@@ -69,7 +69,7 @@ export class WmsService {
 
   private createLayer(layer: InternalWMSLayer, url: string): WMSLayer {
     if (layer.Style && layer.Style.length > 0) {
-      layer.Style.forEach(e => console.log(e.LegendURL))
+      layer.Style.forEach(e => console.log(e.LegendURL));
     }
     console.log(layer.Style);
     return {

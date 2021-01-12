@@ -1,3 +1,4 @@
+import { OverlayModule } from '@angular/cdk/overlay';
 import { HttpClientModule } from '@angular/common/http';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -27,10 +28,11 @@ export function loadConfiguration(configService: ConfigurationService): () => Pr
     NoServiceAvailableComponent
   ],
   imports: [
-    BrowserModule,
     AppRoutingModule,
+    BrowserModule,
     HttpClientModule,
-    NgbModule
+    NgbModule,
+    OverlayModule,
   ],
   providers: [
     {

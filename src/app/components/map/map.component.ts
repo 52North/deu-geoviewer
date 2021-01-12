@@ -55,6 +55,7 @@ export class WmsOptions extends MapOptions {
 
 type MapWmsLayer = {
   title: string;
+  abstract: string;
   layer: Layer;
 };
 
@@ -73,6 +74,8 @@ export class MapComponent implements AfterViewInit, OnChanges {
 
   @ViewChild('dynamic', { read: ViewContainerRef }) viewContainerRef!: ViewContainerRef;
 
+  public legendOpen = false;
+
   public wmsLayers: MapWmsLayer[] = [];
 
   constructor(
@@ -90,7 +93,7 @@ export class MapComponent implements AfterViewInit, OnChanges {
     this.drawMap();
   }
 
-  public toggleVisibility(layer: MapWmsLayer) {
+  public toggleVisibility(layer: MapWmsLayer): void {
     layer.layer.setVisible(!layer.layer.getVisible());
   }
 
@@ -137,22 +140,22 @@ export class MapComponent implements AfterViewInit, OnChanges {
       if (this.options instanceof WmsOptions) {
         this.options.layers.forEach((e, i) => {
           const layer = new TileLayer({
-            visible: i === 5,
+            visible: false,
             source: new TileWMS({
               url: e.url,
-              // serverType: 'mapserver',
               params: {
-                'LAYERS': e.name,
-                // 'TILED': true
+                LAYERS: e.name,
               }
             })
-          })
+          });
           layers.push(layer);
           this.wmsLayers.push({
             title: e.title,
+            abstract: e.abstract,
             layer
           });
-        })
+        });
+        setTimeout(() => this.legendOpen = true, 1000);
       }
 
       const map = new Map({
@@ -220,7 +223,7 @@ export class MapComponent implements AfterViewInit, OnChanges {
     }
   }
 
-  private detectProjection() {
+  private detectProjection(): Projection {
     let projection = new Projection({ code: MapProjection.EPSG_4326 });
 
     if (this.options instanceof GeoJSONOptions) {
