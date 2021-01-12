@@ -56,6 +56,7 @@ export class WmsOptions extends MapOptions {
 type MapWmsLayer = {
   title: string;
   abstract: string;
+  extent?: Extent;
   layer: Layer;
 };
 
@@ -70,13 +71,15 @@ export class MapComponent implements AfterViewInit, OnChanges {
 
   public mapId = 'mapid';
 
-  private overlay?: Overlay;
-
   @ViewChild('dynamic', { read: ViewContainerRef }) viewContainerRef!: ViewContainerRef;
 
   public legendOpen = false;
 
   public wmsLayers: MapWmsLayer[] = [];
+
+  private overlay?: Overlay;
+
+  private map!: Map;
 
   constructor(
     private factoryResolver: ComponentFactoryResolver,
@@ -103,6 +106,13 @@ export class MapComponent implements AfterViewInit, OnChanges {
       return source.getLegendUrl();
     }
     return undefined;
+  }
+
+  public zoomToExtent(layer: MapWmsLayer): void {
+    const extent = layer.extent;
+    if (layer.extent) {
+      this.map.getView().fit(layer.extent);
+    }
   }
 
   private createPopup(): void {
@@ -145,20 +155,21 @@ export class MapComponent implements AfterViewInit, OnChanges {
               url: e.url,
               params: {
                 LAYERS: e.name,
-              }
+              },
             })
           });
           layers.push(layer);
           this.wmsLayers.push({
             title: e.title,
             abstract: e.abstract,
-            layer
+            layer,
+            extent: e.bbox ? e.bbox as Extent : undefined
           });
         });
         setTimeout(() => this.legendOpen = true, 1000);
       }
 
-      const map = new Map({
+      this.map = new Map({
         layers,
         controls: defaultControls(),
         target: this.mapId,
@@ -169,7 +180,7 @@ export class MapComponent implements AfterViewInit, OnChanges {
       });
 
       if (this.overlay) {
-        map.addOverlay(this.overlay);
+        this.map.addOverlay(this.overlay);
       }
 
       if (this.options instanceof GeoJSONOptions) {
@@ -179,7 +190,7 @@ export class MapComponent implements AfterViewInit, OnChanges {
         const vectorLayer = new VectorLayer({
           source: vectorSource
         });
-        map.addLayer(vectorLayer);
+        this.map.addLayer(vectorLayer);
         extent = vectorSource.getExtent();
 
         const hoverSelect = new Select({
@@ -187,21 +198,21 @@ export class MapComponent implements AfterViewInit, OnChanges {
           layers: [vectorLayer]
         });
         hoverSelect.on('select', (evt => {
-          map.getTargetElement().style.cursor = evt.selected.length > 0 ? 'pointer' : '';
+          this.map.getTargetElement().style.cursor = evt.selected.length > 0 ? 'pointer' : '';
         }));
-        map.addInteraction(hoverSelect);
+        this.map.addInteraction(hoverSelect);
 
         const clickSelect = new Select({
           layers: [vectorLayer]
         });
         clickSelect.on('select', (evt => {
           clickSelect.getFeatures().clear();
-          this.showPopup(evt, map);
+          this.showPopup(evt, this.map);
         }));
-        map.addInteraction(clickSelect);
+        this.map.addInteraction(clickSelect);
 
         if (extent) {
-          map.addControl(new ZoomToExtent({
+          this.map.addControl(new ZoomToExtent({
             extent,
             tipLabel: 'Zoom to GeoJSON extent'
           }));
@@ -209,14 +220,13 @@ export class MapComponent implements AfterViewInit, OnChanges {
       }
 
       extent = extent ? extent : this.getExtent(projection);
-      console.log(`Extent: ${extent}`);
-      map.getView().fit(extent);
+      this.map.getView().fit(extent);
 
       const scaleLine = new ScaleLine({ units: 'metric' });
-      map.addControl(scaleLine);
+      this.map.addControl(scaleLine);
 
       // TODO: remove if not neccessary any more
-      map.getView().on('change:resolution', (evt) => {
+      this.map.getView().on('change:resolution', (evt) => {
       });
 
       console.log(`Map with projection: ${projection.getCode()}`);

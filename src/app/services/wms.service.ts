@@ -36,6 +36,7 @@ export interface WMSLayer {
   title: string;
   abstract: string;
   url: string;
+  bbox: number[];
   childLayer?: WMSLayer[];
 }
 
@@ -58,6 +59,7 @@ export class WmsService {
         name: entry.name,
         title: entry.title,
         abstract: entry.abstract,
+        bbox: entry.bbox,
         url: entry.url
       });
     }
@@ -68,15 +70,12 @@ export class WmsService {
   }
 
   private createLayer(layer: InternalWMSLayer, url: string): WMSLayer {
-    if (layer.Style && layer.Style.length > 0) {
-      layer.Style.forEach(e => console.log(e.LegendURL));
-    }
-    console.log(layer.Style);
     return {
       name: layer.Name,
       title: layer.Title,
       abstract: layer.Abstract,
       url,
+      bbox: layer.EX_GeographicBoundingBox,
       childLayer: layer.Layer ? layer.Layer.map(l => this.createLayer(l, url)) : []
     };
   }

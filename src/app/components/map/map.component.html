@@ -17,7 +17,9 @@
         </div>
       </ng-template>
       <ng-template ngbPanelContent *ngIf="getLegendUrl(entry)">
-        <div>{{entry.abstract}}</div>
+        <div>
+          <button type="button" *ngIf="entry.layer.getVisible()" class="btn btn-light btn-sm" (click)="zoomToExtent(entry)">To extent</button>
+        </div>
         <img [src]="getLegendUrl(entry)" alt="">
       </ng-template>
     </ngb-panel>
