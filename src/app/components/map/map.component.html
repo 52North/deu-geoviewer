@@ -1,32 +1,36 @@
 <div class="map" [attr.id]="mapId">
   <button type="button" class="btn btn-light legend-button" (click)="legendOpen = !legendOpen" cdkOverlayOrigin
     #trigger="cdkOverlayOrigin">Legend</button>
+  <ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="trigger" [cdkConnectedOverlayOpen]="legendOpen">
+    <ngb-accordion *ngIf="wmsLayers.length > 0" #acc="ngbAccordion">
+      <ngb-panel *ngFor="let entry of wmsLayers; index as i" [id]="'panel-' + i">
+        <ng-template ngbPanelHeader let-opened="opened">
+          <div class="d-flex align-items-center" (click)="toggleVisibility(entry)">
+            <input type="checkbox" id="scales" name="scales" [checked]="entry.layer.getVisible()">
+            <div class="entry-title flex-grow-1">{{entry.title}}</div>
+            <div (click)="acc.toggle('panel-'+i); $event.stopPropagation()" class="information-toggler">
+              <i *ngIf="!opened" class="bi-plus"></i>
+              <i *ngIf="opened" class="bi-dash"></i>
+            </div>
+          </div>
+        </ng-template>
+        <ng-template ngbPanelContent *ngIf="getLegendUrl(entry)">
+          <div>
+            <button type="button" *ngIf="entry.layer.getVisible()" class="btn btn-light btn-sm"
+              (click)="zoomToExtent(entry)">To extent</button>
+          </div>
+          <img [src]="getLegendUrl(entry)" alt="">
+        </ng-template>
+      </ngb-panel>
+    </ngb-accordion>
+  </ng-template>
 </div>
 
-<ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="trigger" [cdkConnectedOverlayOpen]="legendOpen">
-  <ngb-accordion *ngIf="wmsLayers.length > 0" #acc="ngbAccordion">
-    <ngb-panel *ngFor="let entry of wmsLayers; index as i" [id]="'panel-' + i">
-      <ng-template ngbPanelHeader let-opened="opened">
-        <div class="d-flex align-items-center" (click)="toggleVisibility(entry)">
-          <input type="checkbox" id="scales" name="scales" [checked]="entry.layer.getVisible()">
-          <div class="entry-title flex-grow-1">{{entry.title}}</div>
-          <div (click)="acc.toggle('panel-'+i); $event.stopPropagation()" class="information-toggler">
-            <i *ngIf="!opened" class="bi-plus"></i>
-            <i *ngIf="opened" class="bi-dash"></i>
-          </div>
-        </div>
-      </ng-template>
-      <ng-template ngbPanelContent *ngIf="getLegendUrl(entry)">
-        <div>
-          <button type="button" *ngIf="entry.layer.getVisible()" class="btn btn-light btn-sm" (click)="zoomToExtent(entry)">To extent</button>
-        </div>
-        <img [src]="getLegendUrl(entry)" alt="">
-      </ng-template>
-    </ngb-panel>
-  </ngb-accordion>
-</ng-template>
-
 <div id="popup" class="ol-popup">
-  <a id="popup-closer" class="ol-popup-closer"></a>
-  <ng-template #dynamic></ng-template>
+  <div class="popup-header">
+    <i class="bi bi-x" (click)="closePopup()"></i>
+  </div>
+  <div class="content">
+    <ng-template #dynamic></ng-template>
+  </div>
 </div>

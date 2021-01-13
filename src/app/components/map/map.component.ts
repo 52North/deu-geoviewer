@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import {
   AfterViewInit,
   Component,
@@ -10,6 +11,7 @@ import {
 } from '@angular/core';
 import { Map, Overlay, View } from 'ol';
 import { defaults as defaultControls, ScaleLine, ZoomToExtent } from 'ol/control';
+import { Coordinate } from 'ol/coordinate';
 import { pointerMove } from 'ol/events/condition';
 import { Extent } from 'ol/extent';
 import GeoJSON from 'ol/format/GeoJSON';
@@ -28,7 +30,7 @@ import proj4 from 'proj4';
 import { ConfigurationService } from '../../configuration/configuration.service';
 import { WMSLayer } from '../../services/wms.service';
 import { FeatureInfoPopupComponent } from './feature-info-popup/feature-info-popup.component';
-
+import { WmsFeatureInfoComponent } from './wms-feature-info/wms-feature-info.component';
 
 export enum MapProjection {
   EPSG_4326 = 'EPSG:4326',
@@ -83,7 +85,8 @@ export class MapComponent implements AfterViewInit, OnChanges {
 
   constructor(
     private factoryResolver: ComponentFactoryResolver,
-    private config: ConfigurationService
+    private config: ConfigurationService,
+    private http: HttpClient
   ) { }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -115,18 +118,13 @@ export class MapComponent implements AfterViewInit, OnChanges {
     }
   }
 
-  private createPopup(): void {
-    const closer = document.getElementById('popup-closer');
-    if (closer) {
-      closer.onclick = () => {
-        if (this.overlay) {
-          this.overlay.setPosition(undefined);
-          closer.blur();
-        }
-        return false;
-      };
+  public closePopup(): void {
+    if (this.overlay) {
+      this.overlay.setPosition(undefined);
     }
+  }
 
+  private createPopup(): void {
     const popup = document.getElementById('popup');
     if (popup) {
       popup.style.display = 'unset';
@@ -207,7 +205,7 @@ export class MapComponent implements AfterViewInit, OnChanges {
         });
         clickSelect.on('select', (evt => {
           clickSelect.getFeatures().clear();
-          this.showPopup(evt, this.map);
+          this.showGeoJsonFeature(evt);
         }));
         this.map.addInteraction(clickSelect);
 
@@ -219,15 +217,33 @@ export class MapComponent implements AfterViewInit, OnChanges {
         }
       }
 
+      if (this.options instanceof WmsOptions) {
+        this.map.on('singleclick', (evt) => {
+          this.wmsLayers.forEach(l => {
+            if (l.layer.getVisible()) {
+              const source = l.layer.getSource();
+              if (source instanceof TileWMS) {
+                const url = source.getFeatureInfoUrl(
+                  evt.coordinate,
+                  this.map.getView().getResolution() as number,
+                  projection.getCode(),
+                  { INFO_FORMAT: 'text/html' }
+                );
+                if (url) {
+                  console.log(url);
+                  this.showWmsFeatureInfo(evt.coordinate, url);
+                }
+              }
+            }
+          });
+        });
+      }
+
       extent = extent ? extent : this.getExtent(projection);
       this.map.getView().fit(extent);
 
       const scaleLine = new ScaleLine({ units: 'metric' });
       this.map.addControl(scaleLine);
-
-      // TODO: remove if not neccessary any more
-      this.map.getView().on('change:resolution', (evt) => {
-      });
 
       console.log(`Map with projection: ${projection.getCode()}`);
     }
@@ -247,7 +263,7 @@ export class MapComponent implements AfterViewInit, OnChanges {
     return projection;
   }
 
-  private showPopup(evt: SelectEvent, map: Map): void {
+  private showGeoJsonFeature(evt: SelectEvent): void {
     if (this.overlay) {
       const coordinate = evt.mapBrowserEvent.coordinate;
       this.overlay.setPosition(coordinate);
@@ -259,6 +275,17 @@ export class MapComponent implements AfterViewInit, OnChanges {
         component.instance.properties = properties;
         this.viewContainerRef.insert(component.hostView);
       }
+    }
+  }
+
+  private showWmsFeatureInfo(coordinate: Coordinate, url: string): void {
+    if (this.overlay) {
+      this.overlay.setPosition(coordinate);
+      this.viewContainerRef.clear();
+      const factory = this.factoryResolver.resolveComponentFactory(WmsFeatureInfoComponent);
+      const component = factory.create(this.viewContainerRef.injector);
+      component.instance.featureInfoUrl = url;
+      this.viewContainerRef.insert(component.hostView);
     }
   }
 

@@ -8,6 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FeatureInfoPopupComponent } from './components/map/feature-info-popup/feature-info-popup.component';
 import { MapComponent } from './components/map/map.component';
+import { WmsFeatureInfoComponent } from './components/map/wms-feature-info/wms-feature-info.component';
 import { LoadingDatasetComponent } from './components/modals/loading-dataset/loading-dataset.component';
 import { NoServiceAvailableComponent } from './components/modals/no-service-available/no-service-available.component';
 import { Configuration } from './configuration/configuration.model';
@@ -28,6 +29,7 @@ export function loadConfiguration(configService: ConfigurationService): () => Pr
     MapComponent,
     MapViewComponent,
     NoServiceAvailableComponent,
+    WmsFeatureInfoComponent,
   ],
   imports: [
     AppRoutingModule,
