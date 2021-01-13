@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-wms-feature-info',
@@ -8,9 +9,9 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class WmsFeatureInfoComponent implements OnInit {
 
-  @Input() featureInfoUrl = '';
+  @Input() featureInfoUrl: string[] = [];
 
-  public html: string | undefined;
+  public html: string[] = [];
   public loading = false;
 
   constructor(
@@ -18,15 +19,16 @@ export class WmsFeatureInfoComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    if (this.featureInfoUrl) {
+    if (this.featureInfoUrl.length) {
       this.loading = true;
-      this.http.get(this.featureInfoUrl, { responseType: 'text' }).subscribe(
+      const temp = this.featureInfoUrl.map(e => this.http.get(e, { responseType: 'text' }));
+      forkJoin(temp).subscribe(
         res => {
-          this.html = res;
+          res.forEach(r => this.html.push(r));
           this.loading = false;
         },
         error => {
-          this.html = 'Error occured, while requesting the feature info.';
+          this.html = ['Error occured, while requesting the feature info.'];
           this.loading = false;
         }
       );

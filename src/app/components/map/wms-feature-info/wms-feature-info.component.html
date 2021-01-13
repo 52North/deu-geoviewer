@@ -2,4 +2,11 @@
     <div class="spinner-grow text-primary" role="status"></div>
     <div>Loading feature info...</div>
 </div>
-<div *ngIf="html" [innerHTML]="html"></div>
+
+<div *ngIf="!loading && !html.length">
+    No features at this position
+</div>
+
+<div *ngIf="html.length">
+    <div *ngFor="let item of html" [innerHTML]="item"></div>
+</div>

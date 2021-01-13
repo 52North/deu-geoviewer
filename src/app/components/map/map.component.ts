@@ -219,6 +219,7 @@ export class MapComponent implements AfterViewInit, OnChanges {
 
       if (this.options instanceof WmsOptions) {
         this.map.on('singleclick', (evt) => {
+          const urls: string[] = [];
           this.wmsLayers.forEach(l => {
             if (l.layer.getVisible()) {
               const source = l.layer.getSource();
@@ -230,12 +231,12 @@ export class MapComponent implements AfterViewInit, OnChanges {
                   { INFO_FORMAT: 'text/html' }
                 );
                 if (url) {
-                  console.log(url);
-                  this.showWmsFeatureInfo(evt.coordinate, url);
+                  urls.push(url);
                 }
               }
             }
           });
+          this.showWmsFeatureInfo(evt.coordinate, urls);
         });
       }
 
@@ -278,13 +279,13 @@ export class MapComponent implements AfterViewInit, OnChanges {
     }
   }
 
-  private showWmsFeatureInfo(coordinate: Coordinate, url: string): void {
+  private showWmsFeatureInfo(coordinate: Coordinate, urls: string[]): void {
     if (this.overlay) {
       this.overlay.setPosition(coordinate);
       this.viewContainerRef.clear();
       const factory = this.factoryResolver.resolveComponentFactory(WmsFeatureInfoComponent);
       const component = factory.create(this.viewContainerRef.injector);
-      component.instance.featureInfoUrl = url;
+      component.instance.featureInfoUrl = urls;
       this.viewContainerRef.insert(component.hostView);
     }
   }
