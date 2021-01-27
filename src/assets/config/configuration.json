@@ -89,5 +89,107 @@
             "url": "https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CityNamesEurope_3035/MapServer",
             "maxZoom": 11
         }
-    ]
+    ],
+    "languages": [
+        {
+          "code": "bg",
+          "label": "Български (bg)"
+        },
+        {
+          "code": "cs",
+          "label": "čeština (cs)"
+        },
+        {
+          "code": "da",
+          "label": "dansk (da)"
+        },
+        {
+          "code": "de",
+          "label": "Deutsch (de)"
+        },
+        {
+          "code": "el",
+          "label": "Ελληνικά (el)"
+        },
+        {
+          "code": "en",
+          "label": "English (en)"
+        },
+        {
+          "code": "es",
+          "label": "español (es)"
+        },
+        {
+          "code": "et",
+          "label": "eesti (et)"
+        },
+        {
+          "code": "fr",
+          "label": "français (fr)"
+        },
+        {
+          "code": "ga",
+          "label": "Gaeilge (ga)"
+        },
+        {
+          "code": "hr",
+          "label": "Hrvatski (hr)"
+        },
+        {
+          "code": "hu",
+          "label": "Magyar (hu)"
+        },
+        {
+          "code": "it",
+          "label": "italiano (it)"
+        },
+        {
+          "code": "lt",
+          "label": "lietuvių (lt)"
+        },
+        {
+          "code": "lv",
+          "label": "latviešu (lv)"
+        },
+        {
+          "code": "mt",
+          "label": "Malti (mt)"
+        },
+        {
+          "code": "nl",
+          "label": "Nederlands (nl)"
+        },
+        {
+          "code": "pl",
+          "label": "polski (pl)"
+        },
+        {
+          "code": "pt",
+          "label": "português (pt)"
+        },
+        {
+          "code": "ro",
+          "label": "română (ro)"
+        },
+        {
+          "code": "sk",
+          "label": "slovenčina (sk)"
+        },
+        {
+          "code": "sl",
+          "label": "slovenščina (sl)"
+        },
+        {
+          "code": "fi",
+          "label": "suomi (fi)"
+        },
+        {
+          "code": "sv",
+          "label": "svenska (sv)"
+        },
+        {
+          "code": "no",
+          "label": "norsk (no)"
+        }
+      ]
 }

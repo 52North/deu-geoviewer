@@ -5,13 +5,19 @@ export type Configuration = {
     apiUrl: string;
     defaultMapExtent: {
         crs: string;
-        extent: Extent
+        extent: Extent;
     }[];
     baseLayer: {
-        crs?: string,
-        type: 'OSM' | 'TileArcGIS',
-        url?: string,
-        minZoom?: number,
-        maxZoom?: number
-    }[]
+        crs?: string;
+        type: 'OSM' | 'TileArcGIS';
+        url?: string;
+        minZoom?: number;
+        maxZoom?: number;
+    }[];
+    languages: LanguageConfig[]
 };
+
+export interface LanguageConfig {
+    code: string;
+    label: string;
+}
