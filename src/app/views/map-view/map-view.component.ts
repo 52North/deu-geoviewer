@@ -9,6 +9,7 @@ import { LoadingDatasetComponent } from '../../components/modals/loading-dataset
 import { NoServiceAvailableComponent } from '../../components/modals/no-service-available/no-service-available.component';
 import { DatasetType } from '../../model';
 import { DatasetService } from '../../services/dataset.service';
+import { WelcomeScreenService } from './../../components/modals/welcome/welcome.component';
 import { WmsService } from './../../services/wms.service';
 
 @Component({
@@ -27,6 +28,7 @@ export class MapViewComponent implements OnInit {
     private route: ActivatedRoute,
     private modalService: NgbModal,
     private wmsSrvc: WmsService,
+    private welcomeSrvc: WelcomeScreenService,
     public overlay: Overlay
   ) { }
 
@@ -39,6 +41,10 @@ export class MapViewComponent implements OnInit {
     } else {
       this.mapOptions = new MapOptions();
     }
+  }
+
+  public openWelcome(): void {
+    this.welcomeSrvc.openOverlay();
   }
 
   private loadDataset(id: string, type: string): void {

@@ -1,6 +1,7 @@
 import { OverlayModule } from '@angular/cdk/overlay';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
@@ -14,6 +15,7 @@ import { MapComponent } from './components/map/map.component';
 import { WmsFeatureInfoComponent } from './components/map/wms-feature-info/wms-feature-info.component';
 import { LoadingDatasetComponent } from './components/modals/loading-dataset/loading-dataset.component';
 import { NoServiceAvailableComponent } from './components/modals/no-service-available/no-service-available.component';
+import { WelcomeComponent } from './components/modals/welcome/welcome.component';
 import { Configuration } from './configuration/configuration.model';
 import { ConfigurationService } from './configuration/configuration.service';
 import { LinkViewComponent } from './views/link-view/link-view.component';
@@ -31,17 +33,19 @@ export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
   declarations: [
     AppComponent,
     FeatureInfoPopupComponent,
+    LanguageSelectorComponent,
     LinkViewComponent,
     LoadingDatasetComponent,
     MapComponent,
     MapViewComponent,
     NoServiceAvailableComponent,
+    WelcomeComponent,
     WmsFeatureInfoComponent,
-    LanguageSelectorComponent,
   ],
   imports: [
     AppRoutingModule,
     BrowserModule,
+    FormsModule,
     HttpClientModule,
     NgbModule,
     TranslateModule.forRoot({

@@ -19,7 +19,7 @@
   "welcome-screen.error": "Wenn Sie auf andere Probleme stoßen, zögern Sie nicht den technischen Support zu kontaktieren:",
   "welcome-screen.support-contact": "Technischen Support kontaktieren",
   "welcome-screen.basemaps": "Die in dieser Anwendung verwendeten Hintergrundkarten werden durch das Statistische Amt der Europäischen Union (Eurostat) bereitgestellt. Diese Karten sind in einer Auflösung von bis zu 1:50.000 verfügbar. An einer feineren Auflösung, um beispielsweise Daten innerhalb von Städten zu visualisieren, wird zurzeit gearbeitet. Daher können einzelne Datenquellen noch nicht mit einer optimalen Hintergrundkarte angezeigt werden.",
-  "welcome-screen.not-display-again": "Den Willkommensbildschirm nicht erneut angezeigt werden.",
+  "welcome-screen.not-display-again": "Dieses Fenster nicht nochmals anzeigen.",
   "welcome-screen.map-loading": "Karte lädt...",
   "welcome-screen.confirm": "Ok",
   "tutorial.step1": "Diese kleine Einführung hat das Ziel, Sie mit den Elementen und Funktionalität des Map Viewer vertraut zu machen.",

@@ -1,0 +1,16 @@
+:host {
+    max-width: 80vw;
+    background-color: white;
+
+    .aspects {
+        display: flex;
+
+        .graphic {
+            flex: 0 0 350px;
+            width: 350px;
+            height: 315px;
+            margin: 10px 40px;
+            background: url(../../../../assets/images/architecture-external-services.png) center top;
+        }
+    }
+}

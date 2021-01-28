@@ -1,0 +1,26 @@
+<div class="shadow-lg">
+  <div class="modal-body">
+    <h2>{{ 'welcome-screen.title' | translate }}</h2>
+    <p>{{ 'welcome-screen.services' | translate }}</p>
+
+    <div class="aspects">
+      <div class="graphic"></div>
+      <ul>
+        <li>{{ 'welcome-screen.information' | translate }}</li>
+        <li>{{ 'welcome-screen.access' | translate }}</li>
+        <li>{{ 'welcome-screen.layer' | translate }}</li>
+        <li>{{ 'welcome-screen.loading' | translate }}</li>
+        <li>{{ 'welcome-screen.error' | translate }}
+          <a href="/feedback/form">{{ 'welcome-screen.support-contact' | translate }}</a>
+        </li>
+      </ul>
+    </div>
+
+    <p>{{ 'welcome-screen.basemaps' | translate }}</p>
+  </div>
+  <div class="modal-footer">
+    <input type="checkbox" id="check" [(ngModel)]="initialHide">
+    <label for="check">{{ 'welcome-screen.not-display-again' | translate }}</label>
+    <button type="button" class="btn btn-light" (click)="close()">{{ 'welcome-screen.confirm' | translate }}</button>
+  </div>
+</div>

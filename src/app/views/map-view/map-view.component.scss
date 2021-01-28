@@ -1,5 +1,12 @@
 :host {
     .wrapper {
         height: 100%;
+        position: relative;
+
+        .welcome-button {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+        }
     }
 }
