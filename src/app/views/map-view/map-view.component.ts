@@ -31,15 +31,14 @@ export class MapViewComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
-      const datasetId = params.dataset;
-      const type = params.type;
-      if (datasetId) {
-        this.loadDataset(datasetId, type);
-      } else {
-        this.mapOptions = new MapOptions();
-      }
-    });
+    const params = this.route.snapshot.queryParams;
+    const datasetId = params.dataset;
+    const type = params.type;
+    if (datasetId) {
+      this.loadDataset(datasetId, type);
+    } else {
+      this.mapOptions = new MapOptions();
+    }
   }
 
   private loadDataset(id: string, type: string): void {

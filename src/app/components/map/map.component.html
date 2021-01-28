@@ -1,6 +1,8 @@
 <div class="map" [attr.id]="mapId">
-  <button type="button" class="btn btn-light legend-button" (click)="legendOpen = !legendOpen" cdkOverlayOrigin
-    #trigger="cdkOverlayOrigin">Legend</button>
+  
+  <button type="button" class="btn btn-light legend-button" [hidden]="wmsLayers.length === 0" (click)="legendOpen = !legendOpen" cdkOverlayOrigin
+    #trigger="cdkOverlayOrigin">{{'functions.legend' | translate}}</button>
+
   <ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="trigger" [cdkConnectedOverlayOpen]="legendOpen">
     <ngb-accordion *ngIf="wmsLayers.length > 0" #acc="ngbAccordion">
       <ngb-panel *ngFor="let entry of wmsLayers; index as i" [id]="'panel-' + i">
@@ -24,6 +26,7 @@
       </ngb-panel>
     </ngb-accordion>
   </ng-template>
+
 </div>
 
 <div id="popup" class="ol-popup">

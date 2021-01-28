@@ -1,16 +1,17 @@
-import { HttpClient } from '@angular/common/http';
 import {
   AfterViewInit,
   Component,
   ComponentFactoryResolver,
   Input,
   OnChanges,
+  OnInit,
   SimpleChanges,
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { Map, Overlay, View } from 'ol';
-import { defaults as defaultControls, ScaleLine, ZoomToExtent } from 'ol/control';
+import { ScaleLine, Zoom, ZoomToExtent } from 'ol/control';
 import { Coordinate } from 'ol/coordinate';
 import { pointerMove } from 'ol/events/condition';
 import { Extent } from 'ol/extent';
@@ -67,7 +68,7 @@ type MapWmsLayer = {
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss']
 })
-export class MapComponent implements AfterViewInit, OnChanges {
+export class MapComponent implements AfterViewInit, OnChanges, OnInit {
 
   @Input() options?: MapOptions;
 
@@ -83,11 +84,26 @@ export class MapComponent implements AfterViewInit, OnChanges {
 
   private map!: Map;
 
+  private zoomControl: Zoom = new Zoom();
+
   constructor(
     private factoryResolver: ComponentFactoryResolver,
     private config: ConfigurationService,
-    private http: HttpClient
+    private translate: TranslateService,
   ) { }
+
+  ngOnInit(): void {
+    this.translate.onLangChange.subscribe(() => {
+      if (this.map) {
+        this.map.removeControl(this.zoomControl);
+        this.zoomControl = new Zoom({
+          zoomInTipLabel: this.translate.instant('other-features.zoom-in'),
+          zoomOutTipLabel: this.translate.instant('other-features.zoom-out')
+        });
+        this.map.addControl(this.zoomControl);
+      }
+    });
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes && changes.options) {
@@ -169,7 +185,7 @@ export class MapComponent implements AfterViewInit, OnChanges {
 
       this.map = new Map({
         layers,
-        controls: defaultControls(),
+        controls: [this.zoomControl],
         target: this.mapId,
         view: new View({
           projection: projection.getCode(),

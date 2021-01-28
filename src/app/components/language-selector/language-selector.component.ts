@@ -18,7 +18,7 @@ export class LanguageSelectorComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private translate: TranslateService,
-    private config: ConfigurationService
+    private config: ConfigurationService,
   ) { }
 
   ngOnInit(): void {
@@ -31,13 +31,13 @@ export class LanguageSelectorComponent implements OnInit {
     this.translate.use(code);
 
     this.route.queryParams.subscribe(res => {
-      this.router.navigate([], {
+      this.router.navigate(['.'], {
         relativeTo: this.route,
         queryParams: {
           lang: code
         },
         queryParamsHandling: 'merge',
-        skipLocationChange: false
+        skipLocationChange: true
       });
     });
   }
