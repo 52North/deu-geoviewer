@@ -259,9 +259,6 @@ export class MapComponent implements AfterViewInit, OnChanges, OnInit {
       extent = extent ? extent : this.getExtent(projection);
       this.map.getView().fit(extent);
 
-      const scaleLine = new ScaleLine({ units: 'metric' });
-      this.map.addControl(scaleLine);
-
       console.log(`Map with projection: ${projection.getCode()}`);
     }
   }

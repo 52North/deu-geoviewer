@@ -1,7 +1,10 @@
 <div class="map" [attr.id]="mapId">
-  
-  <button type="button" class="btn btn-light legend-button" [hidden]="wmsLayers.length === 0" (click)="legendOpen = !legendOpen" cdkOverlayOrigin
-    #trigger="cdkOverlayOrigin">{{'functions.legend' | translate}}</button>
+
+  <div class="button-group">
+    <button type="button" class="btn legend-button" [disabled]="wmsLayers.length === 0"
+      (click)="legendOpen = !legendOpen" cdkOverlayOrigin [ngClass]="{'btn-primary': legendOpen, 'btn-light': !legendOpen}"
+      #trigger="cdkOverlayOrigin">{{'functions.legend' | translate}}</button>
+  </div>
 
   <ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="trigger" [cdkConnectedOverlayOpen]="legendOpen">
     <ngb-accordion *ngIf="wmsLayers.length > 0" #acc="ngbAccordion">
