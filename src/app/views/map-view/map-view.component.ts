@@ -7,7 +7,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GeoJSONOptions, MapOptions, WmsOptions } from '../../components/map/map.component';
 import { LoadingDatasetComponent } from '../../components/modals/loading-dataset/loading-dataset.component';
 import { NoServiceAvailableComponent } from '../../components/modals/no-service-available/no-service-available.component';
-import { DatasetType } from '../../model';
+import { DatasetType, parseDatasetType } from '../../model';
 import { DatasetService } from '../../services/dataset.service';
 import { WelcomeScreenService } from './../../components/modals/welcome/welcome.component';
 import { WmsService } from './../../services/wms.service';
@@ -49,7 +49,8 @@ export class MapViewComponent implements OnInit {
 
   private loadDataset(id: string, type: string): void {
     this.showloading();
-    this.datasetSrvc.getDataset(id).subscribe(
+    const dsType = parseDatasetType(type);
+    this.datasetSrvc.getDataset(id, dsType).subscribe(
       dataset => {
         if (dataset.type === DatasetType.GEOJSON) {
           this.datasetSrvc.getGeoJSON(dataset.url).subscribe(

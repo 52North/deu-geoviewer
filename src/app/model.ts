@@ -15,3 +15,11 @@ export interface KeyValuePair {
     key: string;
     value: string;
 }
+
+export function parseDatasetType(str: string): DatasetType | undefined {
+    if (str) {
+        str = str.toUpperCase();
+        return (DatasetType as any)[str];
+    }
+    return undefined;
+}
