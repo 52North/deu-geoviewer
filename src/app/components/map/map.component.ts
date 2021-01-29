@@ -10,8 +10,8 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Map, Overlay, View } from 'ol';
-import { ScaleLine, Zoom, ZoomToExtent } from 'ol/control';
+import { Map, MapBrowserEvent, Overlay, View } from 'ol';
+import { Zoom, ZoomToExtent } from 'ol/control';
 import { Coordinate } from 'ol/coordinate';
 import { pointerMove } from 'ol/events/condition';
 import { Extent } from 'ol/extent';
@@ -76,15 +76,24 @@ export class MapComponent implements AfterViewInit, OnChanges, OnInit {
 
   @ViewChild('dynamic', { read: ViewContainerRef }) viewContainerRef!: ViewContainerRef;
 
+  // ui flags
   public legendOpen = false;
+  public featureInfoActive = true;
 
+  // initialized WMS layer
   public wmsLayers: MapWmsLayer[] = [];
+
+  // initialized geojson layer
+  private vectorLayer!: VectorLayer;
 
   private overlay?: Overlay;
 
   private map!: Map;
 
   private zoomControl: Zoom = new Zoom();
+  private projection!: Projection;
+  private clickSelectGeojsonFeature!: Select;
+  private hoverSelectGeojsonFeature!: Select;
 
   constructor(
     private factoryResolver: ComponentFactoryResolver,
@@ -140,6 +149,15 @@ export class MapComponent implements AfterViewInit, OnChanges, OnInit {
     }
   }
 
+  public toggleFeatureInfo(): void {
+    this.featureInfoActive = !this.featureInfoActive;
+    if (this.featureInfoActive) {
+      this.activateFeatureInfo();
+    } else {
+      this.deactivateFeatureInfo();
+    }
+  }
+
   private createPopup(): void {
     const popup = document.getElementById('popup');
     if (popup) {
@@ -157,8 +175,8 @@ export class MapComponent implements AfterViewInit, OnChanges, OnInit {
   private drawMap(): void {
     if (this.options) {
       this.createPopup();
-      const projection = this.detectProjection();
-      const layers = this.createBaseLayers(projection);
+      this.projection = this.detectProjection();
+      const layers = this.createBaseLayers(this.projection);
       let extent;
 
       if (this.options instanceof WmsOptions) {
@@ -188,7 +206,7 @@ export class MapComponent implements AfterViewInit, OnChanges, OnInit {
         controls: [this.zoomControl],
         target: this.mapId,
         view: new View({
-          projection: projection.getCode(),
+          projection: this.projection.getCode(),
           maxZoom: 18
         })
       });
@@ -201,29 +219,9 @@ export class MapComponent implements AfterViewInit, OnChanges, OnInit {
         const vectorSource = new VectorSource({
           features: new GeoJSON().readFeatures(this.options.geojson),
         });
-        const vectorLayer = new VectorLayer({
-          source: vectorSource
-        });
-        this.map.addLayer(vectorLayer);
+        this.vectorLayer = new VectorLayer({ source: vectorSource });
+        this.map.addLayer(this.vectorLayer);
         extent = vectorSource.getExtent();
-
-        const hoverSelect = new Select({
-          condition: pointerMove,
-          layers: [vectorLayer]
-        });
-        hoverSelect.on('select', (evt => {
-          this.map.getTargetElement().style.cursor = evt.selected.length > 0 ? 'pointer' : '';
-        }));
-        this.map.addInteraction(hoverSelect);
-
-        const clickSelect = new Select({
-          layers: [vectorLayer]
-        });
-        clickSelect.on('select', (evt => {
-          clickSelect.getFeatures().clear();
-          this.showGeoJsonFeature(evt);
-        }));
-        this.map.addInteraction(clickSelect);
 
         if (extent) {
           this.map.addControl(new ZoomToExtent({
@@ -233,34 +231,69 @@ export class MapComponent implements AfterViewInit, OnChanges, OnInit {
         }
       }
 
-      if (this.options instanceof WmsOptions) {
-        this.map.on('singleclick', (evt) => {
-          const urls: string[] = [];
-          this.wmsLayers.forEach(l => {
-            if (l.layer.getVisible()) {
-              const source = l.layer.getSource();
-              if (source instanceof TileWMS) {
-                const url = source.getFeatureInfoUrl(
-                  evt.coordinate,
-                  this.map.getView().getResolution() as number,
-                  projection.getCode(),
-                  { INFO_FORMAT: 'text/html' }
-                );
-                if (url) {
-                  urls.push(url);
-                }
-              }
-            }
-          });
-          this.showWmsFeatureInfo(evt.coordinate, urls);
-        });
-      }
+      this.activateFeatureInfo();
 
-      extent = extent ? extent : this.getExtent(projection);
+      extent = extent ? extent : this.getExtent(this.projection);
       this.map.getView().fit(extent);
 
-      console.log(`Map with projection: ${projection.getCode()}`);
+      console.log(`Map with projection: ${this.projection.getCode()}`);
     }
+  }
+
+  private activateFeatureInfo(): void {
+    if (this.options instanceof WmsOptions) {
+      this.map.on('singleclick', this.featureInfoClick);
+    }
+
+    if (this.vectorLayer) {
+      this.clickSelectGeojsonFeature = new Select({ layers: [this.vectorLayer] });
+      this.clickSelectGeojsonFeature.on('select', (evt => {
+        this.clickSelectGeojsonFeature.getFeatures().clear();
+        this.showGeoJsonFeature(evt);
+      }));
+      this.map.addInteraction(this.clickSelectGeojsonFeature);
+
+      this.hoverSelectGeojsonFeature = new Select({
+        condition: pointerMove,
+        layers: [this.vectorLayer]
+      });
+      this.hoverSelectGeojsonFeature.on('select', (evt => {
+        this.map.getTargetElement().style.cursor = evt.selected.length > 0 ? 'pointer' : '';
+      }));
+      this.map.addInteraction(this.hoverSelectGeojsonFeature);
+    }
+  }
+
+  private deactivateFeatureInfo(): void {
+    this.map.un('singleclick', this.featureInfoClick);
+
+    if (this.clickSelectGeojsonFeature) {
+      this.map.removeInteraction(this.clickSelectGeojsonFeature);
+    }
+    if (this.hoverSelectGeojsonFeature) {
+      this.map.removeInteraction(this.hoverSelectGeojsonFeature);
+    }
+  }
+
+  private featureInfoClick = (evt: MapBrowserEvent<UIEvent>) => {
+    const urls: string[] = [];
+    this.wmsLayers.forEach(l => {
+      if (l.layer.getVisible()) {
+        const source = l.layer.getSource();
+        if (source instanceof TileWMS) {
+          const url = source.getFeatureInfoUrl(
+            evt.coordinate,
+            this.map.getView().getResolution() as number,
+            this.projection.getCode(),
+            { INFO_FORMAT: 'text/html' }
+          );
+          if (url) {
+            urls.push(url);
+          }
+        }
+      }
+    });
+    this.showWmsFeatureInfo(evt.coordinate, urls);
   }
 
   private detectProjection(): Projection {
