@@ -4,6 +4,8 @@ import WMSCapabilities from 'ol/format/WMSCapabilities';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import { ConfigurationService } from '../configuration/configuration.service';
+
 interface InternalWMSLayer {
   Name: string;
   Title: string;
@@ -46,7 +48,8 @@ export interface WMSLayer {
 export class WmsService {
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private config: ConfigurationService
   ) { }
 
   public getLayerTree(wmsurl: string): Observable<WMSLayer> {
@@ -89,7 +92,7 @@ export class WmsService {
   }
 
   private getCapabilities(url: string): Observable<any> {
-    const wmsRequesturl = this.cleanUpWMSUrl(url) + '?request=GetCapabilities&service=wms&version=1.3.0';
+    const wmsRequesturl = `${this.config.configuration.proxyUrl}${this.cleanUpWMSUrl(url)}?request=GetCapabilities&service=wms&version=1.3.0`;
     return this.http.get(wmsRequesturl, { responseType: 'text' })
       .pipe(map(res => new WMSCapabilities().read(res)));
   }

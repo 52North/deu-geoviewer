@@ -61,11 +61,14 @@ export class MapViewComponent implements OnInit {
           );
         }
         if (dataset.type === DatasetType.WMS) {
-          this.wmsSrvc.getLayerTree(dataset.url).subscribe(layerTree => {
-            const layerList = this.wmsSrvc.asList(layerTree, []);
-            this.mapOptions = new WmsOptions(layerList);
-            this.hideLoading();
-          });
+          this.wmsSrvc.getLayerTree(dataset.url).subscribe(
+            layerTree => {
+              const layerList = this.wmsSrvc.asList(layerTree, []);
+              this.mapOptions = new WmsOptions(layerList);
+              this.hideLoading();
+            },
+            error => this.serviceNoAvailable()
+          );
         }
       },
       error => this.serviceNoAvailable()
