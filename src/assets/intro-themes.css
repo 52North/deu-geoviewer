@@ -1,0 +1,21 @@
+.introjs-tooltip {
+  max-width: 350px;
+}
+
+.introjs-tooltip-header {
+  padding-right: 10px;
+  padding-top: 4px
+}
+
+.introjs-tooltiptext {
+  padding: 0px 20px;
+}
+
+.introjs-bullets {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.introjs-tooltipbuttons {
+  border-top: 0px;
+}

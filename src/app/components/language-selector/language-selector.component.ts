@@ -43,13 +43,6 @@ export class LanguageSelectorComponent implements OnInit {
   }
 
   private setCurrentLang(params: Params): void {
-    if (params.lang) {
-      const match = this.languages.find(e => e.code === params.lang);
-      if (match) {
-        this.currentLangCode = match.code;
-        this.translate.use(match.code);
-      }
-    }
     this.currentLangCode = this.translate.currentLang || this.translate.getDefaultLang();
   }
 

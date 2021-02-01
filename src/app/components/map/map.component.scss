@@ -5,7 +5,7 @@
         height: 100%;
         position: relative;
 
-        .button-group {
+        .feature-buttons {
             position: absolute;
             z-index: 10;
             bottom: 10px;
@@ -16,6 +16,13 @@
                     margin-left: 10px;
                 }
             }
+        }
+
+        .zoom-buttons {
+            position: absolute;
+            z-index: 10;
+            top: 10px;
+            right: 10px;
         }
     }
 

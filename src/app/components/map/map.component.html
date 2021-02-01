@@ -24,13 +24,22 @@
 
 <div class="map" [attr.id]="mapId">
 
-  <div class="button-group">
+  <div class="zoom-buttons btn-group-vertical btn-group-sm">
+    <button type="button" class="btn btn-light zoom-in" (click)="zoomIn()">
+      <i class="bi bi-plus"></i>
+    </button>
+    <button type="button" class="btn btn-light zoom-out" (click)="zoomOut()">
+      <i class="bi bi-dash"></i>
+    </button>
+  </div>
+
+  <div class="feature-buttons">
     <button type="button" class="btn legend-button" [disabled]="wmsLayers.length === 0"
       (click)="legendOpen = !legendOpen" cdkOverlayOrigin
       [ngClass]="{'btn-primary': legendOpen, 'btn-light': !legendOpen}" #trigger="cdkOverlayOrigin">
       {{'functions.legend' | translate}}
     </button>
-    <button type="button" class="btn legend-button" (click)="toggleFeatureInfo()"
+    <button type="button" class="btn feature-info-button" (click)="toggleFeatureInfo()"
       [ngClass]="{'btn-primary': featureInfoActive, 'btn-light': !featureInfoActive}">
       {{'functions.feature-info' | translate}}
     </button>

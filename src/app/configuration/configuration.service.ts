@@ -14,16 +14,13 @@ export class ConfigurationService {
 
   constructor(private http: HttpClient) { }
 
-  loadConfiguration(): Promise<void | Configuration> {
+  loadConfiguration(): Promise<Configuration> {
     return this.http
       .get<Configuration>(this.CONFIGURATION_URL)
       .toPromise()
       .then((configuration: Configuration) => {
         this.configuration = configuration;
         return configuration;
-      })
-      .catch((error: any) => {
-        console.error(error);
       });
   }
 

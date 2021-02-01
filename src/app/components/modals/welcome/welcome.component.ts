@@ -9,6 +9,8 @@ const INITIAL_HIDE_DISPLAY_STORAGE_KEY = 'INITIAL_HIDE_DISPLAY_STORAGE_KEY';
 })
 export class WelcomeScreenService {
 
+  public welcomeScreenClosed: EventEmitter<void> = new EventEmitter();
+
   constructor(
     private overlay: Overlay
   ) {
@@ -31,6 +33,8 @@ export class WelcomeScreenService {
 
   private closeOverlay(overlayRef: OverlayRef, initialDisplay: boolean): void {
     localStorage.setItem(INITIAL_HIDE_DISPLAY_STORAGE_KEY, initialDisplay.toString());
+    this.welcomeScreenClosed.next();
+    this.welcomeScreenClosed.complete();
     return overlayRef.dispose();
   }
 

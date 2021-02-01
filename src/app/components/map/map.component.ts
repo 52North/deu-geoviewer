@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Map, MapBrowserEvent, Overlay, View } from 'ol';
-import { Zoom, ZoomToExtent } from 'ol/control';
+import { Zoom } from 'ol/control';
 import { Coordinate } from 'ol/coordinate';
 import { pointerMove } from 'ol/events/condition';
 import { Extent } from 'ol/extent';
@@ -158,6 +158,30 @@ export class MapComponent implements AfterViewInit, OnChanges, OnInit {
     }
   }
 
+  public zoomIn(): void {
+    if (this.map && typeof this.map.getView().getZoom() === 'number') {
+      const currZoom = this.map.getView().getZoom() as number;
+      if (currZoom + 1 <= this.map.getView().getMaxZoom()) {
+        this.map.getView().animate({
+          zoom: this.map.getView().getZoom() as number + 1,
+          duration: 250
+        });
+      }
+    }
+  }
+
+  public zoomOut(): void {
+    if (this.map && typeof this.map.getView().getZoom() === 'number') {
+      const currZoom = this.map.getView().getZoom() as number;
+      if (currZoom - 1 >= this.map.getView().getMinZoom()) {
+        this.map.getView().animate({
+          zoom: this.map.getView().getZoom() as number - 1,
+          duration: 250
+        });
+      }
+    }
+  }
+
   private createPopup(): void {
     const popup = document.getElementById('popup');
     if (popup) {
@@ -203,7 +227,7 @@ export class MapComponent implements AfterViewInit, OnChanges, OnInit {
 
       this.map = new Map({
         layers,
-        controls: [this.zoomControl],
+        controls: [],
         target: this.mapId,
         view: new View({
           projection: this.projection.getCode(),
@@ -222,13 +246,6 @@ export class MapComponent implements AfterViewInit, OnChanges, OnInit {
         this.vectorLayer = new VectorLayer({ source: vectorSource });
         this.map.addLayer(this.vectorLayer);
         extent = vectorSource.getExtent();
-
-        if (extent) {
-          this.map.addControl(new ZoomToExtent({
-            extent,
-            tipLabel: 'Zoom to GeoJSON extent'
-          }));
-        }
       }
 
       this.activateFeatureInfo();
