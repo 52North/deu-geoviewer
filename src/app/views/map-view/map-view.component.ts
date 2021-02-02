@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { GeoJSONOptions, MapOptions, WmsOptions } from '../../components/map/map.component';
+import { GeoJSONOptions, MapOptions, WmsOptions } from '../../components/map/maphandler/model';
 import { LoadingDatasetComponent } from '../../components/modals/loading-dataset/loading-dataset.component';
 import { NoServiceAvailableComponent } from '../../components/modals/no-service-available/no-service-available.component';
 import { DatasetType, parseDatasetType } from '../../model';
