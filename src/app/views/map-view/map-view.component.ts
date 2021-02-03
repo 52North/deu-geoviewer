@@ -1,3 +1,4 @@
+import { FiwareOptions } from './../../components/map/maphandler/model';
 import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { Component, OnInit } from '@angular/core';
@@ -76,6 +77,10 @@ export class MapViewComponent implements OnInit {
             },
             error => this.serviceNoAvailable()
           );
+        }
+        if (dataset.type === DatasetType.FIWARE) {
+          this.mapOptions = new FiwareOptions(dataset.url);
+          this.hideLoading();
         }
       },
       error => this.serviceNoAvailable()

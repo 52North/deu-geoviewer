@@ -6,6 +6,7 @@ import { PROJECTIONS as EPSG_3857 } from 'ol/proj/epsg3857';
 import { PROJECTIONS as EPSG_4326 } from 'ol/proj/epsg4326';
 import Projection from 'ol/proj/Projection';
 import { OSM, TileArcGISRest } from 'ol/source';
+import { Observable } from 'rxjs';
 
 import { ConfigurationService } from './../../../configuration/configuration.service';
 import { LegendEntry, MapProjection } from './model';
@@ -24,7 +25,7 @@ export abstract class MapHandler {
         this.createPopup();
     }
 
-    public abstract createMap(mapId: string): void;
+    public abstract createMap(mapId: string): Observable<void>;
 
     public abstract activateFeatureInfo(): void;
 

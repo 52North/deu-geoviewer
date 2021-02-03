@@ -28,6 +28,12 @@ export class WmsOptions extends MapOptions {
     }
 }
 
+export class FiwareOptions extends MapOptions {
+    constructor(public url: string) {
+        super();
+    }
+}
+
 export type LegendEntry = {
     title: string;
     abstract: string;

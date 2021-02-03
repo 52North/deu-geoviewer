@@ -8,7 +8,8 @@ export interface Dataset {
 
 export enum DatasetType {
     WMS = 'WMS',
-    GEOJSON = 'GEOJSON'
+    GEOJSON = 'GEOJSON',
+    FIWARE = 'FIWARE'
 }
 
 export interface KeyValuePair {

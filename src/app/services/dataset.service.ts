@@ -71,6 +71,9 @@ export class DatasetService {
     if (format.indexOf('wms') > -1) {
       return DatasetType.WMS;
     }
+    if (format.indexOf('fiware') > -1) {
+      return DatasetType.FIWARE;
+    }
     return undefined;
   }
 

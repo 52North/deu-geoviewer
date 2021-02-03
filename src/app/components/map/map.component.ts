@@ -11,9 +11,10 @@ import {
 import { TileWMS } from 'ol/source';
 
 import { ConfigurationService } from '../../configuration/configuration.service';
+import { FiwareMapHandler } from './maphandler/firware-map-handler';
 import { GeoJsonMapHandler } from './maphandler/geojson-map-handler';
 import { MapHandler } from './maphandler/map-handler';
-import { GeoJSONOptions, LegendEntry, MapOptions, WmsOptions } from './maphandler/model';
+import { FiwareOptions, GeoJSONOptions, LegendEntry, MapOptions, WmsOptions } from './maphandler/model';
 import { WmsMapHandler } from './maphandler/wms-map-handler';
 
 @Component({
@@ -94,10 +95,14 @@ export class MapComponent implements AfterViewInit, OnChanges {
   private initMap(): void {
     if (this.options) {
       this.mapHandler = this.findMapHandler(this.options);
-      this.mapHandler.createMap(this.mapId);
-      this.mapHandler.activateFeatureInfo();
-      this.legendEntries = this.mapHandler.getLegendEntries();
-      if (this.legendEntries.length) { setTimeout(() => this.legendOpen = true, 1000); }
+      this.mapHandler.createMap(this.mapId).subscribe(() => {
+        this.mapHandler?.activateFeatureInfo();
+        const entries = this.mapHandler?.getLegendEntries();
+        if (entries) {
+          this.legendEntries = entries;
+          if (this.legendEntries?.length) { setTimeout(() => this.legendOpen = true, 1000); }
+        }
+      });
     }
   }
 
@@ -108,7 +113,10 @@ export class MapComponent implements AfterViewInit, OnChanges {
     if (options instanceof GeoJSONOptions) {
       return new GeoJsonMapHandler(this.config, this.viewContainerRef, this.factoryResolver, options);
     }
-    throw new Error('');
+    if (options instanceof FiwareOptions) {
+      return new FiwareMapHandler(this.config, this.viewContainerRef, this.factoryResolver, options);
+    }
+    throw new Error('No map handler found for the given options');
   }
 
 }

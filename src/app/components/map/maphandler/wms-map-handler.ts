@@ -5,6 +5,7 @@ import { Extent } from 'ol/extent';
 import TileLayer from 'ol/layer/Tile';
 import Projection from 'ol/proj/Projection';
 import TileWMS from 'ol/source/TileWMS';
+import { Observable, of } from 'rxjs';
 
 import { ConfigurationService } from '../../../configuration/configuration.service';
 import { WmsFeatureInfoComponent } from '../wms-feature-info/wms-feature-info.component';
@@ -24,7 +25,7 @@ export class WmsMapHandler extends MapHandler {
         super(config);
     }
 
-    public createMap(mapId: string): void {
+    public createMap(mapId: string): Observable<void> {
         const layers = this.createBaseLayers(this.projection);
         let extent;
 
@@ -63,6 +64,7 @@ export class WmsMapHandler extends MapHandler {
 
         extent = extent ? extent : this.getDefaultExtent(this.projection);
         this.map.getView().fit(extent);
+        return of();
     }
 
     public activateFeatureInfo(): void {
