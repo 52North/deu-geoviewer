@@ -64,7 +64,7 @@ export class WmsMapHandler extends MapHandler {
 
         extent = extent ? extent : this.getDefaultExtent(this.projection);
         this.map.getView().fit(extent);
-        return of();
+        return of(undefined);
     }
 
     public activateFeatureInfo(): void {

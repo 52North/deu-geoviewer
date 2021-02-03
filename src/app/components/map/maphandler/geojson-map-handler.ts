@@ -59,7 +59,7 @@ export class GeoJsonMapHandler extends MapHandler {
         extent = extent ? extent : this.getDefaultExtent(projection);
         this.map.getView().fit(extent);
 
-        return of();
+        return of(undefined);
     }
 
     public activateFeatureInfo(): void {

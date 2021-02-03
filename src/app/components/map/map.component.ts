@@ -11,6 +11,7 @@ import {
 import { TileWMS } from 'ol/source';
 
 import { ConfigurationService } from '../../configuration/configuration.service';
+import { EmptyMapHandler } from './maphandler/empty-map-handler';
 import { FiwareMapHandler } from './maphandler/firware-map-handler';
 import { GeoJsonMapHandler } from './maphandler/geojson-map-handler';
 import { MapHandler } from './maphandler/map-handler';
@@ -116,7 +117,7 @@ export class MapComponent implements AfterViewInit, OnChanges {
     if (options instanceof FiwareOptions) {
       return new FiwareMapHandler(this.config, this.viewContainerRef, this.factoryResolver, options);
     }
-    throw new Error('No map handler found for the given options');
+    return new EmptyMapHandler(this.config);
   }
 
 }
