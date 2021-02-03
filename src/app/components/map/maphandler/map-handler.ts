@@ -5,7 +5,8 @@ import TileLayer from 'ol/layer/Tile';
 import { PROJECTIONS as EPSG_3857 } from 'ol/proj/epsg3857';
 import { PROJECTIONS as EPSG_4326 } from 'ol/proj/epsg4326';
 import Projection from 'ol/proj/Projection';
-import { OSM, TileArcGISRest } from 'ol/source';
+import { OSM, TileArcGISRest, WMTS } from 'ol/source';
+import WMTSTileGrid from 'ol/tilegrid/WMTS';
 import { Observable } from 'rxjs';
 
 import { ConfigurationService } from './../../../configuration/configuration.service';
@@ -78,6 +79,25 @@ export abstract class MapHandler {
                 case 'OSM':
                     layers.push(new TileLayer({
                         source: new OSM(),
+                        maxZoom: lc.maxZoom,
+                        minZoom: lc.minZoom
+                    }));
+                    break;
+                case 'WMTS':
+                    layers.push(new TileLayer({
+                        source: new WMTS({
+                            url: lc.url,
+                            matrixSet: lc.options.matrixSet,
+                            layer: '',
+                            style: 'default',
+                            requestEncoding: 'REST',
+                            format: 'png',
+                            tileGrid: new WMTSTileGrid({
+                                origin: lc.options.topLeft,
+                                resolutions: lc.options.resolutions,
+                                matrixIds: lc.options.resolutions.map((e: number, i: number) => i.toString())
+                            })
+                        }),
                         maxZoom: lc.maxZoom,
                         minZoom: lc.minZoom
                     }));

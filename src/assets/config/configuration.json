@@ -1,195 +1,293 @@
 {
-    "proxyUrl": "https://www.europeandataportal.eu/mapapps-proxy?",
-    "apiUrl": "https://www.europeandataportal.eu/data/api/",
-    "defaultMapExtent": [
-        {
-            "crs": "EPSG:4326",
-            "extent": [
-                -9.8814,
-                33.7852,
-                31.441,
-                61.7495
-            ]
-        },
-        {
-            "crs": "EPSG:3857",
-            "extent": [
-                -1100000,
-                4000000,
-                3500000,
-                8800000
-            ]
-        },
-        {
-            "crs": "EPSG:3035",
-            "extent": [
-                1896628,
-                1507846,
-                4662111,
-                6829874
-            ]
-        }
-    ],
-    "baseLayer": [
-        {
-            "type": "OSM",
-            "minZoom": 11
-        },
-        {
-            "type": "TileArcGIS",
-            "crs": "EPSG:4326",
-            "url": "https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CountriesEurope_4326/MapServer",
-            "maxZoom": 11
-        },
-        {
-            "type": "TileArcGIS",
-            "crs": "EPSG:4326",
-            "url": "https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CitiesRoadsRiversLakes_4326/MapServer",
-            "maxZoom": 11
-        },
-        {
-            "type": "TileArcGIS",
-            "crs": "EPSG:4326",
-            "url": "https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CityNamesEurope_4326/MapServer",
-            "maxZoom": 11
-        },
-        {
-            "type": "TileArcGIS",
-            "crs": "EPSG:3857",
-            "url": "https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CountriesEurope_3857/MapServer",
-            "maxZoom": 11
-        },
-        {
-            "type": "TileArcGIS",
-            "crs": "EPSG:3857",
-            "url": "https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CitiesRoadsRiversLakes_3857/MapServer",
-            "maxZoom": 11
-        },
-        {
-            "type": "TileArcGIS",
-            "crs": "EPSG:3857",
-            "url": "https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CityNamesEurope_3857/MapServer",
-            "maxZoom": 11
-        },
-        {
-            "type": "TileArcGIS",
-            "crs": "EPSG:3035",
-            "url": "https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CountriesEurope_3035/MapServer",
-            "maxZoom": 11
-        },
-        {
-            "type": "TileArcGIS",
-            "crs": "EPSG:3035",
-            "url": "https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CitiesRoadsRiversLakes_3035/MapServer",
-            "maxZoom": 11
-        },
-        {
-            "type": "TileArcGIS",
-            "crs": "EPSG:3035",
-            "url": "https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CityNamesEurope_3035/MapServer",
-            "maxZoom": 11
-        }
-    ],
-    "languages": [
-        {
-          "code": "bg",
-          "label": "Български (bg)"
-        },
-        {
-          "code": "cs",
-          "label": "čeština (cs)"
-        },
-        {
-          "code": "da",
-          "label": "dansk (da)"
-        },
-        {
-          "code": "de",
-          "label": "Deutsch (de)"
-        },
-        {
-          "code": "el",
-          "label": "Ελληνικά (el)"
-        },
-        {
-          "code": "en",
-          "label": "English (en)"
-        },
-        {
-          "code": "es",
-          "label": "español (es)"
-        },
-        {
-          "code": "et",
-          "label": "eesti (et)"
-        },
-        {
-          "code": "fr",
-          "label": "français (fr)"
-        },
-        {
-          "code": "ga",
-          "label": "Gaeilge (ga)"
-        },
-        {
-          "code": "hr",
-          "label": "Hrvatski (hr)"
-        },
-        {
-          "code": "hu",
-          "label": "Magyar (hu)"
-        },
-        {
-          "code": "it",
-          "label": "italiano (it)"
-        },
-        {
-          "code": "lt",
-          "label": "lietuvių (lt)"
-        },
-        {
-          "code": "lv",
-          "label": "latviešu (lv)"
-        },
-        {
-          "code": "mt",
-          "label": "Malti (mt)"
-        },
-        {
-          "code": "nl",
-          "label": "Nederlands (nl)"
-        },
-        {
-          "code": "pl",
-          "label": "polski (pl)"
-        },
-        {
-          "code": "pt",
-          "label": "português (pt)"
-        },
-        {
-          "code": "ro",
-          "label": "română (ro)"
-        },
-        {
-          "code": "sk",
-          "label": "slovenčina (sk)"
-        },
-        {
-          "code": "sl",
-          "label": "slovenščina (sl)"
-        },
-        {
-          "code": "fi",
-          "label": "suomi (fi)"
-        },
-        {
-          "code": "sv",
-          "label": "svenska (sv)"
-        },
-        {
-          "code": "no",
-          "label": "norsk (no)"
-        }
+  "proxyUrl": "https://edp.dev.52north.org/edp-mapapps-proxy?",
+  "apiUrl": "https://www.europeandataportal.eu/data/api/",
+  "defaultMapExtent": [
+    {
+      "crs": "EPSG:4326",
+      "extent": [
+        -9.8814,
+        33.7852,
+        31.441,
+        61.7495
       ]
+    },
+    {
+      "crs": "EPSG:3857",
+      "extent": [
+        -1100000,
+        4000000,
+        3500000,
+        8800000
+      ]
+    },
+    {
+      "crs": "EPSG:3035",
+      "extent": [
+        1896628,
+        1507846,
+        4662111,
+        6829874
+      ]
+    }
+  ],
+  "baseLayer": [
+    {
+      "type": "WMTS",
+      "crs": "EPSG:4326",
+      "url": "https://europa.eu/webtools/rest/gisco/maps/wmts/1.0.0/WMTSCapabilities.xml/wmts/OSMCartoComposite/{TileMatrixSet}/{TileMatrix}/{TileCol}/{TileRow}.png",
+      "options": {
+        "matrixSet": "EPSG4326",
+        "topLeft": [
+          -180,
+          90
+        ],
+        "resolutions": [
+          0.703125,
+          0.3515625,
+          0.17578125,
+          0.087890625,
+          0.0439453125,
+          0.02197265625,
+          0.010986328125,
+          0.0054931640625,
+          0.00274658203125,
+          0.00137329101562,
+          0.000686645507812,
+          0.000343322753906,
+          0.000171661376953,
+          8.58306884766e-05,
+          4.29153442383e-05,
+          2.14576721191e-05,
+          1.07288360596e-05,
+          5.36441802979e-06,
+          2.68220901489e-06
+        ]
+      },
+      "minZoom": 11
+    },
+    {
+      "type": "WMTS",
+      "crs": "EPSG:3857",
+      "url": "https://europa.eu/webtools/rest/gisco/maps/wmts/1.0.0/WMTSCapabilities.xml/wmts/OSMCartoComposite/{TileMatrixSet}/{TileMatrix}/{TileCol}/{TileRow}.png",
+      "options": {
+        "matrixSet": "EPSG3857",
+        "topLeft": [
+          -20037508.3428,
+          20037508.3428
+        ],
+        "resolutions": [
+          156543.033928,
+          78271.516964,
+          39135.758482,
+          19567.879241,
+          9783.9396205,
+          4891.96981025,
+          2445.98490513,
+          1222.99245256,
+          611.496226281,
+          305.748113141,
+          152.87405657,
+          76.4370282852,
+          38.2185141426,
+          19.1092570713,
+          9.55462853565,
+          4.77731426782,
+          2.38865713391,
+          1.19432856696,
+          0.597164283478
+        ]
+      },
+      "minZoom": 11
+    },
+    {
+      "type": "WMTS",
+      "crs": "EPSG:3035",
+      "url": "https://europa.eu/webtools/rest/gisco/maps/wmts/1.0.0/WMTSCapabilities.xml/wmts/OSMCartoComposite/{TileMatrixSet}/{TileMatrix}/{TileCol}/{TileRow}.png",
+      "options": {
+        "matrixSet": "EPSG3035",
+        "topLeft": [
+          0,
+          6000000.0
+        ],
+        "resolutions": [
+          156543.033928,
+          78271.516964,
+          39135.758482,
+          19567.879241,
+          9783.9396205,
+          4891.96981025,
+          2445.98490513,
+          1222.99245256,
+          611.496226281,
+          305.748113141,
+          152.87405657,
+          76.4370282852,
+          38.2185141426,
+          19.1092570713,
+          9.55462853565,
+          4.77731426782,
+          2.38865713391,
+          1.19432856696,
+          0.597164283478
+        ]
+      },
+      "minZoom": 11
+    },
+    {
+      "type": "TileArcGIS",
+      "crs": "EPSG:4326",
+      "url": "https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CountriesEurope_4326/MapServer",
+      "maxZoom": 11
+    },
+    {
+      "type": "TileArcGIS",
+      "crs": "EPSG:4326",
+      "url": "https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CitiesRoadsRiversLakes_4326/MapServer",
+      "maxZoom": 11
+    },
+    {
+      "type": "TileArcGIS",
+      "crs": "EPSG:4326",
+      "url": "https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CityNamesEurope_4326/MapServer",
+      "maxZoom": 11
+    },
+    {
+      "type": "TileArcGIS",
+      "crs": "EPSG:3857",
+      "url": "https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CountriesEurope_3857/MapServer",
+      "maxZoom": 11
+    },
+    {
+      "type": "TileArcGIS",
+      "crs": "EPSG:3857",
+      "url": "https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CitiesRoadsRiversLakes_3857/MapServer",
+      "maxZoom": 11
+    },
+    {
+      "type": "TileArcGIS",
+      "crs": "EPSG:3857",
+      "url": "https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CityNamesEurope_3857/MapServer",
+      "maxZoom": 11
+    },
+    {
+      "type": "TileArcGIS",
+      "crs": "EPSG:3035",
+      "url": "https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CountriesEurope_3035/MapServer",
+      "maxZoom": 11
+    },
+    {
+      "type": "TileArcGIS",
+      "crs": "EPSG:3035",
+      "url": "https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CitiesRoadsRiversLakes_3035/MapServer",
+      "maxZoom": 11
+    },
+    {
+      "type": "TileArcGIS",
+      "crs": "EPSG:3035",
+      "url": "https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CityNamesEurope_3035/MapServer",
+      "maxZoom": 11
+    }
+  ],
+  "languages": [
+    {
+      "code": "bg",
+      "label": "Български (bg)"
+    },
+    {
+      "code": "cs",
+      "label": "čeština (cs)"
+    },
+    {
+      "code": "da",
+      "label": "dansk (da)"
+    },
+    {
+      "code": "de",
+      "label": "Deutsch (de)"
+    },
+    {
+      "code": "el",
+      "label": "Ελληνικά (el)"
+    },
+    {
+      "code": "en",
+      "label": "English (en)"
+    },
+    {
+      "code": "es",
+      "label": "español (es)"
+    },
+    {
+      "code": "et",
+      "label": "eesti (et)"
+    },
+    {
+      "code": "fr",
+      "label": "français (fr)"
+    },
+    {
+      "code": "ga",
+      "label": "Gaeilge (ga)"
+    },
+    {
+      "code": "hr",
+      "label": "Hrvatski (hr)"
+    },
+    {
+      "code": "hu",
+      "label": "Magyar (hu)"
+    },
+    {
+      "code": "it",
+      "label": "italiano (it)"
+    },
+    {
+      "code": "lt",
+      "label": "lietuvių (lt)"
+    },
+    {
+      "code": "lv",
+      "label": "latviešu (lv)"
+    },
+    {
+      "code": "mt",
+      "label": "Malti (mt)"
+    },
+    {
+      "code": "nl",
+      "label": "Nederlands (nl)"
+    },
+    {
+      "code": "pl",
+      "label": "polski (pl)"
+    },
+    {
+      "code": "pt",
+      "label": "português (pt)"
+    },
+    {
+      "code": "ro",
+      "label": "română (ro)"
+    },
+    {
+      "code": "sk",
+      "label": "slovenčina (sk)"
+    },
+    {
+      "code": "sl",
+      "label": "slovenščina (sl)"
+    },
+    {
+      "code": "fi",
+      "label": "suomi (fi)"
+    },
+    {
+      "code": "sv",
+      "label": "svenska (sv)"
+    },
+    {
+      "code": "no",
+      "label": "norsk (no)"
+    }
+  ]
 }
