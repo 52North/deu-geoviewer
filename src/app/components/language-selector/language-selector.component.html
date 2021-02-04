@@ -1,5 +1,5 @@
 <div class="input-group">
-  <select class="custom-select" (change)="changeLang($event)">
+  <select class="form-control" (change)="changeLang($event)">
     <option [value]="lang.code" [selected]="currentLangCode === lang.code" *ngFor="let lang of languages">{{lang.label}}
     </option>
   </select>
