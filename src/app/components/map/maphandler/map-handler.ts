@@ -5,9 +5,9 @@ import TileLayer from 'ol/layer/Tile';
 import { PROJECTIONS as EPSG_3857 } from 'ol/proj/epsg3857';
 import { PROJECTIONS as EPSG_4326 } from 'ol/proj/epsg4326';
 import Projection from 'ol/proj/Projection';
-import { OSM, TileArcGISRest, WMTS } from 'ol/source';
+import { TileArcGISRest, TileImage, WMTS } from 'ol/source';
 import WMTSTileGrid from 'ol/tilegrid/WMTS';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 import { ConfigurationService } from './../../../configuration/configuration.service';
 import { LegendEntry, MapProjection } from './model';
@@ -19,6 +19,8 @@ export abstract class MapHandler {
     protected overlay?: Overlay;
 
     protected legendEntries: LegendEntry[] = [];
+
+    public mapLoading: Subject<boolean> = new Subject<boolean>();
 
     constructor(
         protected config: ConfigurationService
@@ -76,35 +78,32 @@ export abstract class MapHandler {
         const layerConfs = this.config.configuration.baseLayer.filter(e => !e.crs || e.crs === crsCode);
         layerConfs.forEach(lc => {
             switch (lc.type) {
-                case 'OSM':
-                    layers.push(new TileLayer({
-                        source: new OSM(),
-                        maxZoom: lc.maxZoom,
-                        minZoom: lc.minZoom
-                    }));
-                    break;
                 case 'WMTS':
+                    const wmtsSource = new WMTS({
+                        url: lc.url,
+                        matrixSet: lc.options.matrixSet,
+                        layer: '',
+                        style: 'default',
+                        requestEncoding: 'REST',
+                        format: 'png',
+                        tileGrid: new WMTSTileGrid({
+                            origin: lc.options.topLeft,
+                            resolutions: lc.options.resolutions,
+                            matrixIds: lc.options.resolutions.map((e: number, i: number) => i.toString())
+                        })
+                    });
+                    this.addloadingEvents(wmtsSource);
                     layers.push(new TileLayer({
-                        source: new WMTS({
-                            url: lc.url,
-                            matrixSet: lc.options.matrixSet,
-                            layer: '',
-                            style: 'default',
-                            requestEncoding: 'REST',
-                            format: 'png',
-                            tileGrid: new WMTSTileGrid({
-                                origin: lc.options.topLeft,
-                                resolutions: lc.options.resolutions,
-                                matrixIds: lc.options.resolutions.map((e: number, i: number) => i.toString())
-                            })
-                        }),
+                        source: wmtsSource,
                         maxZoom: lc.maxZoom,
                         minZoom: lc.minZoom
                     }));
                     break;
                 case 'TileArcGIS':
+                    const source = new TileArcGISRest({ url: lc.url });
+                    this.addloadingEvents(source);
                     layers.push(new TileLayer({
-                        source: new TileArcGISRest({ url: lc.url }),
+                        source,
                         maxZoom: lc.maxZoom,
                         minZoom: lc.minZoom
                     }));
@@ -121,6 +120,29 @@ export abstract class MapHandler {
         } else {
             throw new Error(`No default extent configured for ${projection.getCode()}`);
         }
+    }
+
+    private addloadingEvents(source: TileImage) {
+        let counter = 0;
+        source.on('tileloadstart', () => counter = this.increaseCounter(counter));
+        source.on('tileloadend', () => counter = this.decreaseCounter(counter));
+        source.on('tileloaderror', () => counter = this.decreaseCounter(counter));
+    }
+
+    private decreaseCounter(counter: number) {
+        counter--;
+        if (counter === 0) {
+            this.mapLoading.next(false);
+        }
+        return counter;
+    }
+
+    private increaseCounter(counter: number) {
+        if (counter === 0) {
+            this.mapLoading.next(true);
+        }
+        counter++;
+        return counter;
     }
 
     private createPopup(): void {

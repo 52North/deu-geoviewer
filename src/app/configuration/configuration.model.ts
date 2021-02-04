@@ -9,7 +9,7 @@ export type Configuration = {
     }[];
     baseLayer: {
         crs?: string;
-        type: 'OSM' | 'TileArcGIS' | 'WMTS';
+        type: 'TileArcGIS' | 'WMTS';
         url?: string;
         options?: any;
         minZoom?: number;

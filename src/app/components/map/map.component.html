@@ -24,6 +24,8 @@
 
 <div class="map" [attr.id]="mapId">
 
+  <div class="spinner-border loading-spinner" *ngIf="mapLoading"> </div>
+
   <div class="zoom-buttons btn-group-vertical btn-group-sm">
     <button type="button" class="btn btn-light zoom-in" (click)="zoomIn()"
       title="{{'other-features.zoom-in' | translate}}">

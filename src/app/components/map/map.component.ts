@@ -27,6 +27,8 @@ export class MapComponent implements AfterViewInit, OnChanges {
 
   @Input() options?: MapOptions;
 
+  public mapLoading!: boolean;
+
   public mapId = 'mapid';
 
   @ViewChild('dynamic', { read: ViewContainerRef }) viewContainerRef!: ViewContainerRef;
@@ -96,6 +98,7 @@ export class MapComponent implements AfterViewInit, OnChanges {
   private initMap(): void {
     if (this.options) {
       this.mapHandler = this.findMapHandler(this.options);
+      this.mapHandler.mapLoading.subscribe(ml => this.mapLoading = ml);
       this.mapHandler.createMap(this.mapId).subscribe(() => {
         this.mapHandler?.activateFeatureInfo();
         const entries = this.mapHandler?.getLegendEntries();

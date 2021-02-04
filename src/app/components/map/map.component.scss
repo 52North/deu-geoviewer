@@ -5,6 +5,12 @@
         height: 100%;
         position: relative;
 
+        .loading-spinner {
+            position: absolute;
+            z-index: 10;
+            margin: 10px;
+        }
+
         .feature-buttons {
             position: absolute;
             z-index: 10;
