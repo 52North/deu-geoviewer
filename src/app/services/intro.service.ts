@@ -10,10 +10,13 @@ const INITIAL_INTRO_DISPLAYED_STORAGE_KEY = 'INITIAL_INTRO_DISPLAYED_STORAGE_KEY
 @Injectable({
   providedIn: 'root'
 })
-export class IntroService {
+export class TutorialService {
 
-  private introConfig: introJs.Options = {
+  private tutorialConfig: introJs.Options = {
     exitOnOverlayClick: false,
+    nextLabel: this.translate.instant('tutorial.next'),
+    prevLabel: this.translate.instant('tutorial.back'),
+    doneLabel: this.translate.instant('tutorial.done'),
     steps: [
       {
         intro: this.translate.instant('tutorial.step1'),
@@ -44,26 +47,40 @@ export class IntroService {
     private translate: TranslateService,
     private welcomeScreen: WelcomeScreenService
   ) {
-    this.welcomeScreen.welcomeScreenClosed.pipe(first()).subscribe(res => this.initionalIntroDisplay());
+    this.welcomeScreen.welcomeScreenClosed.pipe(first()).subscribe(res => this.initionalTutorialDisplay());
   }
 
-  public initionalIntroDisplay(): void {
+  public initionalTutorialDisplay(): void {
     if (localStorage.getItem(INITIAL_INTRO_DISPLAYED_STORAGE_KEY) !== 'true') {
-      this.openIntro();
+      this.openTutorial();
       localStorage.setItem(INITIAL_INTRO_DISPLAYED_STORAGE_KEY, 'true');
     }
   }
 
-  public openIntro(): void {
+  public openTutorial(): void {
     introJs()
       .onafterchange(() => {
-        document.querySelectorAll('.introjs-button').forEach(e => {
-          e.classList.add('btn');
-          e.classList.add('btn-light');
-          return e.classList.remove('introjs-button');
-        });
+        this.adjustCssClassForButtons();
+        this.adjustAbortButton();
       })
-      .setOptions(this.introConfig)
+      .setOptions(this.tutorialConfig)
       .start();
   }
+
+  private adjustCssClassForButtons(): void {
+    document.querySelectorAll('.introjs-button').forEach(e => {
+      e.classList.add('btn');
+      e.classList.add('btn-light');
+      return e.classList.remove('introjs-button');
+    });
+  }
+
+  private adjustAbortButton(): void {
+    document.querySelectorAll('.introjs-skipbutton').forEach(e => {
+      e.setAttribute('title', this.translate.instant('tutorial.skip'));
+    });
+  }
+
 }
+
+
