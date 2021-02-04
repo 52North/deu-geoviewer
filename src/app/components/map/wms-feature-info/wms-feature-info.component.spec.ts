@@ -1,3 +1,4 @@
+import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { WmsFeatureInfoComponent } from './wms-feature-info.component';
@@ -8,9 +9,13 @@ describe('WmsFeatureInfoComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ WmsFeatureInfoComponent ]
-    })
-    .compileComponents();
+      declarations: [
+        WmsFeatureInfoComponent
+      ],
+      imports: [
+        HttpClientModule
+      ]
+    }).compileComponents();
   });
 
   beforeEach(() => {

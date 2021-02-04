@@ -122,14 +122,14 @@ export abstract class MapHandler {
         }
     }
 
-    private addloadingEvents(source: TileImage) {
+    private addloadingEvents(source: TileImage): void {
         let counter = 0;
         source.on('tileloadstart', () => counter = this.increaseCounter(counter));
         source.on('tileloadend', () => counter = this.decreaseCounter(counter));
         source.on('tileloaderror', () => counter = this.decreaseCounter(counter));
     }
 
-    private decreaseCounter(counter: number) {
+    private decreaseCounter(counter: number): number {
         counter--;
         if (counter === 0) {
             this.mapLoading.next(false);
@@ -137,7 +137,7 @@ export abstract class MapHandler {
         return counter;
     }
 
-    private increaseCounter(counter: number) {
+    private increaseCounter(counter: number): number {
         if (counter === 0) {
             this.mapLoading.next(true);
         }

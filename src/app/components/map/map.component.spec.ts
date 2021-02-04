@@ -1,4 +1,7 @@
+import { OverlayModule } from '@angular/cdk/overlay';
+import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { MapComponent } from './map.component';
 
@@ -8,9 +11,15 @@ describe('MapComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MapComponent ]
-    })
-    .compileComponents();
+      declarations: [
+        MapComponent
+      ],
+      imports: [
+        HttpClientModule,
+        TranslateModule.forRoot(),
+        OverlayModule
+      ]
+    }).compileComponents();
   });
 
   beforeEach(() => {

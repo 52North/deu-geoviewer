@@ -3,7 +3,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAccordionModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
@@ -37,9 +37,14 @@ export function initApplication(configService: ConfigurationService, translate: 
   });
 }
 
-export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
-  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
-}
+export const translateConfig = {
+  defaultLanguage: 'en',
+  loader: {
+    provide: TranslateLoader,
+    useFactory: (http: HttpClient) => new TranslateHttpLoader(http, './assets/i18n/', '.json'),
+    deps: [HttpClient]
+  }
+};
 
 @NgModule({
   declarations: [
@@ -59,15 +64,9 @@ export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    NgbModule,
-    TranslateModule.forRoot({
-      defaultLanguage: 'en',
-      loader: {
-        provide: TranslateLoader,
-        useFactory: (createTranslateLoader),
-        deps: [HttpClient]
-      }
-    }),
+    NgbModalModule,
+    NgbAccordionModule,
+    TranslateModule.forRoot(translateConfig),
     OverlayModule,
   ],
   providers: [
