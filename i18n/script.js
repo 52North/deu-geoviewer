@@ -21,7 +21,7 @@ const result = excelToJson({
     K: 'hr',
     L: 'hu',
     M: 'pt',
-    N: 'cz',
+    N: 'cs',
     O: 'fi',
     P: 'ro',
     Q: 'bg',
@@ -37,7 +37,7 @@ const result = excelToJson({
   }
 });
 
-const langs = ['en', 'de', 'es', 'fr', 'it', 'pl', 'nl', 'sk', 'sv', 'hr', 'hu', 'pt', 'cz', 'fi', 'ro', 'bg', 'el', 'mt', 'da', 'et', 'ga', 'lt', 'lv', 'sl', 'no'];
+const langs = ['en', 'de', 'es', 'fr', 'it', 'pl', 'nl', 'sk', 'sv', 'hr', 'hu', 'pt', 'cs', 'fi', 'ro', 'bg', 'el', 'mt', 'da', 'et', 'ga', 'lt', 'lv', 'sl', 'no'];
 
 langs.forEach(lang => {
 //   const lang = 'en';

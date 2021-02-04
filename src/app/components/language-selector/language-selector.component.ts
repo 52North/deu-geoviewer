@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 
 import { ConfigurationService } from '../../configuration/configuration.service';
@@ -22,14 +22,17 @@ export class LanguageSelectorComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params => this.setCurrentLang(params));
+    this.currentLangCode = this.translate.currentLang;
   }
 
   public changeLang(event: Event): void {
     const code = (event.target as HTMLSelectElement).value;
     this.currentLangCode = code;
     this.translate.use(code);
+    this.setLangCodeInUrl(code);
+  }
 
+  private setLangCodeInUrl(code: string): void {
     this.route.queryParams.subscribe(res => {
       this.router.navigate(['.'], {
         relativeTo: this.route,
@@ -40,10 +43,6 @@ export class LanguageSelectorComponent implements OnInit {
         skipLocationChange: true
       });
     });
-  }
-
-  private setCurrentLang(params: Params): void {
-    this.currentLangCode = this.translate.currentLang || this.translate.getDefaultLang();
   }
 
 }
