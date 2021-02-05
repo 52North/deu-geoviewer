@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
+
+
 @Component({
-  selector: 'app-no-service-available',
-  templateUrl: './no-service-available.component.html',
-  styleUrls: ['./no-service-available.component.scss']
+  selector: 'app-error',
+  templateUrl: './error.component.html',
+  styleUrls: ['./error.component.scss']
 })
-export class NoServiceAvailableComponent implements OnInit {
+export class ErrorComponent implements OnInit {
 
   constructor(
     public modal: NgbActiveModal

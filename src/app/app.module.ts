@@ -13,8 +13,8 @@ import { LanguageSelectorComponent } from './components/language-selector/langua
 import { FeatureInfoPopupComponent } from './components/map/feature-info-popup/feature-info-popup.component';
 import { MapComponent } from './components/map/map.component';
 import { WmsFeatureInfoComponent } from './components/map/wms-feature-info/wms-feature-info.component';
+import { ErrorComponent } from './components/modals/error/error.component';
 import { LoadingDatasetComponent } from './components/modals/loading-dataset/loading-dataset.component';
-import { NoServiceAvailableComponent } from './components/modals/no-service-available/no-service-available.component';
 import { WelcomeComponent } from './components/modals/welcome/welcome.component';
 import { Configuration } from './configuration/configuration.model';
 import { ConfigurationService } from './configuration/configuration.service';
@@ -55,7 +55,7 @@ export const translateConfig = {
     LoadingDatasetComponent,
     MapComponent,
     MapViewComponent,
-    NoServiceAvailableComponent,
+    ErrorComponent,
     WelcomeComponent,
     WmsFeatureInfoComponent,
   ],

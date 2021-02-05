@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgbActiveModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { NoServiceAvailableComponent } from './no-service-available.component';
+import { ErrorComponent } from './error.component';
 
-describe('NoServiceAvailableComponent', () => {
-  let component: NoServiceAvailableComponent;
-  let fixture: ComponentFixture<NoServiceAvailableComponent>;
+describe('ErrorComponent', () => {
+  let component: ErrorComponent;
+  let fixture: ComponentFixture<ErrorComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [
-        NoServiceAvailableComponent
+        ErrorComponent
       ],
       imports: [
         NgbModalModule
@@ -22,7 +22,7 @@ describe('NoServiceAvailableComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(NoServiceAvailableComponent);
+    fixture = TestBed.createComponent(ErrorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

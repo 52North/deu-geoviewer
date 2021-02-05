@@ -1,4 +1,3 @@
-import { FiwareOptions } from './../../components/map/maphandler/model';
 import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { Component, OnInit } from '@angular/core';
@@ -6,10 +5,11 @@ import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { GeoJSONOptions, MapOptions, WmsOptions } from '../../components/map/maphandler/model';
+import { ErrorComponent } from '../../components/modals/error/error.component';
 import { LoadingDatasetComponent } from '../../components/modals/loading-dataset/loading-dataset.component';
-import { NoServiceAvailableComponent } from '../../components/modals/no-service-available/no-service-available.component';
 import { DatasetType, parseDatasetType } from '../../model';
 import { DatasetService } from '../../services/dataset.service';
+import { FiwareOptions } from './../../components/map/maphandler/model';
 import { WelcomeScreenService } from './../../components/modals/welcome/welcome.component';
 import { TutorialService } from './../../services/intro.service';
 import { WmsService } from './../../services/wms.service';
@@ -90,7 +90,7 @@ export class MapViewComponent implements OnInit {
   private serviceNoAvailable(): void {
     this.hideLoading();
     this.mapOptions = new MapOptions();
-    const modalRef = this.modalService.open(NoServiceAvailableComponent, { centered: true });
+    const modalRef = this.modalService.open(ErrorComponent, { centered: true });
   }
 
   private showloading(): void {
