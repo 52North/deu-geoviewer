@@ -57,5 +57,6 @@ export class WelcomeComponent {
 
   close(): void {
     this.closeScreen.next(this.initialHide);
+    this.closeScreen.complete();
   }
 }

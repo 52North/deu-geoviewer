@@ -1,12 +1,17 @@
-<div class="modal-header">
-  <h4 class="modal-title">The requested service is not available</h4>
-  <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>
-<div class="modal-body">
-  <p>Body goes here</p>
-</div>
-<div class="modal-footer">
-  <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+<div class="shadow-lg">
+  <div class="modal-body">
+    <h4>{{ 'error.general.serviceNotAvailable' | translate }}</h4>
+    <p>{{ 'error.general.invalidResource' | translate }} {{'error.general.errorSource' | translate}}</p>
+    <p class="bold">{{errorMessage}}</p>
+    <p class="bold">{{ 'error.general.requestedUrl' | translate }}: <a href="{{requestedUrl}}" target="_blank">{{requestedUrl}}</a></p>
+    <p>{{ 'error.general.weWillContactProvider' | translate }}</p>
+    <p>{{ 'error.general.technicalSupport' | translate }}</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light"
+      (click)="createTicket()">{{ 'error.general.technicalSupportCreateTicket' | translate }}
+    </button>
+    <button type="button" class="btn btn-light" (click)="close.complete()">{{ 'error.general.closeButton' | translate }}
+    </button>
+  </div>
 </div>

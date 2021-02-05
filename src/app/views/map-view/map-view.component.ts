@@ -2,10 +2,9 @@ import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { GeoJSONOptions, MapOptions, WmsOptions } from '../../components/map/maphandler/model';
-import { ErrorComponent } from '../../components/modals/error/error.component';
+import { EdpError, ErrorScreenService } from '../../components/modals/error/error.component';
 import { LoadingDatasetComponent } from '../../components/modals/loading-dataset/loading-dataset.component';
 import { DatasetType, parseDatasetType } from '../../model';
 import { DatasetService } from '../../services/dataset.service';
@@ -28,10 +27,10 @@ export class MapViewComponent implements OnInit {
   constructor(
     private datasetSrvc: DatasetService,
     private route: ActivatedRoute,
-    private modalService: NgbModal,
     private wmsSrvc: WmsService,
     private welcomeSrvc: WelcomeScreenService,
     private tutorialSrvc: TutorialService,
+    private errorSrvc: ErrorScreenService,
     public overlay: Overlay
   ) { }
 
@@ -65,7 +64,7 @@ export class MapViewComponent implements OnInit {
               this.mapOptions = new GeoJSONOptions(geojson);
               this.hideLoading();
             },
-            error => this.serviceNoAvailable()
+            error => this.handleError(error)
           );
         }
         if (dataset.type === DatasetType.WMS) {
@@ -75,7 +74,7 @@ export class MapViewComponent implements OnInit {
               this.mapOptions = new WmsOptions(layerList);
               this.hideLoading();
             },
-            error => this.serviceNoAvailable()
+            error => this.handleError(error)
           );
         }
         if (dataset.type === DatasetType.FIWARE) {
@@ -83,14 +82,14 @@ export class MapViewComponent implements OnInit {
           this.hideLoading();
         }
       },
-      error => this.serviceNoAvailable()
+      error => this.handleError(error)
     );
   }
 
-  private serviceNoAvailable(): void {
+  private handleError(error: EdpError): void {
     this.hideLoading();
     this.mapOptions = new MapOptions();
-    const modalRef = this.modalService.open(ErrorComponent, { centered: true });
+    this.errorSrvc.openErrorScreen(error);
   }
 
   private showloading(): void {

@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import WMSCapabilities from 'ol/format/WMSCapabilities';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
+import { EdpError } from '../components/modals/error/error.component';
 import { ConfigurationService } from '../configuration/configuration.service';
 
 interface InternalWMSLayer {
@@ -93,7 +94,9 @@ export class WmsService {
 
   private getCapabilities(url: string): Observable<any> {
     const wmsRequesturl = `${this.config.configuration.proxyUrl}${this.cleanUpWMSUrl(url)}?request=GetCapabilities&service=wms&version=1.3.0`;
-    return this.http.get(wmsRequesturl, { responseType: 'text' })
-      .pipe(map(res => new WMSCapabilities().read(res)));
+    return this.http.get(wmsRequesturl, { responseType: 'text' }).pipe(
+      map(res => new WMSCapabilities().read(res)),
+      catchError(err => throwError(new EdpError(url, err)))
+    );
   }
 }
