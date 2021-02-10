@@ -3,16 +3,16 @@
         height: 100%;
         position: relative;
 
-        .welcome-button {
-            position: absolute;
-            bottom: 10px;
-            right: 60px;
-        }
-
-        .intro-button {
+        .controls {
             position: absolute;
             bottom: 10px;
             right: 10px;
+
+            .btn {
+                +.btn {
+                    margin-left: 10px;
+                }
+            }
         }
     }
 }

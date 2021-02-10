@@ -1,9 +1,14 @@
 <div class="wrapper">
   <app-map [options]="mapOptions"></app-map>
-  <button type="button" class="btn btn-light welcome-button" (click)="openWelcome()">
-    <i class="bi bi-info"></i>
-  </button>
-  <button type="button" class="btn btn-light intro-button" (click)="openTutorial()">
-    <i class="bi bi-question"></i>
-  </button>
+  <div class="controls">
+    <button type="button" class="btn btn-light" (click)="openWelcome()">
+      <i class="bi bi-info"></i>
+    </button>
+    <button type="button" class="btn btn-light" (click)="openTutorial()">
+      <i class="bi bi-question"></i>
+    </button>
+    <button type="button" class="btn btn-light" (click)="openLegalDisclaimer()">
+      {{ 'functions.layer' | translate }}
+    </button>
+  </div>
 </div>

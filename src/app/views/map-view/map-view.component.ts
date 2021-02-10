@@ -4,15 +4,16 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { GeoJSONOptions, MapOptions, WmsOptions } from '../../components/map/maphandler/model';
-import { EdpError } from '../../services/error-handling/model';
+import { LegalDisclaimerService } from '../../components/modals/legal-disclaimer/legal-disclaimer.component';
 import { LoadingDatasetComponent } from '../../components/modals/loading-dataset/loading-dataset.component';
 import { DatasetType, parseDatasetType } from '../../model';
 import { DatasetService } from '../../services/dataset.service';
+import { GeneralErrorHandler } from '../../services/error-handling/general-error-handler.service';
+import { EdpError } from '../../services/error-handling/model';
 import { FiwareOptions } from './../../components/map/maphandler/model';
 import { WelcomeScreenService } from './../../components/modals/welcome/welcome.component';
 import { TutorialService } from './../../services/intro.service';
 import { WmsService } from './../../services/wms.service';
-import { GeneralErrorHandler } from '../../services/error-handling/general-error-handler.service';
 
 @Component({
   selector: 'app-map-view',
@@ -32,6 +33,7 @@ export class MapViewComponent implements OnInit {
     private welcomeSrvc: WelcomeScreenService,
     private tutorialSrvc: TutorialService,
     private errorSrvc: GeneralErrorHandler,
+    private legalDisclaimerSrvc: LegalDisclaimerService,
     public overlay: Overlay
   ) { }
 
@@ -52,6 +54,10 @@ export class MapViewComponent implements OnInit {
 
   public openTutorial(): void {
     this.tutorialSrvc.openTutorial();
+  }
+
+  public openLegalDisclaimer(): void {
+    this.legalDisclaimerSrvc.openOverlay();
   }
 
   private loadDataset(id: string, type: string): void {

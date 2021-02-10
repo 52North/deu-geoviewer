@@ -14,6 +14,7 @@ import { FeatureInfoPopupComponent } from './components/map/feature-info-popup/f
 import { MapComponent } from './components/map/map.component';
 import { WmsFeatureInfoComponent } from './components/map/wms-feature-info/wms-feature-info.component';
 import { ErrorComponent } from './components/modals/error/error.component';
+import { LegalDisclaimerComponent } from './components/modals/legal-disclaimer/legal-disclaimer.component';
 import { LoadingDatasetComponent } from './components/modals/loading-dataset/loading-dataset.component';
 import { WelcomeComponent } from './components/modals/welcome/welcome.component';
 import { Configuration } from './configuration/configuration.model';
@@ -50,13 +51,14 @@ export const translateConfig = {
 @NgModule({
   declarations: [
     AppComponent,
+    ErrorComponent,
     FeatureInfoPopupComponent,
     LanguageSelectorComponent,
+    LegalDisclaimerComponent,
     LinkViewComponent,
     LoadingDatasetComponent,
     MapComponent,
     MapViewComponent,
-    ErrorComponent,
     WelcomeComponent,
     WmsFeatureInfoComponent,
   ],
