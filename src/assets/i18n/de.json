@@ -41,7 +41,7 @@
   "feature-info.center": "",
   "feature-info.feature": "",
   "error.general.serviceNotAvailable": "Der angeforderte Dienst ist nicht verfügbar",
-  "error.general.serviceNotSupported": "Der angeforderte Dienst wird nicht unterst\\u00fctzt",
+  "error.general.serviceNotSupported": "Der angeforderte Dienst wird nicht unterstützt",
   "error.general.invalidResource": "Eine ungültige Ressource wurde unter der angegebenen URL gefunden",
   "error.general.unsupportedResource": "Eine nicht unterstützte Ressource wurde unter der angegebenen URL gefunden",
   "error.general.errorSource": "Die folgende Fehlerquelle wurde festgestellt",

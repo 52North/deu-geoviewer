@@ -40,10 +40,11 @@ const result = excelToJson({
 const langs = ['en', 'de', 'es', 'fr', 'it', 'pl', 'nl', 'sk', 'sv', 'hr', 'hu', 'pt', 'cs', 'fi', 'ro', 'bg', 'el', 'mt', 'da', 'et', 'ga', 'lt', 'lv', 'sl', 'no'];
 
 langs.forEach(lang => {
-//   const lang = 'en';
   const translation = {};
   result.Sheet1.forEach(row => {
     translation[row.context] = row[lang] || '';
+    translation[row.context] = translation[row.context].replace(/%(?![0-9][0-9a-fA-F]+)/g, '%25');
+    translation[row.context] = decodeURIComponent(JSON.parse(`"${translation[row.context]}"`));
   })
   const langstr = JSON.stringify(translation, null, 2);
   fs.writeFile(`../src/assets/i18n/${lang}.json`, langstr, 'utf8', () => console.log(`wrote file for ${lang}`))

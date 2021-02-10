@@ -41,7 +41,7 @@
   "feature-info.center": "",
   "feature-info.feature": "",
   "error.general.serviceNotAvailable": "Żądany serwis jest niedostępny",
-  "error.general.serviceNotSupported": "\\u017b\\u0105dany serwis jest nieobs\\u0142ugiwany",
+  "error.general.serviceNotSupported": "Żądany serwis jest nieobsługiwany",
   "error.general.invalidResource": "Pod podanym adresem URL znaleziono nieprawidłowe zasoby",
   "error.general.unsupportedResource": "Pod podanym adresem URL znaleziono nieobsługiwane zasoby",
   "error.general.errorSource": "Stwierdzono następujące źródło błędu",
