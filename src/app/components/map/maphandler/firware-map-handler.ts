@@ -1,5 +1,5 @@
 import { HttpClient, HttpXhrBackend } from '@angular/common/http';
-import { ComponentFactoryResolver, ViewContainerRef } from '@angular/core';
+import { ComponentFactoryResolver, ComponentRef, ViewContainerRef } from '@angular/core';
 import { Map, View } from 'ol';
 import { pointerMove } from 'ol/events/condition';
 import Feature, { FeatureLike } from 'ol/Feature';
@@ -10,12 +10,13 @@ import Projection from 'ol/proj/Projection';
 import VectorSource from 'ol/source/Vector';
 import { Circle as CircleStyle, Style } from 'ol/style';
 import Fill from 'ol/style/Fill';
-import { interval, Observable, throwError } from 'rxjs';
+import { interval, Observable, Subscription, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
 import { ConfigurationService } from '../../../configuration/configuration.service';
 import { NotAvailableError } from '../../../services/error-handling/model';
 import { FeatureInfoPopupComponent } from '../feature-info-popup/feature-info-popup.component';
+import { CounterComponent } from './../counter/counter.component';
 import { MapHandler } from './map-handler';
 import { FiwareOptions, MapProjection } from './model';
 
@@ -38,10 +39,13 @@ export class FiwareMapHandler extends MapHandler {
 
     private counter = 0;
     private secondsTillReload = 60;
+    private counterComponent!: ComponentRef<CounterComponent>;
+    private intervalSubscription!: Subscription;
 
     constructor(
         protected config: ConfigurationService,
-        private viewContainerRef: ViewContainerRef,
+        private popupContainerRef: ViewContainerRef,
+        private dynamicContainerRef: ViewContainerRef,
         private factoryResolver: ComponentFactoryResolver,
         private options: FiwareOptions,
     ) {
@@ -49,15 +53,21 @@ export class FiwareMapHandler extends MapHandler {
     }
 
     public createMap(mapId: string): Observable<void> {
-        interval(1000).pipe().subscribe(() => {
+        this.intervalSubscription = interval(1000).pipe().subscribe(() => {
             this.counter++;
-            // console.log(`${this.secondsTillReload - this.counter} seconds till reload`);
+            this.setCounterView(this.secondsTillReload - this.counter);
             if (this.counter >= this.secondsTillReload) {
                 this.counter = 0;
                 this.fetchData().subscribe(res => this.updateData(res));
             }
         });
         return this.fetchData().pipe(map(res => this.initMap(mapId, res)));
+    }
+
+    public mapViewDestroyed(): void {
+        if (this.intervalSubscription) {
+            this.intervalSubscription.unsubscribe();
+        }
     }
 
     private fetchData(): Observable<Feature[]> {
@@ -182,13 +192,22 @@ export class FiwareMapHandler extends MapHandler {
                 const properties = evt.selected[0].getKeys()
                     .filter(e => e !== 'geometry')
                     .map(e => ({ key: e, value: evt.selected[0].get(e) }));
-                this.viewContainerRef.clear();
+                this.popupContainerRef.clear();
                 const factory = this.factoryResolver.resolveComponentFactory(FeatureInfoPopupComponent);
-                const component = factory.create(this.viewContainerRef.injector);
+                const component = factory.create(this.popupContainerRef.injector);
                 component.instance.properties = properties;
-                this.viewContainerRef.insert(component.hostView);
+                this.popupContainerRef.insert(component.hostView);
             }
         }
+    }
+
+    private setCounterView(count: number): void {
+        if (!this.counterComponent) {
+            const factory = this.factoryResolver.resolveComponentFactory(CounterComponent);
+            this.counterComponent = factory.create(this.popupContainerRef.injector);
+            this.dynamicContainerRef.insert(this.counterComponent.hostView);
+        }
+        this.counterComponent.instance.count = count;
     }
 
 }

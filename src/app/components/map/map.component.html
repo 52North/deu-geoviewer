@@ -49,6 +49,8 @@
     </button>
   </div>
 
+  <ng-template #dynamic></ng-template>
+
 </div>
 
 <div id="popup" class="ol-popup">
@@ -56,6 +58,6 @@
     <i class="bi bi-x" (click)="closePopup()"></i>
   </div>
   <div class="content">
-    <ng-template #dynamic></ng-template>
+    <ng-template #popupContent></ng-template>
   </div>
 </div>

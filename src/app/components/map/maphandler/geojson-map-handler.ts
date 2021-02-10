@@ -63,6 +63,8 @@ export class GeoJsonMapHandler extends MapHandler {
         return of(undefined);
     }
 
+    public mapViewDestroyed(): void { }
+
     public activateFeatureInfo(): void {
         if (this.vectorLayer) {
             this.clickSelectGeojsonFeature = new Select({ layers: [this.vectorLayer] });

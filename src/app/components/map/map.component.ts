@@ -4,6 +4,7 @@ import {
   ComponentFactoryResolver,
   Input,
   OnChanges,
+  OnDestroy,
   SimpleChanges,
   ViewChild,
   ViewContainerRef,
@@ -23,7 +24,7 @@ import { WmsMapHandler } from './maphandler/wms-map-handler';
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss']
 })
-export class MapComponent implements AfterViewInit, OnChanges {
+export class MapComponent implements AfterViewInit, OnChanges, OnDestroy {
 
   @Input() options?: MapOptions;
 
@@ -31,7 +32,9 @@ export class MapComponent implements AfterViewInit, OnChanges {
 
   public mapId = 'mapid';
 
-  @ViewChild('dynamic', { read: ViewContainerRef }) viewContainerRef!: ViewContainerRef;
+  @ViewChild('popupContent', { read: ViewContainerRef }) popupContentContainerRef!: ViewContainerRef;
+
+  @ViewChild('dynamic', { read: ViewContainerRef }) dynamicContainerRef!: ViewContainerRef
 
   // ui flags
   public legendOpen = false;
@@ -45,6 +48,12 @@ export class MapComponent implements AfterViewInit, OnChanges {
     private factoryResolver: ComponentFactoryResolver,
     private config: ConfigurationService,
   ) { }
+
+  ngOnDestroy(): void {
+    if (this.mapHandler) {
+      this.mapHandler.mapViewDestroyed();
+    }
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes && changes.options) {
@@ -112,13 +121,13 @@ export class MapComponent implements AfterViewInit, OnChanges {
 
   private findMapHandler(options: MapOptions): MapHandler {
     if (options instanceof WmsOptions) {
-      return new WmsMapHandler(this.config, this.viewContainerRef, this.factoryResolver, options);
+      return new WmsMapHandler(this.config, this.popupContentContainerRef, this.factoryResolver, options);
     }
     if (options instanceof GeoJSONOptions) {
-      return new GeoJsonMapHandler(this.config, this.viewContainerRef, this.factoryResolver, options);
+      return new GeoJsonMapHandler(this.config, this.popupContentContainerRef, this.factoryResolver, options);
     }
     if (options instanceof FiwareOptions) {
-      return new FiwareMapHandler(this.config, this.viewContainerRef, this.factoryResolver, options);
+      return new FiwareMapHandler(this.config, this.popupContentContainerRef, this.dynamicContainerRef, this.factoryResolver, options);
     }
     return new EmptyMapHandler(this.config);
   }

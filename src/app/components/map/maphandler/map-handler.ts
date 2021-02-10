@@ -30,6 +30,8 @@ export abstract class MapHandler {
 
     public abstract createMap(mapId: string): Observable<void>;
 
+    public abstract mapViewDestroyed(): void;
+
     public abstract activateFeatureInfo(): void;
 
     public abstract deactivateFeatureInfo(): void;

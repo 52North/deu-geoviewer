@@ -67,6 +67,8 @@ export class WmsMapHandler extends MapHandler {
         return of(undefined);
     }
 
+    public mapViewDestroyed(): void { }
+
     public activateFeatureInfo(): void {
         if (this.options instanceof WmsOptions) {
             this.map.on('singleclick', this.featureInfoClick);

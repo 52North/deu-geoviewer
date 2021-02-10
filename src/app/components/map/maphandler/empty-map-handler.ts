@@ -24,6 +24,8 @@ export class EmptyMapHandler extends MapHandler {
         return of(undefined);
     }
 
+    public mapViewDestroyed(): void { }
+
     public activateFeatureInfo(): void { }
 
     public deactivateFeatureInfo(): void { }

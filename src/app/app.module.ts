@@ -10,6 +10,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LanguageSelectorComponent } from './components/language-selector/language-selector.component';
+import { CounterComponent } from './components/map/counter/counter.component';
 import { FeatureInfoPopupComponent } from './components/map/feature-info-popup/feature-info-popup.component';
 import { MapComponent } from './components/map/map.component';
 import { WmsFeatureInfoComponent } from './components/map/wms-feature-info/wms-feature-info.component';
@@ -61,6 +62,7 @@ export const translateConfig = {
     MapViewComponent,
     WelcomeComponent,
     WmsFeatureInfoComponent,
+    CounterComponent,
   ],
   imports: [
     AppRoutingModule,
