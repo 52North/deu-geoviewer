@@ -33,9 +33,6 @@ export class GeneralErrorHandler extends ErrorHandler {
     const portal = new ComponentPortal(ErrorComponent);
     const componentRef = overlayRef.attach(portal);
     componentRef.instance.error = error;
-    componentRef.instance.close.subscribe(
-      undefined,
-      undefined,
-      () => overlayRef.dispose());
+    componentRef.instance.overlayRef = overlayRef;
   }
 }

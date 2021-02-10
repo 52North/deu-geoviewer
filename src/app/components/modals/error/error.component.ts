@@ -1,4 +1,5 @@
-import { Component, EventEmitter, OnInit } from '@angular/core';
+import { OverlayRef } from '@angular/cdk/overlay';
+import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
 import { EdpError } from '../../../services/error-handling/model';
@@ -11,16 +12,16 @@ import { ConfigurationService } from './../../../configuration/configuration.ser
 })
 export class ErrorComponent implements OnInit {
 
-  constructor(
-    private translate: TranslateService,
-    private config: ConfigurationService
-  ) { }
-
-  public close: EventEmitter<void> = new EventEmitter();
+  public overlayRef!: OverlayRef;
 
   public error!: EdpError;
 
   public errorMessage: string | undefined;
+
+  constructor(
+    private translate: TranslateService,
+    private config: ConfigurationService
+  ) { }
 
   ngOnInit(): void {
     if (this.error instanceof EdpError) {

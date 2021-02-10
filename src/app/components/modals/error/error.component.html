@@ -11,7 +11,7 @@
     <button type="button" class="btn btn-light"
       (click)="createTicket()">{{ 'error.general.technicalSupportCreateTicket' | translate }}
     </button>
-    <button type="button" class="btn btn-light" (click)="close.complete()">{{ 'error.general.closeButton' | translate }}
+    <button type="button" class="btn btn-light" (click)="overlayRef.dispose()">{{ 'error.general.closeButton' | translate }}
     </button>
   </div>
 </div>
