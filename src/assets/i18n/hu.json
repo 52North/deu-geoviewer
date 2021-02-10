@@ -41,7 +41,7 @@
   "feature-info.center": "",
   "feature-info.feature": "",
   "error.general.serviceNotAvailable": "A kért szolgáltatás nem érhető el",
-  "error.general.serviceNotSupported": "",
+  "error.general.serviceNotSupported": "A k\\u00E9rt szolg\\u00E1ltat\\u00E1s nem t\\u00E1mogatott",
   "error.general.invalidResource": "A megadott URL-en érvénytelen forrás található",
   "error.general.unsupportedResource": "A megadott URL-en nem támogatott forrás található",
   "error.general.errorSource": "A következő hibaforrást állapította meg a rendszer",

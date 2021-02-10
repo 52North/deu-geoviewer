@@ -15,7 +15,8 @@ export type Configuration = {
         minZoom?: number;
         maxZoom?: number;
     }[];
-    languages: LanguageConfig[]
+    languages: LanguageConfig[];
+    supportTicketPrefix: string;
 };
 
 export interface LanguageConfig {

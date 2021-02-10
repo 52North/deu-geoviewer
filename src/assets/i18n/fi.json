@@ -41,7 +41,7 @@
   "feature-info.center": "",
   "feature-info.feature": "",
   "error.general.serviceNotAvailable": "Pyydetty palvelu ei ole käytettävissä",
-  "error.general.serviceNotSupported": "",
+  "error.general.serviceNotSupported": "Pyydetty palvelu ei tueta",
   "error.general.invalidResource": "Annetusta verkko-osoitteesta löytyi virheellinen resurssi",
   "error.general.unsupportedResource": "Annetusta verkko-osoitteesta löytyi resurssi, jota ei tueta",
   "error.general.errorSource": "Seuraava virhelähde määriteltiin",

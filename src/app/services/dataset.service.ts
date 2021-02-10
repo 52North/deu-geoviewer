@@ -3,9 +3,10 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
+import { NotAvailableError } from './error-handling/model';
 import { ConfigurationService } from '../configuration/configuration.service';
-import { Dataset, DatasetType as DatasetType } from '../model';
-import { EdpError } from './../components/modals/error/error.component';
+import { CkanResource, Dataset, DatasetType } from '../model';
+import { NotSupportedError, NotSupportedReason } from './error-handling/model';
 
 export interface DistributionResponse {
   '@graph': string;
@@ -21,13 +22,14 @@ export class DatasetService {
     private config: ConfigurationService
   ) { }
 
-  getDataset(datasetId: string, format?: DatasetType): Observable<Dataset> {
-    const url = `${this.config.configuration.apiUrl}distributions/${datasetId}`;
+  getDataset(resource: CkanResource): Observable<Dataset> {
+    const url = `${this.config.configuration.apiUrl}distributions/${resource.id}`;
     return this.http.get(`${this.config.configuration.proxyUrl}${url}`)
       .pipe(
+        catchError(err => this.handleError(url, err, resource)),
         map((res: any) => {
           if (!res || !res['@graph'] || res['@graph'].length === 0) {
-            throw new Error('empty CKAN response');
+            throw new NotSupportedError(url, resource, NotSupportedReason.metadata);
           }
 
           let dist: any;
@@ -37,23 +39,28 @@ export class DatasetService {
             }
           });
 
-          const dsFormat = format ? format : this.getFormat(dist.format);
+          resource.type = resource.type ? resource.type : this.getFormat(dist.format);
+          if (!resource.type) {
+            throw new NotSupportedError(url, resource, NotSupportedReason.fileFormat);
+          }
           return {
-            id: datasetId,
-            type: dsFormat,
+            resource,
             description: dist.description,
             title: dist.title,
             url: dist.accessURL
           };
-        }),
-        catchError(err => throwError(new EdpError(url, err)))
+        })
       );
   }
 
-  getGeoJSON(url: string): Observable<any> {
+  getGeoJSON(url: string, resource: CkanResource): Observable<any> {
     return this.http.get(`${this.config.configuration.proxyUrl}${url}`).pipe(
-      catchError(err => throwError(new EdpError(url, err)))
+      catchError(err => this.handleError(url, err, resource))
     );
+  }
+
+  private handleError(url: string, err: any, resource: CkanResource): Observable<never> {
+    return throwError(new NotAvailableError(url, resource, err));
   }
 
   private getFormat(format: string | string[]): DatasetType {

@@ -289,5 +289,6 @@
       "code": "no",
       "label": "norsk (no)"
     }
-  ]
+  ],
+  "supportTicketPrefix": "https://www.europeandataportal.eu/en/feedback/form?"
 }

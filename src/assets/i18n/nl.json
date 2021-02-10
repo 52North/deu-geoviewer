@@ -41,7 +41,7 @@
   "feature-info.center": "",
   "feature-info.feature": "",
   "error.general.serviceNotAvailable": "De gevraagde dienst staat niet ter beschikking",
-  "error.general.serviceNotSupported": "",
+  "error.general.serviceNotSupported": "De gevraagde dienst staat niet ter ondersteund",
   "error.general.invalidResource": "In de aangegeven URL werd een een ongeldige ressource gevonden",
   "error.general.unsupportedResource": "In de aangegeven URL werd een een ressource gevonden die niet ondersteund wordt",
   "error.general.errorSource": "De volgende foutenbron werd vastgesteld",

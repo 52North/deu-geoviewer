@@ -1,6 +1,11 @@
+import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgbActiveModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateModule } from '@ngx-translate/core';
 
+import { DatasetType } from '../../../model';
+import { NotSupportedReason } from '../../../services/error-handling/model';
+import { NotSupportedError } from './../../../services/error-handling/model';
 import { ErrorComponent } from './error.component';
 
 describe('ErrorComponent', () => {
@@ -13,7 +18,9 @@ describe('ErrorComponent', () => {
         ErrorComponent
       ],
       imports: [
-        NgbModalModule
+        NgbModalModule,
+        HttpClientModule,
+        TranslateModule.forRoot()
       ],
       providers: [
         NgbActiveModal
@@ -24,6 +31,7 @@ describe('ErrorComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ErrorComponent);
     component = fixture.componentInstance;
+    component.error = new NotSupportedError('url', { id: '123', type: DatasetType.WMS }, NotSupportedReason.crs);
     fixture.detectChanges();
   });
 

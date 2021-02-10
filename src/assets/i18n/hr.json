@@ -41,7 +41,7 @@
   "feature-info.center": "",
   "feature-info.feature": "",
   "error.general.serviceNotAvailable": "Zatražena usluga nije dostupna",
-  "error.general.serviceNotSupported": "",
+  "error.general.serviceNotSupported": "Zatra\\u017Eena usluga nije podr\\u017Eana",
   "error.general.invalidResource": "Neispravan resurs pronađen je na traženom URL-u",
   "error.general.unsupportedResource": "Nepodržani resurs pronađen je na traženom URL-u",
   "error.general.errorSource": "Sljedeći pogrešni izvor je određen",

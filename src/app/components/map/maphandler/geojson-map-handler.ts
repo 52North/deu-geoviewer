@@ -9,6 +9,7 @@ import VectorSource from 'ol/source/Vector';
 import { Observable, of } from 'rxjs';
 
 import { ConfigurationService } from '../../../configuration/configuration.service';
+import { NotSupportedError, NotSupportedReason } from '../../../services/error-handling/model';
 import { FeatureInfoPopupComponent } from '../feature-info-popup/feature-info-popup.component';
 import { MapHandler } from './map-handler';
 import { GeoJSONOptions } from './model';
@@ -23,7 +24,7 @@ export class GeoJsonMapHandler extends MapHandler {
         protected config: ConfigurationService,
         private viewContainerRef: ViewContainerRef,
         private factoryResolver: ComponentFactoryResolver,
-        private options: GeoJSONOptions
+        private options: GeoJSONOptions,
     ) {
         super(config);
     }
@@ -109,11 +110,15 @@ export class GeoJsonMapHandler extends MapHandler {
     }
 
     private detectProjection(): Projection {
-        const geojsonProj = new GeoJSON().readProjection(this.options.geojson);
-        if (geojsonProj) {
-            return geojsonProj;
-        } else {
-            throw new Error('No projection found for geojson');
+        try {
+            const geojsonProj = new GeoJSON().readProjection(this.options.geojson);
+            if (geojsonProj) {
+                return geojsonProj;
+            } else {
+                throw new NotSupportedError(this.options.url, this.options.resource, NotSupportedReason.crs);
+            }
+        } catch (error) {
+            throw new NotSupportedError(this.options.url, this.options.resource, NotSupportedReason.crs);
         }
     }
 

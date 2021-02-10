@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { GeoJSONOptions, MapOptions, WmsOptions } from '../../components/map/maphandler/model';
-import { EdpError, ErrorScreenService } from '../../components/modals/error/error.component';
+import { EdpError } from '../../services/error-handling/model';
 import { LoadingDatasetComponent } from '../../components/modals/loading-dataset/loading-dataset.component';
 import { DatasetType, parseDatasetType } from '../../model';
 import { DatasetService } from '../../services/dataset.service';
@@ -12,6 +12,7 @@ import { FiwareOptions } from './../../components/map/maphandler/model';
 import { WelcomeScreenService } from './../../components/modals/welcome/welcome.component';
 import { TutorialService } from './../../services/intro.service';
 import { WmsService } from './../../services/wms.service';
+import { GeneralErrorHandler } from '../../services/error-handling/general-error-handler.service';
 
 @Component({
   selector: 'app-map-view',
@@ -30,7 +31,7 @@ export class MapViewComponent implements OnInit {
     private wmsSrvc: WmsService,
     private welcomeSrvc: WelcomeScreenService,
     private tutorialSrvc: TutorialService,
-    private errorSrvc: ErrorScreenService,
+    private errorSrvc: GeneralErrorHandler,
     public overlay: Overlay
   ) { }
 
@@ -55,30 +56,30 @@ export class MapViewComponent implements OnInit {
 
   private loadDataset(id: string, type: string): void {
     this.showloading();
-    const dsType = parseDatasetType(type);
-    this.datasetSrvc.getDataset(id, dsType).subscribe(
+    const resource = { id, type: parseDatasetType(type) };
+    this.datasetSrvc.getDataset(resource).subscribe(
       dataset => {
-        if (dataset.type === DatasetType.GEOJSON) {
-          this.datasetSrvc.getGeoJSON(dataset.url).subscribe(
+        if (resource.type === DatasetType.GEOJSON) {
+          this.datasetSrvc.getGeoJSON(dataset.url, resource).subscribe(
             geojson => {
-              this.mapOptions = new GeoJSONOptions(geojson);
+              this.mapOptions = new GeoJSONOptions(dataset.url, resource, geojson);
               this.hideLoading();
             },
             error => this.handleError(error)
           );
         }
-        if (dataset.type === DatasetType.WMS) {
-          this.wmsSrvc.getLayerTree(dataset.url).subscribe(
+        if (resource.type === DatasetType.WMS) {
+          this.wmsSrvc.getLayerTree(dataset.url, resource).subscribe(
             layerTree => {
               const layerList = this.wmsSrvc.asList(layerTree, []);
-              this.mapOptions = new WmsOptions(layerList);
+              this.mapOptions = new WmsOptions(dataset.url, resource, layerList);
               this.hideLoading();
             },
             error => this.handleError(error)
           );
         }
-        if (dataset.type === DatasetType.FIWARE) {
-          this.mapOptions = new FiwareOptions(dataset.url);
+        if (resource.type === DatasetType.FIWARE) {
+          this.mapOptions = new FiwareOptions(dataset.url, resource);
           this.hideLoading();
         }
       },

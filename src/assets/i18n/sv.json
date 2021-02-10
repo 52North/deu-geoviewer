@@ -41,7 +41,7 @@
   "feature-info.center": "",
   "feature-info.feature": "",
   "error.general.serviceNotAvailable": "Den begärda tjänsten är inte tillgänglig",
-  "error.general.serviceNotSupported": "",
+  "error.general.serviceNotSupported": "Den beg\\u00e4rda tj\\u00e4nsten st\\u00f6ds inte",
   "error.general.invalidResource": "Ett ogiltigt resurs hittades på den angivna URL",
   "error.general.unsupportedResource": "En ouppburen resurs hittades på den angivna URL",
   "error.general.errorSource": "Följande felkälla fastställdes",

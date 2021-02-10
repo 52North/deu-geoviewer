@@ -1,9 +1,13 @@
+export interface CkanResource {
+    id: string;
+    type: DatasetType | undefined;
+}
+
 export interface Dataset {
     title: string;
     description: string;
-    id: string;
+    resource: CkanResource;
     url: string;
-    type: DatasetType;
 }
 
 export enum DatasetType {

@@ -41,7 +41,7 @@
   "feature-info.center": "",
   "feature-info.feature": "",
   "error.general.serviceNotAvailable": "Serviciul solicitat nu este disponibil",
-  "error.general.serviceNotSupported": "",
+  "error.general.serviceNotSupported": "Serviciul solicitat nu este acceptat",
   "error.general.invalidResource": "Acest URL conține o resursă nevalidă",
   "error.general.unsupportedResource": "Acest URL conține o resursă neacceptată",
   "error.general.errorSource": "S-a identificat următoarea sursă a erorii",

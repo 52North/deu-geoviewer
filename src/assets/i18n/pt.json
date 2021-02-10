@@ -41,7 +41,7 @@
   "feature-info.center": "",
   "feature-info.feature": "",
   "error.general.serviceNotAvailable": "O serviço pedido não está disponível",
-  "error.general.serviceNotSupported": "",
+  "error.general.serviceNotSupported": "O tipo de servi\\u00E7o prestado n\\u00E3o \\u00E9 suportada",
   "error.general.invalidResource": "Este URL contém um recurso não válido.",
   "error.general.unsupportedResource": "Este URL contém um recurso não suportado.",
   "error.general.errorSource": "Foi identificada a seguinte causa de erro",

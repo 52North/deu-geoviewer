@@ -4,8 +4,10 @@ import WMSCapabilities from 'ol/format/WMSCapabilities';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
-import { EdpError } from '../components/modals/error/error.component';
+import { NotAvailableError } from './error-handling/model';
 import { ConfigurationService } from '../configuration/configuration.service';
+import { CkanResource } from '../model';
+import { NotSupportedError, NotSupportedReason } from './error-handling/model';
 
 interface InternalWMSLayer {
   Name: string;
@@ -53,8 +55,8 @@ export class WmsService {
     private config: ConfigurationService
   ) { }
 
-  public getLayerTree(wmsurl: string): Observable<WMSLayer> {
-    return this.getCapabilities(wmsurl).pipe(map(res => this.createLayer(res.Capability.Layer, this.cleanUpWMSUrl(wmsurl))));
+  public getLayerTree(wmsurl: string, resource: CkanResource): Observable<WMSLayer> {
+    return this.getCapabilities(wmsurl, resource).pipe(map(res => this.createLayer(res.Capability.Layer, this.cleanUpWMSUrl(wmsurl))));
   }
 
   public asList(entry: WMSLayer, list: WMSLayer[]): WMSLayer[] {
@@ -92,11 +94,21 @@ export class WmsService {
     return wmsRequesturl;
   }
 
-  private getCapabilities(url: string): Observable<any> {
+  private getCapabilities(url: string, resource: CkanResource): Observable<any> {
     const wmsRequesturl = `${this.config.configuration.proxyUrl}${this.cleanUpWMSUrl(url)}?request=GetCapabilities&service=wms&version=1.3.0`;
     return this.http.get(wmsRequesturl, { responseType: 'text' }).pipe(
-      map(res => new WMSCapabilities().read(res)),
-      catchError(err => throwError(new EdpError(url, err)))
+      catchError(err => this.handleError(url, err, resource)),
+      map(res => {
+        try {
+          return new WMSCapabilities().read(res);
+        } catch (error) {
+          throw new NotSupportedError(url, resource, NotSupportedReason.metadata);
+        }
+      })
     );
+  }
+
+  private handleError(url: string, err: any, resource: CkanResource): Observable<never> {
+    return throwError(new NotAvailableError(url, resource, err));
   }
 }

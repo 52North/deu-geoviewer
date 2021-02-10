@@ -41,7 +41,7 @@
   "feature-info.center": "",
   "feature-info.feature": "",
   "error.general.serviceNotAvailable": "Δεν διατίθεται η υπηρεσία που ζητάτε.",
-  "error.general.serviceNotSupported": "",
+  "error.general.serviceNotSupported": "\\u0397 \\u03B6\\u03B7\\u03C4\\u03BF\\u03CD\\u03BC\\u03B5\\u03BD\\u03B7 \\u03C5\\u03C0\\u03B7\\u03C1\\u03B5\\u03C3\\u03AF\\u03B1 \\u03B4\\u03B5\\u03BD \\u03C5\\u03C0\\u03BF\\u03C3\\u03C4\\u03B7\\u03C1\\u03AF\\u03B6\\u03B5\\u03C4\\u03B1\\u03B9.",
   "error.general.invalidResource": "Στη δεδομένη διεύθυνση URL εντοπίστηκε μη έγκυρος πόρος.",
   "error.general.unsupportedResource": "Στη δεδομένη διεύθυνση URL εντοπίστηκε μη υποστηριζόμενος πόρος.",
   "error.general.errorSource": "Εντοπίστηκε η ακόλουθη λανθασμένη πηγή",

@@ -41,7 +41,7 @@
   "feature-info.center": "",
   "feature-info.feature": "",
   "error.general.serviceNotAvailable": "Požadovaná službe je nedostupná",
-  "error.general.serviceNotSupported": "",
+  "error.general.serviceNotSupported": "Po\\u017eadovan\\u00e1 slu\\u017eba nie je podporovan\\u00e1",
   "error.general.invalidResource": "Na zadanej URL adrese bol nájdený neplatný údajový zdroj",
   "error.general.unsupportedResource": "Na zadanej URL adrese bol nájdený nepodporovaný údajový zdroj",
   "error.general.errorSource": "Zistený bol nasledujúci zdroj chyby",

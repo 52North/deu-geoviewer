@@ -1,6 +1,6 @@
 import { OverlayModule } from '@angular/cdk/overlay';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { APP_INITIALIZER, ErrorHandler, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgbAccordionModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
@@ -18,6 +18,7 @@ import { LoadingDatasetComponent } from './components/modals/loading-dataset/loa
 import { WelcomeComponent } from './components/modals/welcome/welcome.component';
 import { Configuration } from './configuration/configuration.model';
 import { ConfigurationService } from './configuration/configuration.service';
+import { GeneralErrorHandler as GeneralErrorHandler } from './services/error-handling/general-error-handler.service';
 import { LinkViewComponent } from './views/link-view/link-view.component';
 import { MapViewComponent } from './views/map-view/map-view.component';
 
@@ -70,6 +71,10 @@ export const translateConfig = {
     OverlayModule,
   ],
   providers: [
+    {
+      provide: ErrorHandler,
+      useClass: GeneralErrorHandler
+    },
     {
       provide: APP_INITIALIZER,
       useFactory: initApplication,

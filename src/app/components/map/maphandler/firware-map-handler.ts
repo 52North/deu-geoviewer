@@ -10,10 +10,11 @@ import Projection from 'ol/proj/Projection';
 import VectorSource from 'ol/source/Vector';
 import { Circle as CircleStyle, Style } from 'ol/style';
 import Fill from 'ol/style/Fill';
-import { interval, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { interval, Observable, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 import { ConfigurationService } from '../../../configuration/configuration.service';
+import { NotAvailableError } from '../../../services/error-handling/model';
 import { FeatureInfoPopupComponent } from '../feature-info-popup/feature-info-popup.component';
 import { MapHandler } from './map-handler';
 import { FiwareOptions, MapProjection } from './model';
@@ -61,7 +62,10 @@ export class FiwareMapHandler extends MapHandler {
 
     private fetchData(): Observable<Feature[]> {
         return this.httpClient.get<FiwareResponseEntry[]>(`${this.config.configuration.proxyUrl}${this.options.url}`)
-            .pipe(map(res => res.map(e => new GeoJSON().readFeature(this.transformFeature(e)))));
+            .pipe(
+                catchError(err => throwError(new NotAvailableError(this.options.url, this.options.resource, err))),
+                map(res => res.map(e => new GeoJSON().readFeature(this.transformFeature(e))))
+            );
     }
 
     private initMap(mapId: string, features: Feature[]): void {
