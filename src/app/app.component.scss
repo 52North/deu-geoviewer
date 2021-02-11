@@ -7,6 +7,34 @@
         right: 0;
         display: flex;
         flex-direction: column;
+
+        .container {
+            max-width: 1340px !important;
+
+            .navbar-brand {
+                margin-right: 0;
+
+                .edp-title {
+                    padding-left: 10px;
+                    line-height: 45px;
+                    font-size: 22px;
+                    color: #0F62AE;
+                    padding-left: 5px;
+                    display: inline-block;
+                    text-transform: uppercase;
+                    font-weight: 300;
+                    padding-right: 0.5em;
+                    border-right: #0F62AE solid 1px;
+                }
+            }
+
+            .dataset-title {
+                flex: 1;
+                margin: 0 1em;
+                overflow: hidden;
+            }
+        }
+
     }
 
     .content {

@@ -34,7 +34,7 @@ export class MapComponent implements AfterViewInit, OnChanges, OnDestroy {
 
   @ViewChild('popupContent', { read: ViewContainerRef }) popupContentContainerRef!: ViewContainerRef;
 
-  @ViewChild('dynamic', { read: ViewContainerRef }) dynamicContainerRef!: ViewContainerRef
+  @ViewChild('dynamic', { read: ViewContainerRef }) dynamicContainerRef!: ViewContainerRef;
 
   // ui flags
   public legendOpen = false;

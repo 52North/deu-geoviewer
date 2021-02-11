@@ -3,10 +3,9 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
-import { NotAvailableError } from './error-handling/model';
 import { ConfigurationService } from '../configuration/configuration.service';
 import { CkanResource, Dataset, DatasetType } from '../model';
-import { NotSupportedError, NotSupportedReason } from './error-handling/model';
+import { NotAvailableError, NotSupportedError, NotSupportedReason } from './error-handling/model';
 
 export interface DistributionResponse {
   '@graph': string;
@@ -46,11 +45,25 @@ export class DatasetService {
           return {
             resource,
             description: dist.description,
-            title: dist.title,
+            title: this.fetchTitle(dist),
             url: dist.accessURL
           };
         })
       );
+  }
+
+  private fetchTitle(dist: any): string {
+    if (dist.title) {
+      if (typeof dist.title === 'string') {
+        return dist.title;
+      }
+    }
+    if (dist.accessURL) {
+      if (typeof dist.accessURL === 'string') {
+        return dist.accessURL;
+      }
+    }
+    return '';
   }
 
   getGeoJSON(url: string, resource: CkanResource): Observable<any> {

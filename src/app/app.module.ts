@@ -9,6 +9,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { DatasetTitleComponent } from './components/dataset-title/dataset-title.component';
 import { LanguageSelectorComponent } from './components/language-selector/language-selector.component';
 import { CounterComponent } from './components/map/counter/counter.component';
 import { FeatureInfoPopupComponent } from './components/map/feature-info-popup/feature-info-popup.component';
@@ -63,6 +64,7 @@ export const translateConfig = {
     WelcomeComponent,
     WmsFeatureInfoComponent,
     CounterComponent,
+    DatasetTitleComponent,
   ],
   imports: [
     AppRoutingModule,

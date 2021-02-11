@@ -3,6 +3,7 @@ import { ComponentPortal } from '@angular/cdk/portal';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
+import { DatasetTitleService } from '../../components/dataset-title/dataset-title.component';
 import { GeoJSONOptions, MapOptions, WmsOptions } from '../../components/map/maphandler/model';
 import { LegalDisclaimerService } from '../../components/modals/legal-disclaimer/legal-disclaimer.component';
 import { LoadingDatasetComponent } from '../../components/modals/loading-dataset/loading-dataset.component';
@@ -34,6 +35,7 @@ export class MapViewComponent implements OnInit {
     private tutorialSrvc: TutorialService,
     private errorSrvc: GeneralErrorHandler,
     private legalDisclaimerSrvc: LegalDisclaimerService,
+    private datasetTitleSrvc: DatasetTitleService,
     public overlay: Overlay
   ) { }
 
@@ -65,6 +67,9 @@ export class MapViewComponent implements OnInit {
     const resource = { id, type: parseDatasetType(type) };
     this.datasetSrvc.getDataset(resource).subscribe(
       dataset => {
+        if (dataset.title) {
+          this.datasetTitleSrvc.title.next(dataset.title);
+        }
         if (resource.type === DatasetType.GEOJSON) {
           this.datasetSrvc.getGeoJSON(dataset.url, resource).subscribe(
             geojson => {

@@ -4,12 +4,13 @@
       <a class="navbar-brand" href="#">
         <img src="https://www.europeandataportal.eu/themes/edp3/assets/images/edp-logo.png" alt="" width="45"
           height="45">
-        <span style="padding-left: 10px;">
+        <span class="edp-title">
           {{'title' | translate}}
         </span>
       </a>
-
-      <a routerLink="/samples">Samples</a>
+      <div class="dataset-title">
+        <app-dataset-title></app-dataset-title>
+      </div>
       <app-language-selector></app-language-selector>
     </div>
   </nav>
