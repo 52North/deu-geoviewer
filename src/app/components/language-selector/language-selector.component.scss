@@ -1,0 +1,17 @@
+:host {
+
+    .form-control.short {
+        display: none;
+    }
+
+    @media screen and (max-width: 576px) {
+        .form-control.long {
+            display: none;
+        }
+
+        .form-control.short {
+            text-transform: uppercase;
+            display: block;
+        }
+    }
+}

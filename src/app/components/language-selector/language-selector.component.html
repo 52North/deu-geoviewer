@@ -1,6 +1,11 @@
-<div class="input-group">
-  <select class="form-control" (change)="changeLang($event)">
-    <option [value]="lang.code" [selected]="currentLangCode === lang.code" *ngFor="let lang of languages">{{lang.label}}
-    </option>
-  </select>
-</div>
+<select class="form-control long" (change)="changeLang($event)">
+  <option [value]="lang.code" [selected]="currentLangCode === lang.code" *ngFor="let lang of languages">
+    {{lang.label}}
+  </option>
+</select>
+
+<select class="form-control short" (change)="changeLang($event)">
+  <option [value]="lang.code" [selected]="currentLangCode === lang.code" *ngFor="let lang of languages">
+    {{lang.code}}
+  </option>
+</select>
