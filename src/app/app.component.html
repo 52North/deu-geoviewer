@@ -1,17 +1,20 @@
 <div class="wrapper">
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <nav class="navbar navbar-light bg-light">
     <div class="container">
-      <a class="navbar-brand" href="#">
-        <img src="https://www.europeandataportal.eu/themes/edp3/assets/images/edp-logo.png" alt="" width="45"
-          height="45">
-        <span class="edp-title">
-          {{'title' | translate}}
+      <div class="branding" style="display: flex; align-items: center;">
+        <a href="#">
+          <img src="https://www.europeandataportal.eu/themes/edp3/assets/images/edp-logo.png">
+        </a>
+        <span class="edp-title" [innerHtml]="'title' | translate"> 
         </span>
-      </a>
-      <div class="dataset-title">
+      </div>
+      <div class="dataset-title d-none d-md-block">
         <app-dataset-title></app-dataset-title>
       </div>
       <app-language-selector></app-language-selector>
+    </div>
+    <div class="dataset-title-small d-sm-block d-md-none">
+      <app-dataset-title></app-dataset-title>
     </div>
   </nav>
 
