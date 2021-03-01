@@ -1,5 +1,5 @@
 {
-  "proxyUrl": "https://edp.dev.52north.org/edp-mapapps-proxy?",
+  "proxyUrl": "https://www.europeandataportal.eu/mapapps-proxy?",
   "apiUrl": "https://www.europeandataportal.eu/data/api/",
   "defaultMapExtent": [
     {

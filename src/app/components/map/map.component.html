@@ -38,15 +38,19 @@
   </div>
 
   <div class="feature-buttons">
-    <button type="button" class="btn legend-button" [disabled]="legendEntries.length === 0"
-      (click)="legendOpen = !legendOpen" cdkOverlayOrigin
-      [ngClass]="{'btn-primary': legendOpen, 'btn-light': !legendOpen}" #trigger="cdkOverlayOrigin">
-      {{'functions.legend' | translate}}
-    </button>
-    <button type="button" class="btn feature-info-button" (click)="toggleFeatureInfo()"
-      [ngClass]="{'btn-primary': featureInfoActive, 'btn-light': !featureInfoActive}">
-      {{'functions.feature-info' | translate}}
-    </button>
+    <div>
+      <button type="button" class="btn legend-button" [disabled]="legendEntries.length === 0"
+        (click)="legendOpen = !legendOpen" cdkOverlayOrigin
+        [ngClass]="{'btn-primary': legendOpen, 'btn-light': !legendOpen}" #trigger="cdkOverlayOrigin">
+        {{'functions.legend' | translate}}
+      </button>
+    </div>
+    <div>
+      <button type="button" class="btn feature-info-button" (click)="toggleFeatureInfo()"
+        [ngClass]="{'btn-primary': featureInfoActive, 'btn-light': !featureInfoActive}">
+        {{'functions.feature-info' | translate}}
+      </button>
+    </div>
   </div>
 
   <ng-template #dynamic></ng-template>

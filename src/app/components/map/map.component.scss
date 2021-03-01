@@ -16,10 +16,20 @@
             z-index: 10;
             bottom: 10px;
             left: 10px;
+            display: flex;
 
-            .btn {
-                +.btn {
-                    margin-left: 10px;
+            div:last-of-type {
+                margin-left: 10px;
+            }
+        }
+
+        @media screen and (max-width: 576px) {
+            .feature-buttons {
+                flex-direction: column;
+
+                div:last-of-type {
+                    margin-top: 10px;
+                    margin-left: 0px;
                 }
             }
         }
