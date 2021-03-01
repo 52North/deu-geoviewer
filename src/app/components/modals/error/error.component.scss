@@ -1,9 +1,19 @@
 :host {
-    max-width: 80vw;
+    width: 700px;
+    max-width: 90vw;
     background-color: white;
     border: 2px red solid;
+    overflow: auto;
 
     .bold {
         font-weight: bold;
+    }
+
+    a {
+        word-break: break-all;
+    }
+
+    @media screen and (max-width: 576px) {
+        max-width: 100%;
     }
 }

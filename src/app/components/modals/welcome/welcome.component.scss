@@ -1,6 +1,8 @@
 :host {
-    max-width: 80vw;
+    width: 1200px;
+    max-width: 90vw;
     background-color: white;
+    overflow: auto;
 
     .aspects {
         display: flex;
@@ -12,5 +14,17 @@
             margin: 10px 40px;
             background: url(../../../../assets/images/architecture-external-services.png) center top;
         }
+
+        @media screen and (max-width: 768px) {
+            flex-direction: column;
+
+            .graphic {
+                flex: 0 0 315px;
+            }
+        }
+    }
+
+    @media screen and (max-width: 576px) {
+        max-width: 100%;
     }
 }

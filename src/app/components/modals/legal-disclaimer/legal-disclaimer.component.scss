@@ -1,4 +1,9 @@
 :host {
-    max-width: 80vw;
+    max-width: 500px;
     background-color: white;
+    overflow: auto;
+
+    @media screen and (max-width: 576px) {
+        max-width: 100%;
+    }
 }
