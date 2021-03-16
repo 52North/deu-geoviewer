@@ -9,3 +9,5 @@ if [ -z "${PORT}" ]; then
    PORT=80
 fi
 sed --in-place "s/PORT/$PORT/g" /etc/nginx/conf.d/default.conf
+
+envsubst < /usr/share/nginx/html/assets/env.template.js > /usr/share/nginx/html/assets/env.js

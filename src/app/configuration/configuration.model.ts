@@ -1,7 +1,6 @@
 import { Extent } from 'ol/extent';
 
 export type Configuration = {
-    proxyUrl: string;
     apiUrl: string;
     defaultMapExtent: {
         crs: string;

@@ -2,6 +2,7 @@ import {
   AfterViewInit,
   Component,
   ComponentFactoryResolver,
+  Inject,
   Input,
   OnChanges,
   OnDestroy,
@@ -47,6 +48,7 @@ export class MapComponent implements AfterViewInit, OnChanges, OnDestroy {
   constructor(
     private factoryResolver: ComponentFactoryResolver,
     private config: ConfigurationService,
+    @Inject('PROXY_URL') private proxyUrl: string,
   ) { }
 
   ngOnDestroy(): void {
@@ -127,7 +129,9 @@ export class MapComponent implements AfterViewInit, OnChanges, OnDestroy {
       return new GeoJsonMapHandler(this.config, this.popupContentContainerRef, this.factoryResolver, options);
     }
     if (options instanceof FiwareOptions) {
-      return new FiwareMapHandler(this.config, this.popupContentContainerRef, this.dynamicContainerRef, this.factoryResolver, options);
+      return new FiwareMapHandler(
+        this.config, this.popupContentContainerRef, this.dynamicContainerRef, this.factoryResolver, options, this.proxyUrl
+      );
     }
     return new EmptyMapHandler(this.config);
   }

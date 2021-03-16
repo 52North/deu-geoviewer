@@ -1,5 +1,5 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Inject, Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
@@ -18,12 +18,13 @@ export class DatasetService {
 
   constructor(
     private http: HttpClient,
+    @Inject('PROXY_URL') private proxyUrl: string,
     private config: ConfigurationService
   ) { }
 
   getDataset(resource: CkanResource): Observable<Dataset> {
     const url = `${this.config.configuration.apiUrl}distributions/${resource.id}`;
-    return this.http.get(`${this.config.configuration.proxyUrl}${url}`)
+    return this.http.get(`${this.proxyUrl}${url}`)
       .pipe(
         catchError(err => this.handleError(url, err, resource)),
         map((res: any) => {
@@ -67,7 +68,7 @@ export class DatasetService {
   }
 
   getGeoJSON(url: string, resource: CkanResource): Observable<any> {
-    return this.http.get(`${this.config.configuration.proxyUrl}${url}`).pipe(
+    return this.http.get(`${this.proxyUrl}${url}`).pipe(
       catchError(err => this.handleError(url, err, resource))
     );
   }

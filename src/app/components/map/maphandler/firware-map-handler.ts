@@ -48,6 +48,7 @@ export class FiwareMapHandler extends MapHandler {
         private dynamicContainerRef: ViewContainerRef,
         private factoryResolver: ComponentFactoryResolver,
         private options: FiwareOptions,
+        private proxyUrl: string,
     ) {
         super(config);
     }
@@ -71,7 +72,7 @@ export class FiwareMapHandler extends MapHandler {
     }
 
     private fetchData(): Observable<Feature[]> {
-        return this.httpClient.get<FiwareResponseEntry[]>(`${this.config.configuration.proxyUrl}${this.options.url}`)
+        return this.httpClient.get<FiwareResponseEntry[]>(`${this.proxyUrl}${this.options.url}`)
             .pipe(
                 catchError(err => throwError(new NotAvailableError(this.options.url, this.options.resource, err))),
                 map(res => res.map(e => new GeoJSON().readFeature(this.transformFeature(e))))

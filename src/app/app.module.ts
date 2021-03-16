@@ -7,6 +7,7 @@ import { NgbAccordionModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
+import { environment } from './../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DatasetTitleComponent } from './components/dataset-title/dataset-title.component';
@@ -77,6 +78,7 @@ export const translateConfig = {
     OverlayModule,
   ],
   providers: [
+    { provide: 'PROXY_URL', useValue: environment.proxyUrl },
     {
       provide: ErrorHandler,
       useClass: GeneralErrorHandler

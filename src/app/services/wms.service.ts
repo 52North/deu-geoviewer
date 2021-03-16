@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import WMSCapabilities from 'ol/format/WMSCapabilities';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
@@ -52,6 +52,7 @@ export class WmsService {
 
   constructor(
     private http: HttpClient,
+    @Inject('PROXY_URL') private proxyUrl: string,
     private config: ConfigurationService
   ) { }
 
@@ -95,7 +96,7 @@ export class WmsService {
   }
 
   private getCapabilities(url: string, resource: CkanResource): Observable<any> {
-    const wmsRequesturl = `${this.config.configuration.proxyUrl}${this.cleanUpWMSUrl(url)}?request=GetCapabilities&service=wms&version=1.3.0`;
+    const wmsRequesturl = `${this.proxyUrl}${this.cleanUpWMSUrl(url)}?request=GetCapabilities&service=wms&version=1.3.0`;
     return this.http.get(wmsRequesturl, { responseType: 'text' }).pipe(
       catchError(err => this.handleError(url, err, resource)),
       map(res => {

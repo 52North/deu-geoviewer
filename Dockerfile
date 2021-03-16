@@ -12,10 +12,19 @@ COPY . /usr/src/app
 RUN npm run build --prod
 
 FROM nginx:alpine
+
+# set default env variables
 ENV PORT=80
+ENV PROXY_URL="https://www.europeandataportal.eu/mapapps-proxy?"
+
+# copy nginx config
 COPY ./nginx.conf /etc/nginx/conf.d/default.conf
-COPY ./specify-different-port.sh /docker-entrypoint.d/
-RUN chmod 0775 /docker-entrypoint.d/specify-different-port.sh
+
+# copy port adjust script and run
+COPY ./adjustment-script.sh /docker-entrypoint.d/
+RUN chmod 0775 /docker-entrypoint.d/adjustment-script.sh
+
+# copy build from previous stage
 COPY --from=BUILD /usr/src/app/dist/edp-viewer /usr/share/nginx/html
-# the container can be started like this: docker run -p 80:80 -e PORT=80 helgoland
+
 CMD ["nginx", "-g", "daemon off;"]
