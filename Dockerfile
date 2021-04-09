@@ -9,12 +9,13 @@ RUN npm install
 
 # copy the app and build it
 COPY . /usr/src/app
-RUN npm run build --prod
+RUN npm run build -- --prod
 
 FROM nginx:alpine
 
 # set default env variables
 ENV PORT=80
+ENV PN_BASE_HREF /
 ENV PROXY_URL="https://www.europeandataportal.eu/mapapps-proxy?"
 
 # copy nginx config

@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  proxyUrl: window['env' as any]['proxyUrl' as any]
 };

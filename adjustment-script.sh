@@ -10,4 +10,7 @@ if [ -z "${PORT}" ]; then
 fi
 sed --in-place "s/PORT/$PORT/g" /etc/nginx/conf.d/default.conf
 
+sed -i -e 's|<script src="assets/env.js">|<script src="'${PN_BASE_HREF}'assets/env.js">|g' /usr/share/nginx/html/index.html
+sed -i -e 's|<base href="/"|<base href="'${PN_BASE_HREF}'"|g' /usr/share/nginx/html/index.html
+
 envsubst < /usr/share/nginx/html/assets/env.template.js > /usr/share/nginx/html/assets/env.js
