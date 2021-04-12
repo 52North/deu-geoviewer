@@ -1,5 +1,4 @@
 {
-  "proxyUrl": "https://www.europeandataportal.eu/mapapps-proxy?",
   "apiUrl": "https://www.europeandataportal.eu/data/api/",
   "defaultMapExtent": [
     {
