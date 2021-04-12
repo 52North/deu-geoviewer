@@ -1,13 +1,14 @@
 <div class="wrapper">
-  <nav class="navbar navbar-light bg-light">
+  <nav class="navbar navbar-light">
     <div class="container">
-      <div class="branding" style="display: flex; align-items: center;">
-        <a href="#">
-          <img src="https://www.europeandataportal.eu/themes/edp3/assets/images/edp-logo.png">
-        </a>
-        <span class="edp-title" [innerHtml]="'title' | translate"> 
-        </span>
-      </div>
+      <a class="branding" style="align-items: center;">
+        <div>
+          <img src="/assets/images/logo.svg">
+        </div>
+        <div>
+          {{'title' | translate}}
+        </div>
+      </a>
       <div class="dataset-title d-none d-md-block">
         <app-dataset-title></app-dataset-title>
       </div>

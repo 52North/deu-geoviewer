@@ -24,7 +24,12 @@ export class DatasetService {
 
   getDataset(resource: CkanResource): Observable<Dataset> {
     const url = `${this.config.configuration.apiUrl}distributions/${resource.id}`;
-    return this.http.get(`${this.proxyUrl}${url}`)
+    console.log(`do request for ${url}`);
+    // TODO: remove hack to work with proxy
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = headers.append('Accept', '*/*');
+    return this.http.get(`${this.proxyUrl}${url}`, { headers })
+    // return this.http.get(`${this.proxyUrl}${url}`)
       .pipe(
         catchError(err => this.handleError(url, err, resource)),
         map((res: any) => {
