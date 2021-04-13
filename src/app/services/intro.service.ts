@@ -12,37 +12,6 @@ const INITIAL_INTRO_DISPLAYED_STORAGE_KEY = 'INITIAL_INTRO_DISPLAYED_STORAGE_KEY
 })
 export class TutorialService {
 
-  private tutorialConfig: introJs.Options = {
-    exitOnOverlayClick: false,
-    nextLabel: this.translate.instant('tutorial.next'),
-    prevLabel: this.translate.instant('tutorial.back'),
-    doneLabel: this.translate.instant('tutorial.done'),
-    steps: [
-      {
-        intro: this.translate.instant('tutorial.step1'),
-      },
-      {
-        intro: this.translate.instant('tutorial.step2'),
-      },
-      {
-        intro: this.translate.instant('tutorial.step3'),
-        element: '.map .zoom-buttons'
-      },
-      {
-        intro: this.translate.instant('tutorial.step4'),
-        element: '.map .feature-buttons'
-      },
-      {
-        intro: this.translate.instant('tutorial.step5'),
-        element: '.map .feature-buttons .legend-button'
-      },
-      {
-        intro: this.translate.instant('tutorial.step6'),
-        element: '.map .feature-buttons .feature-info-button'
-      }
-    ]
-  };
-
   constructor(
     private translate: TranslateService,
     private welcomeScreen: WelcomeScreenService
@@ -63,14 +32,48 @@ export class TutorialService {
         this.adjustCssClassForButtons();
         this.adjustAbortButton();
       })
-      .setOptions(this.tutorialConfig)
+      .setOptions(this.createIntroOptions())
       .start();
+  }
+
+  private createIntroOptions(): introJs.Options {
+    return {
+      exitOnOverlayClick: false,
+      nextLabel: this.translate.instant('tutorial.next'),
+      prevLabel: this.translate.instant('tutorial.back'),
+      doneLabel: this.translate.instant('tutorial.done'),
+      steps: [
+        {
+          intro: this.translate.instant('tutorial.step1'),
+        },
+        {
+          intro: this.translate.instant('tutorial.step2'),
+        },
+        {
+          intro: this.translate.instant('tutorial.step3'),
+          element: '.map .zoom-buttons'
+        },
+        {
+          intro: this.translate.instant('tutorial.step4'),
+          element: '.map .feature-buttons'
+        },
+        {
+          intro: this.translate.instant('tutorial.step5'),
+          element: '.map .feature-buttons .legend-button'
+        },
+        {
+          intro: this.translate.instant('tutorial.step6'),
+          element: '.map .feature-buttons .feature-info-button'
+        }
+      ]
+    };
   }
 
   private adjustCssClassForButtons(): void {
     document.querySelectorAll('.introjs-button').forEach(e => {
       e.classList.add('btn');
-      e.classList.add('btn-light');
+      e.classList.add('btn-sm');
+      e.classList.add('btn-primary');
       return e.classList.remove('introjs-button');
     });
   }
