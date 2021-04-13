@@ -10,7 +10,7 @@ export class EmptyMapHandler extends MapHandler {
     public createMap(mapId: string): Observable<void> {
         const projection = new Projection({ code: MapProjection.EPSG_4326 });
 
-        const map = new Map({
+        this.map = new Map({
             layers: this.createBaseLayers(projection),
             controls: [],
             target: mapId,
@@ -20,7 +20,7 @@ export class EmptyMapHandler extends MapHandler {
             })
         });
 
-        map.getView().fit(this.getDefaultExtent(projection));
+        this.map.getView().fit(this.getDefaultExtent(projection));
         return of(undefined);
     }
 
