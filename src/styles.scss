@@ -9,6 +9,31 @@ $primary : #001D85;
 @import '~intro.js/introjs.css';
 @import 'assets/intro-themes.css';
 
+.btn {
+    display: inline-block;
+    font-weight: 700;
+    // color: #212529;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    // background-color: transparent;
+    border: 1px solid transparent;
+    padding: .75rem 1.5rem;
+    font-size: 1.125rem;
+    line-height: 1.33;
+    border-radius: 1.875rem;
+}
+
+.btn-group-sm>.btn,
+.btn-sm {
+    padding: .25rem .5rem;
+    font-size: .875rem;
+    line-height: 1.5;
+}
 
 .btn-primary:hover {
     background-color: #062fc5;
