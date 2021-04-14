@@ -11,7 +11,7 @@
   "functions.feature-info": "Informationer om funktion",
   "functions.legend": "Forklaring",
   "functions.no-legend": "Ingen forklaring",
-  "welcome-screen.title": "Velkommen til Den data.europa.eu kortviser",
+  "welcome-screen.title": "Velkommen til den data.europa.eu kortviser",
   "welcome-screen.services": "Denne kortviser giver adgang til eksterne tjenester og viser deres data. Disse eksterne tjenester vedligeholdes ikke af Europa-Kommissionen, og vi har derfor ingen indflydelse på deres tilgængelighed/stabilitet. Følgende problemer kan forekomme:",
   "welcome-screen.information": "Hvis du anmoder om detaljerede oplysninger om en valgt funktion, vil din anmodning blive behandlet via en særskilt forespørgsel til kortserveren. Hvis svaret på din forespørgsel er forkert eller tomt (f.eks. på grund af en serverfejl), vil der ikke blive vist nogen informationer, men kun et tomt vindue.",
   "welcome-screen.access": "Data fra en ekstern server kan være placeret uden for den aktuelle kortvisning. Denne kortviser forsøger automatisk at identificere det dækkede område. I nogle tilfælde er metadataene dog ufuldstændige eller forkerte, så du er nødt til at tilpasse til det aktuelle kortudsnit.",
