@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
   }
 
   private setTitle(): void {
-    this.translateSrvc.get('title').subscribe({
+    this.translateSrvc.get('tagline').subscribe({
       next: t => this.titleSrvc.setTitle(`${t} | data.europa.eu`)
     });
   }
