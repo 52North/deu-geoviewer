@@ -15,7 +15,7 @@ FROM nginx:alpine
 
 # set default env variables
 ENV PORT=80
-ENV PN_BASE_HREF /
+ENV BASE_HREF /
 ENV PROXY_URL="https://www.europeandataportal.eu/mapapps-proxy?"
 
 # copy nginx config
