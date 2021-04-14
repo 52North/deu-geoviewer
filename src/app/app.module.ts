@@ -79,6 +79,7 @@ export const translateConfig = {
   ],
   providers: [
     { provide: 'PROXY_URL', useValue: environment.proxyUrl },
+    { provide: 'DEPLOY_URL', useValue: environment.deployUrl },
     {
       provide: ErrorHandler,
       useClass: GeneralErrorHandler

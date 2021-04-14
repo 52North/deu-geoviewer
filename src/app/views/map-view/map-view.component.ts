@@ -1,7 +1,8 @@
 import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 import { DatasetTitleService } from '../../components/dataset-title/dataset-title.component';
 import { GeoJSONOptions, MapOptions, WmsOptions } from '../../components/map/maphandler/model';
@@ -36,6 +37,8 @@ export class MapViewComponent implements OnInit {
     private errorSrvc: GeneralErrorHandler,
     private legalDisclaimerSrvc: LegalDisclaimerService,
     private datasetTitleSrvc: DatasetTitleService,
+    private translateSrvc: TranslateService,
+    @Inject('DEPLOY_URL') private deployUrl: string,
     public overlay: Overlay
   ) { }
 
@@ -60,6 +63,11 @@ export class MapViewComponent implements OnInit {
 
   public openLegalDisclaimer(): void {
     this.legalDisclaimerSrvc.openOverlay();
+  }
+
+  public openContactPage(): void {
+    const lang = this.translateSrvc.currentLang;
+    window.open(`${this.deployUrl}${lang}/feedback/form`, '_target');
   }
 
   private loadDataset(id: string, type: string): void {

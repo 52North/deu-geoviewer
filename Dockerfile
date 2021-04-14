@@ -17,6 +17,7 @@ FROM nginx:alpine
 ENV PORT=80
 ENV BASE_HREF /
 ENV PROXY_URL="https://www.europeandataportal.eu/mapapps-proxy?"
+ENV DEPLOY_URL="https://ppe.data.europa.eu/"
 
 # copy nginx config
 COPY ./nginx.conf /etc/nginx/conf.d/default.conf
