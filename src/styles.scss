@@ -9,10 +9,13 @@ $primary : #001D85;
 @import '~intro.js/introjs.css';
 @import 'assets/intro-themes.css';
 
+body {
+    font-family: Ubuntu, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
+}
+
 .btn {
     display: inline-block;
     font-weight: 700;
-    // color: #212529;
     text-align: center;
     vertical-align: middle;
     cursor: pointer;
@@ -20,7 +23,6 @@ $primary : #001D85;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    // background-color: transparent;
     border: 1px solid transparent;
     padding: .75rem 1.5rem;
     font-size: 1.125rem;
