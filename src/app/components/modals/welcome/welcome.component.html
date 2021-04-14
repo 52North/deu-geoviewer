@@ -1,6 +1,6 @@
 <div class="shadow-lg">
   <div class="modal-body">
-    <h2>{{ 'welcome-screen.title' | translate }}</h2>
+    <h2 class="text-primary">{{ 'welcome-screen.title' | translate }}</h2>
     <p>{{ 'welcome-screen.services' | translate }}</p>
 
     <div class="aspects">
@@ -19,8 +19,10 @@
     <p>{{ 'welcome-screen.basemaps' | translate }}</p>
   </div>
   <div class="modal-footer">
-    <input type="checkbox" id="check" [(ngModel)]="initialHide">
-    <label for="check">{{ 'welcome-screen.not-display-again' | translate }}</label>
-    <button type="button" class="btn btn-light" (click)="close()">{{ 'welcome-screen.confirm' | translate }}</button>
+    <div class="form-control-lg custom-checkbox">
+      <input type="checkbox" class="custom-control-input" id="hideWelcomeCheck" [(ngModel)]="initialHide">
+      <label class="custom-control-label" for="hideWelcomeCheck">{{ 'welcome-screen.not-display-again' | translate }}</label>
+    </div>
+    <button type="button" class="btn btn-primary" (click)="close()">{{ 'welcome-screen.confirm' | translate }}</button>
   </div>
 </div>
