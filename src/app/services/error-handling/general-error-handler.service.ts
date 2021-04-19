@@ -3,7 +3,7 @@ import { ComponentPortal } from '@angular/cdk/portal';
 import { ErrorHandler, Injectable } from '@angular/core';
 
 import { ErrorComponent } from '../../components/modals/error/error.component';
-import { EdpError } from './model';
+import { ViewerError } from './model';
 
 @Injectable({
   providedIn: 'root'
@@ -17,14 +17,14 @@ export class GeneralErrorHandler extends ErrorHandler {
   }
 
   public handleError(error: Error): void {
-    if (error instanceof EdpError) {
+    if (error instanceof ViewerError) {
       this.openErrorScreen(error);
     } else {
       super.handleError(error);
     }
   }
 
-  public openErrorScreen(error: EdpError): void {
+  public openErrorScreen(error: ViewerError): void {
     const config = new OverlayConfig({
       positionStrategy: this.overlay.position().global().centerHorizontally().centerVertically(),
       hasBackdrop: true

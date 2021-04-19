@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "edp-viewer": {
+    "geo-viewer": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -20,7 +20,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/edp-viewer",
+            "outputPath": "dist/geo-viewer",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -69,18 +69,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "edp-viewer:build"
+            "browserTarget": "geo-viewer:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "edp-viewer:build:production"
+              "browserTarget": "geo-viewer:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "edp-viewer:build"
+            "browserTarget": "geo-viewer:build"
           }
         },
         "test": {
@@ -117,16 +117,16 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "edp-viewer:serve"
+            "devServerTarget": "geo-viewer:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "edp-viewer:serve:production"
+              "devServerTarget": "geo-viewer:serve:production"
             }
           }
         }
       }
     }
   },
-  "defaultProject": "edp-viewer"
+  "defaultProject": "geo-viewer"
 }

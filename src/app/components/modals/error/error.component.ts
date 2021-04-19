@@ -2,7 +2,7 @@ import { OverlayRef } from '@angular/cdk/overlay';
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
-import { EdpError } from '../../../services/error-handling/model';
+import { ViewerError } from '../../../services/error-handling/model';
 import { ConfigurationService } from './../../../configuration/configuration.service';
 
 @Component({
@@ -14,7 +14,7 @@ export class ErrorComponent implements OnInit {
 
   public overlayRef!: OverlayRef;
 
-  public error!: EdpError;
+  public error!: ViewerError;
 
   public errorMessage: string | undefined;
 
@@ -24,7 +24,7 @@ export class ErrorComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    if (this.error instanceof EdpError) {
+    if (this.error instanceof ViewerError) {
       const translationsKey = this.error.messageKey;
       const translation = this.translate.instant(translationsKey);
       if (translationsKey !== translation) {

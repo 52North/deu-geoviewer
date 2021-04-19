@@ -11,7 +11,7 @@ import { LoadingDatasetComponent } from '../../components/modals/loading-dataset
 import { DatasetType, parseDatasetType } from '../../model';
 import { DatasetService } from '../../services/dataset.service';
 import { GeneralErrorHandler } from '../../services/error-handling/general-error-handler.service';
-import { EdpError } from '../../services/error-handling/model';
+import { ViewerError } from '../../services/error-handling/model';
 import { FiwareOptions } from './../../components/map/maphandler/model';
 import { WelcomeScreenService } from './../../components/modals/welcome/welcome.component';
 import { TutorialService } from './../../services/intro.service';
@@ -106,7 +106,7 @@ export class MapViewComponent implements OnInit {
     );
   }
 
-  private handleError(error: EdpError): void {
+  private handleError(error: ViewerError): void {
     this.hideLoading();
     this.mapOptions = new MapOptions();
     this.errorSrvc.openErrorScreen(error);

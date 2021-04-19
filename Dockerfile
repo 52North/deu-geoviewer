@@ -27,6 +27,6 @@ COPY ./adjustment-script.sh /docker-entrypoint.d/
 RUN chmod 0775 /docker-entrypoint.d/adjustment-script.sh
 
 # copy build from previous stage
-COPY --from=BUILD /usr/src/app/dist/edp-viewer /usr/share/nginx/html
+COPY --from=BUILD /usr/src/app/dist/geo-viewer /usr/share/nginx/html
 
 CMD ["nginx", "-g", "daemon off;"]

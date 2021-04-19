@@ -3,7 +3,7 @@ import { TranslateDefaultParser } from '@ngx-translate/core';
 
 import { CkanResource } from '../../model';
 
-export abstract class EdpError {
+export abstract class ViewerError {
 
     protected translationParser = new TranslateDefaultParser();
 
@@ -50,7 +50,7 @@ export enum NotSupportedReason {
     dataRequest = 'dataRequest'
 }
 
-export class NotSupportedError extends EdpError {
+export class NotSupportedError extends ViewerError {
 
     constructor(
         protected requestUrl: string,
@@ -89,7 +89,7 @@ export class NotSupportedError extends EdpError {
 
 }
 
-export class NotAvailableError extends EdpError {
+export class NotAvailableError extends ViewerError {
 
     constructor(
         protected requestUrl: string,
