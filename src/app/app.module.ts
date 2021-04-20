@@ -80,6 +80,7 @@ export const translateConfig = {
   providers: [
     { provide: 'PROXY_URL', useValue: environment.proxyUrl },
     { provide: 'DEPLOY_URL', useValue: environment.deployUrl },
+    { provide: 'API_URL', useValue: environment.apiUrl },
     {
       provide: ErrorHandler,
       useClass: GeneralErrorHandler

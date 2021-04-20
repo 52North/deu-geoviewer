@@ -1,5 +1,4 @@
 {
-  "apiUrl": "https://www.europeandataportal.eu/data/api/",
   "defaultMapExtent": [
     {
       "crs": "EPSG:4326",

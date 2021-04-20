@@ -19,11 +19,12 @@ export class DatasetService {
   constructor(
     private http: HttpClient,
     @Inject('PROXY_URL') private proxyUrl: string,
+    @Inject('API_URL') private apiUrl: string,
     private config: ConfigurationService
   ) { }
 
   getDataset(resource: CkanResource): Observable<Dataset> {
-    const url = `${this.config.configuration.apiUrl}distributions/${resource.id}.jsonld`;
+    const url = `${this.apiUrl}distributions/${resource.id}.jsonld`;
     return this.http.get(`${this.proxyUrl}${url}`)
       .pipe(
         catchError(err => this.handleError(url, err, resource)),

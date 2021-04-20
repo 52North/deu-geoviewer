@@ -1,7 +1,6 @@
 import { Extent } from 'ol/extent';
 
 export type Configuration = {
-    apiUrl: string;
     defaultMapExtent: {
         crs: string;
         extent: Extent;
