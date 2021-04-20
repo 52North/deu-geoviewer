@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
 import { ViewerError } from '../../../services/error-handling/model';
-import { ConfigurationService } from './../../../configuration/configuration.service';
+import { ContactService } from './../../../services/contact.service';
 
 @Component({
   selector: 'app-error',
@@ -20,7 +20,7 @@ export class ErrorComponent implements OnInit {
 
   constructor(
     private translate: TranslateService,
-    private config: ConfigurationService
+    private contactSrvc: ContactService
   ) { }
 
   ngOnInit(): void {
@@ -36,8 +36,7 @@ export class ErrorComponent implements OnInit {
 
   public createTicket(): void {
     this.translate.getTranslation('en').subscribe(translation => {
-      const ticket = `${this.config.configuration.supportTicketPrefix}${this.error.createTicket(translation)}`;
-      window.open(ticket);
+      this.contactSrvc.openContact(this.error.createTicket(translation), 'en');
     });
   }
 

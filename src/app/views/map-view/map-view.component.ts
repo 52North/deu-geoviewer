@@ -1,8 +1,7 @@
 import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
 
 import { DatasetTitleService } from '../../components/dataset-title/dataset-title.component';
 import { GeoJSONOptions, MapOptions, WmsOptions } from '../../components/map/maphandler/model';
@@ -14,6 +13,7 @@ import { GeneralErrorHandler } from '../../services/error-handling/general-error
 import { ViewerError } from '../../services/error-handling/model';
 import { FiwareOptions } from './../../components/map/maphandler/model';
 import { WelcomeScreenService } from './../../components/modals/welcome/welcome.component';
+import { ContactService } from './../../services/contact.service';
 import { TutorialService } from './../../services/intro.service';
 import { WmsService } from './../../services/wms.service';
 
@@ -37,8 +37,7 @@ export class MapViewComponent implements OnInit {
     private errorSrvc: GeneralErrorHandler,
     private legalDisclaimerSrvc: LegalDisclaimerService,
     private datasetTitleSrvc: DatasetTitleService,
-    private translateSrvc: TranslateService,
-    @Inject('DEPLOY_URL') private deployUrl: string,
+    private contactSrvc: ContactService,
     public overlay: Overlay
   ) { }
 
@@ -66,8 +65,7 @@ export class MapViewComponent implements OnInit {
   }
 
   public openContactPage(): void {
-    const lang = this.translateSrvc.currentLang;
-    window.open(`${this.deployUrl}${lang}/feedback/form`, '_target');
+    this.contactSrvc.openContact();
   }
 
   private loadDataset(id: string, type: string): void {

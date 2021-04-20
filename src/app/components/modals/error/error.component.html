@@ -1,6 +1,6 @@
 <div class="shadow-lg">
   <div class="modal-body">
-    <h4>{{ error.titleKey | translate }}</h4>
+    <h4 class="text-primary">{{ error.titleKey | translate }}</h4>
     <p>{{ 'error.general.invalidResource' | translate }} {{'error.general.errorSource' | translate}}</p>
     <p class="bold">{{errorMessage}}</p>
     <p class="bold">{{ 'error.general.requestedUrl' | translate }}: <a href="{{error.url}}" target="_blank">{{error.url}}</a></p>
