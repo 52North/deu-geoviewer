@@ -25,7 +25,7 @@ export class DatasetService {
 
   getDataset(resource: CkanResource): Observable<Dataset> {
     const url = `${this.apiUrl}distributions/${resource.id}.jsonld`;
-    return this.http.get(`${this.proxyUrl}${url}`)
+    return this.http.get(`${url}`)
       .pipe(
         catchError(err => this.handleError(url, err, resource)),
         map((res: any) => {
