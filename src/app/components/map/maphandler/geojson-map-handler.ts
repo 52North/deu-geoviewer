@@ -6,6 +6,7 @@ import Select, { SelectEvent } from 'ol/interaction/Select';
 import VectorLayer from 'ol/layer/Vector';
 import Projection from 'ol/proj/Projection';
 import VectorSource from 'ol/source/Vector';
+import { Stroke, Style } from 'ol/style';
 import { Observable, of } from 'rxjs';
 
 import { ConfigurationService } from '../../../configuration/configuration.service';
@@ -13,6 +14,20 @@ import { NotSupportedError, NotSupportedReason } from '../../../services/error-h
 import { FeatureInfoPopupComponent } from '../feature-info-popup/feature-info-popup.component';
 import { MapHandler } from './map-handler';
 import { GeoJSONOptions } from './model';
+
+const featureStyle = new Style({
+    stroke: new Stroke({
+        color: 'magenta',
+        width: 2,
+    })
+});
+
+const featureHoverStyle = new Style({
+    stroke: new Stroke({
+        color: '#36ff33',
+        width: 5,
+    })
+});
 
 export class GeoJsonMapHandler extends MapHandler {
 
@@ -52,7 +67,7 @@ export class GeoJsonMapHandler extends MapHandler {
             const vectorSource = new VectorSource({
                 features: new GeoJSON().readFeatures(this.options.geojson),
             });
-            this.vectorLayer = new VectorLayer({ source: vectorSource });
+            this.vectorLayer = new VectorLayer({ source: vectorSource, style: featureStyle });
             this.map.addLayer(this.vectorLayer);
             extent = vectorSource.getExtent();
         }
@@ -76,6 +91,7 @@ export class GeoJsonMapHandler extends MapHandler {
 
             this.hoverSelectGeojsonFeature = new Select({
                 condition: pointerMove,
+                style: featureHoverStyle,
                 layers: [this.vectorLayer]
             });
             this.hoverSelectGeojsonFeature.on('select', (evt => {
