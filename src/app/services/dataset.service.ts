@@ -60,11 +60,11 @@ export class DatasetService {
         return dist.title;
       }
     }
-    if (dist.accessURL) {
-      if (typeof dist.accessURL === 'string') {
-        return dist.accessURL;
-      }
-    }
+    // if (dist.accessURL) {
+    //   if (typeof dist.accessURL === 'string') {
+    //     return dist.accessURL;
+    //   }
+    // }
     return '';
   }
 
