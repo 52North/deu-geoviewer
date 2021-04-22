@@ -41,6 +41,8 @@ export class MapComponent implements AfterViewInit, OnChanges, OnDestroy {
   public legendOpen = false;
   public featureInfoActive = true;
 
+  private initialZoomEnabled = true;
+
   public legendEntries: LegendEntry[] = [];
 
   private mapHandler: MapHandler | undefined;
@@ -69,6 +71,10 @@ export class MapComponent implements AfterViewInit, OnChanges, OnDestroy {
 
   public toggleVisibility(legendEntry: LegendEntry): void {
     legendEntry.layer.setVisible(!legendEntry.layer.getVisible());
+    if (this.initialZoomEnabled) {
+      this.zoomToExtent(legendEntry);
+      this.initialZoomEnabled = false;
+    }
   }
 
   public getLegendUrl(legendEntry: LegendEntry): string | undefined {
