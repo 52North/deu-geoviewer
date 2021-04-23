@@ -77,26 +77,39 @@ export class MapViewComponent implements OnInit {
           this.datasetTitleSrvc.title.next(dataset.title);
         }
         if (resource.type === DatasetType.GEOJSON) {
-          this.datasetSrvc.getGeoJSON(dataset.url, resource).subscribe(
+          this.datasetSrvc.getGeoJSON(dataset.primaryUrl, resource).subscribe(
             geojson => {
-              this.mapOptions = new GeoJSONOptions(dataset.url, resource, geojson);
+              this.mapOptions = new GeoJSONOptions(dataset.primaryUrl, resource, geojson);
               this.hideLoading();
             },
             error => this.handleError(error)
           );
         }
         if (resource.type === DatasetType.WMS) {
-          this.wmsSrvc.getLayerTree(dataset.url, resource).subscribe(
+          this.wmsSrvc.getLayerTree(dataset.primaryUrl, resource).subscribe(
             layerTree => {
               const layerList = this.wmsSrvc.asList(layerTree, []);
-              this.mapOptions = new WmsOptions(dataset.url, resource, layerList);
+              this.mapOptions = new WmsOptions(dataset.primaryUrl, resource, layerList);
               this.hideLoading();
             },
-            error => this.handleError(error)
+            errorPrimary => {
+              if (dataset.secondaryUrl) {
+                this.wmsSrvc.getLayerTree(dataset.secondaryUrl, resource).subscribe(
+                  layerTree => {
+                    const layerList = this.wmsSrvc.asList(layerTree, []);
+                    this.mapOptions = new WmsOptions(dataset.primaryUrl, resource, layerList);
+                    this.hideLoading();
+                  },
+                  errorSecondary => this.handleError(errorSecondary)
+                );
+              } else {
+                this.handleError(errorPrimary);
+              }
+            }
           );
         }
         if (resource.type === DatasetType.FIWARE) {
-          this.mapOptions = new FiwareOptions(dataset.url, resource);
+          this.mapOptions = new FiwareOptions(dataset.primaryUrl, resource);
           this.hideLoading();
         }
       },

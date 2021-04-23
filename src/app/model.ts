@@ -7,7 +7,8 @@ export interface Dataset {
     title: string;
     description: string;
     resource: CkanResource;
-    url: string;
+    primaryUrl: string;
+    secondaryUrl?: string;
 }
 
 export enum DatasetType {

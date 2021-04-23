@@ -44,12 +44,15 @@ export class DatasetService {
           if (!resource.type) {
             throw new NotSupportedError(url, resource, NotSupportedReason.fileFormat);
           }
-          return {
+
+          const dataset: Dataset = {
             resource,
             description: dist.description,
             title: this.fetchTitle(dist),
-            url: dist.accessURL
+            primaryUrl: dist.accessURL
           };
+          if (dist.downloadURL) { dataset.secondaryUrl = dist.downloadURL; }
+          return dataset;
         })
       );
   }
