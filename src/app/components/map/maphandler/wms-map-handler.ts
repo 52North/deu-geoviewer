@@ -76,24 +76,26 @@ export class WmsMapHandler extends MapHandler {
     }
 
     private featureInfoClick = (evt: MapBrowserEvent<UIEvent>) => {
-        const urls: string[] = [];
-        this.legendEntries.forEach(l => {
-            if (l.layer.getVisible()) {
-                const source = l.layer.getSource();
-                if (source instanceof TileWMS) {
-                    const url = source.getFeatureInfoUrl(
-                        evt.coordinate,
-                        this.map.getView().getResolution() as number,
-                        this.projection.getCode(),
-                        { INFO_FORMAT: 'text/html' }
-                    );
-                    if (url) {
-                        urls.push(url);
+        if (this.legendEntries.some(e => e.layer.getVisible())) {
+            const urls: string[] = [];
+            this.legendEntries.forEach(l => {
+                if (l.layer.getVisible()) {
+                    const source = l.layer.getSource();
+                    if (source instanceof TileWMS) {
+                        const url = source.getFeatureInfoUrl(
+                            evt.coordinate,
+                            this.map.getView().getResolution() as number,
+                            this.projection.getCode(),
+                            { INFO_FORMAT: 'text/html' }
+                        );
+                        if (url) {
+                            urls.push(url);
+                        }
                     }
                 }
-            }
-        });
-        this.showWmsFeatureInfo(evt.coordinate, urls);
+            });
+            this.showWmsFeatureInfo(evt.coordinate, urls);
+        }
     }
 
     private showWmsFeatureInfo(coordinate: Coordinate, urls: string[]): void {
