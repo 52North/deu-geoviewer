@@ -42,7 +42,7 @@ const featureHoverStyle = new Style({
     image: new CircleStyle({
         radius: 5,
         fill: new Fill({ color: '#36ff33' }),
-        stroke: new Stroke({ color: '#36ff33', width: 5 }),
+        stroke: new Stroke({ color: '#36ff33', width: 2 }),
     })
 });
 
