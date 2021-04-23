@@ -6,7 +6,8 @@ import Select, { SelectEvent } from 'ol/interaction/Select';
 import VectorLayer from 'ol/layer/Vector';
 import Projection from 'ol/proj/Projection';
 import VectorSource from 'ol/source/Vector';
-import { Stroke, Style } from 'ol/style';
+import { Fill, Stroke, Style } from 'ol/style';
+import CircleStyle from 'ol/style/Circle';
 import { Observable, of } from 'rxjs';
 
 import { ConfigurationService } from '../../../configuration/configuration.service';
@@ -19,13 +20,29 @@ const featureStyle = new Style({
     stroke: new Stroke({
         color: 'magenta',
         width: 2,
+    }),
+    fill: new Fill({
+        color: 'rgba(255, 255, 0, 0.1)',
+    }),
+    image: new CircleStyle({
+        radius: 5,
+        fill: new Fill({ color: 'magenta' }),
+        stroke: new Stroke({ color: 'magenta', width: 2 }),
     })
 });
 
 const featureHoverStyle = new Style({
     stroke: new Stroke({
-        color: '#36ff33',
+        color: 'magenta',
         width: 5,
+    }),
+    fill: new Fill({
+        color: 'rgba(255, 255, 0, 0.1)',
+    }),
+    image: new CircleStyle({
+        radius: 5,
+        fill: new Fill({ color: '#36ff33' }),
+        stroke: new Stroke({ color: '#36ff33', width: 5 }),
     })
 });
 
