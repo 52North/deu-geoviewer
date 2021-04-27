@@ -10,7 +10,7 @@ import Projection from 'ol/proj/Projection';
 import VectorSource from 'ol/source/Vector';
 import { Circle as CircleStyle, Style } from 'ol/style';
 import Fill from 'ol/style/Fill';
-import { Observable, Subscription, throwError } from 'rxjs';
+import { interval, Observable, Subscription, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
 import { ConfigurationService } from '../../../configuration/configuration.service';
@@ -54,20 +54,15 @@ export class FiwareMapHandler extends MapHandler {
     }
 
     public createMap(mapId: string): Observable<void> {
-        // this.intervalSubscription = interval(1000).pipe().subscribe(() => {
-        //     this.counter++;
-        //     this.setCounterView(this.secondsTillReload - this.counter);
-        //     if (this.counter >= this.secondsTillReload) {
-        //         this.counter = 0;
-        //         this.fetchData().subscribe(res => this.updateData(res));
-        //     }
-        // });
-        return this.fetchData(mapId).pipe(
-            map(res => {
-                debugger;
-                return this.initMap(mapId, res);
-            })
-        );
+        this.intervalSubscription = interval(1000).pipe().subscribe(() => {
+            this.counter++;
+            this.setCounterView(this.secondsTillReload - this.counter);
+            if (this.counter >= this.secondsTillReload) {
+                this.counter = 0;
+                this.fetchData().subscribe(res => this.updateData(res));
+            }
+        });
+        return this.fetchData().pipe(map(res => this.initMap(mapId, res)));
     }
 
     public mapViewDestroyed(): void {
@@ -76,19 +71,11 @@ export class FiwareMapHandler extends MapHandler {
         }
     }
 
-    private fetchData(mapId: string): Observable<Feature[]> {
+    private fetchData(): Observable<Feature[]> {
         return this.httpClient.get<FiwareResponseEntry[]>(`${this.proxyUrl}${this.options.url}`)
             .pipe(
-                // catchError(err => {
-                //     debugger;
-                //     // this.initMap(mapId, []);
-                //     // return throwError(new NotAvailableError(this.options.url, this.options.resource, err));
-                //     return [];
-                // }),
-                map(res => {
-                    debugger;
-                    return res.map(e => new GeoJSON().readFeature(this.transformFeature(e)));
-                })
+                catchError(err => throwError(new NotAvailableError(this.options.url, this.options.resource, err))),
+                map(res => res.map(e => new GeoJSON().readFeature(this.transformFeature(e))))
             );
     }
 
