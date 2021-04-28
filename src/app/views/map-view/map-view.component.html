@@ -1,17 +1,25 @@
 <div class="wrapper">
   <app-map [options]="mapOptions"></app-map>
   <div class="controls">
-    <button type="button" class="btn btn-light btn-sm" (click)="openWelcome()">
-      <i class="bi bi-info"></i>
-    </button>
-    <button type="button" class="btn btn-light btn-sm" (click)="openTutorial()">
-      <i class="bi bi-question"></i>
-    </button>
-    <button type="button" class="btn btn-light btn-sm" (click)="openContactPage()">
-      {{ 'menu.contact' | translate }}
-    </button>
-    <button type="button" class="btn btn-light btn-sm" (click)="openLegalDisclaimer()">
-      {{ 'menu.legal-notice' | translate }}
-    </button>
+    <div>
+      <button type="button" class="btn btn-light btn-sm" (click)="openWelcome()">
+        <i class="bi bi-info"></i>
+      </button>
+    </div>
+    <div>
+      <button type="button" class="btn btn-light btn-sm" (click)="openTutorial()">
+        <i class="bi bi-question"></i>
+      </button>
+    </div>
+    <div>
+      <button type="button" class="btn btn-light btn-sm" (click)="openContactPage()">
+        {{ 'menu.contact' | translate }}
+      </button>
+    </div>
+    <div>
+      <button type="button" class="btn btn-light btn-sm" (click)="openLegalDisclaimer()">
+        {{ 'menu.legal-notice' | translate }}
+      </button>
+    </div>
   </div>
 </div>

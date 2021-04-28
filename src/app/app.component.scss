@@ -33,6 +33,12 @@
                         height: 45px;
                         margin-right: 10px;
                     }
+
+                    @media screen and (max-width: 576px) {
+                        img {
+                            height: 35px;
+                        }
+                    }
                 }
 
                 .dataset-title {
