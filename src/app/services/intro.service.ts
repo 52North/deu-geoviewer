@@ -18,7 +18,6 @@ export class TutorialService {
     private welcomeScreen: WelcomeScreenService
   ) {
     this.welcomeScreen.welcomeScreenClosed.pipe(first()).subscribe(res => this.initionalTutorialDisplay());
-    this.openTutorial();
   }
 
   public initionalTutorialDisplay(): void {
