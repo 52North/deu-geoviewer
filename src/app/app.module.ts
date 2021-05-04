@@ -6,11 +6,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgbAccordionModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { GuidedTourService, WindowRefService } from 'ngx-guided-tour';
 
 import { environment } from './../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DatasetTitleComponent } from './components/dataset-title/dataset-title.component';
+import { CustomGuidedTourComponent } from './components/guided-tour/custom-guided-tour.component';
 import { LanguageSelectorComponent } from './components/language-selector/language-selector.component';
 import { CounterComponent } from './components/map/counter/counter.component';
 import { FeatureInfoPopupComponent } from './components/map/feature-info-popup/feature-info-popup.component';
@@ -66,6 +68,7 @@ export const translateConfig = {
     WmsFeatureInfoComponent,
     CounterComponent,
     DatasetTitleComponent,
+    CustomGuidedTourComponent
   ],
   imports: [
     AppRoutingModule,
@@ -85,6 +88,8 @@ export const translateConfig = {
       provide: ErrorHandler,
       useClass: GeneralErrorHandler
     },
+    GuidedTourService,
+    WindowRefService,
     {
       provide: APP_INITIALIZER,
       useFactory: initApplication,

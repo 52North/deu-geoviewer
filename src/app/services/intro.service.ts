@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import introJs from 'intro.js';
+import { GuidedTour, GuidedTourService, Orientation } from 'ngx-guided-tour';
 import { first } from 'rxjs/operators';
 
 import { WelcomeScreenService } from '../components/modals/welcome/welcome.component';
@@ -14,9 +14,11 @@ export class TutorialService {
 
   constructor(
     private translate: TranslateService,
+    private guidedTourService: GuidedTourService,
     private welcomeScreen: WelcomeScreenService
   ) {
     this.welcomeScreen.welcomeScreenClosed.pipe(first()).subscribe(res => this.initionalTutorialDisplay());
+    this.openTutorial();
   }
 
   public initionalTutorialDisplay(): void {
@@ -27,61 +29,48 @@ export class TutorialService {
   }
 
   public openTutorial(): void {
-    introJs()
-      .onafterchange(() => {
-        this.adjustCssClassForButtons();
-        this.adjustAbortButton();
-      })
-      .setOptions(this.createIntroOptions())
-      .start();
+    this.guidedTourService.startTour(this.createTourOptions());
   }
 
-  private createIntroOptions(): introJs.Options {
+  private createTourOptions(): GuidedTour {
     return {
-      exitOnOverlayClick: false,
-      nextLabel: this.translate.instant('tutorial.next'),
-      prevLabel: this.translate.instant('tutorial.back'),
-      doneLabel: this.translate.instant('tutorial.done'),
+      tourId: 'purchases-tour',
+      useOrb: false,
+      preventBackdropFromAdvancing: true,
       steps: [
         {
-          intro: this.translate.instant('tutorial.step1'),
+          content: this.translate.instant('tutorial.step1'),
+          orientation: Orientation.Bottom
         },
         {
-          intro: this.translate.instant('tutorial.step2'),
+          content: this.translate.instant('tutorial.step2')
         },
         {
-          intro: this.translate.instant('tutorial.step3'),
-          element: '.map .zoom-buttons'
+          selector: '.map .zoom-buttons',
+          content: this.translate.instant('tutorial.step3'),
+          orientation: Orientation.Left,
+          highlightPadding: 5
         },
         {
-          intro: this.translate.instant('tutorial.step4'),
-          element: '.map .feature-buttons'
+          content: this.translate.instant('tutorial.step4'),
+          selector: '.map .feature-buttons',
+          orientation: Orientation.Top,
+          highlightPadding: 5
         },
         {
-          intro: this.translate.instant('tutorial.step5'),
-          element: '.map .feature-buttons .legend-button'
+          content: this.translate.instant('tutorial.step5'),
+          selector: '.map .feature-buttons .legend-button',
+          orientation: Orientation.TopLeft,
+          highlightPadding: 5
         },
         {
-          intro: this.translate.instant('tutorial.step6'),
-          element: '.map .feature-buttons .feature-info-button'
+          content: this.translate.instant('tutorial.step6'),
+          selector: '.map .feature-buttons .feature-info-button',
+          orientation: Orientation.Top,
+          highlightPadding: 5
         }
       ]
     };
-  }
-
-  private adjustCssClassForButtons(): void {
-    document.querySelectorAll('.introjs-button').forEach(e => {
-      e.classList.add('btn');
-      e.classList.add('btn-sm');
-      e.classList.add('btn-primary');
-      return e.classList.remove('introjs-button');
-    });
-  }
-
-  private adjustAbortButton(): void {
-    document.querySelectorAll('.introjs-skipbutton').forEach(e => {
-      e.setAttribute('title', this.translate.instant('tutorial.skip'));
-    });
   }
 
 }
