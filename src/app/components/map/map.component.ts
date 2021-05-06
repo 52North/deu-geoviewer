@@ -47,6 +47,8 @@ export class MapComponent implements AfterViewInit, OnChanges, OnDestroy {
 
   private mapHandler: MapHandler | undefined;
 
+  private viewInit = false;
+
   constructor(
     private factoryResolver: ComponentFactoryResolver,
     private config: ConfigurationService,
@@ -66,6 +68,7 @@ export class MapComponent implements AfterViewInit, OnChanges, OnDestroy {
   }
 
   ngAfterViewInit(): void {
+    this.viewInit = true;
     this.initMap();
   }
 
@@ -113,7 +116,7 @@ export class MapComponent implements AfterViewInit, OnChanges, OnDestroy {
   }
 
   private initMap(): void {
-    if (this.options) {
+    if (this.options && this.viewInit) {
       this.mapHandler = this.findMapHandler(this.options);
       this.mapHandler.mapLoading.subscribe(ml => this.mapLoading = ml);
       this.mapHandler.createMap(this.mapId).subscribe(() => {
