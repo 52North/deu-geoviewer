@@ -32,7 +32,7 @@
     {
       "type": "WMTS",
       "crs": "EPSG:4326",
-      "url": "https://europa.eu/webtools/rest/gisco/maps/wmts/1.0.0/WMTSCapabilities.xml/wmts/OSMCartoComposite/{TileMatrixSet}/{TileMatrix}/{TileCol}/{TileRow}.png",
+      "url": "https://europa.eu/webtools/rest/gisco/maps/tiles/OSMCartoComposite/{TileMatrixSet}/{TileMatrix}/{TileCol}/{TileRow}.png",
       "options": {
         "matrixSet": "EPSG4326",
         "topLeft": [
@@ -61,12 +61,12 @@
           2.68220901489e-06
         ]
       },
-      "minZoom": 11
+      "minZoom": 1
     },
     {
       "type": "WMTS",
       "crs": "EPSG:3857",
-      "url": "https://europa.eu/webtools/rest/gisco/maps/wmts/1.0.0/WMTSCapabilities.xml/wmts/OSMCartoComposite/{TileMatrixSet}/{TileMatrix}/{TileCol}/{TileRow}.png",
+      "url": "https://europa.eu/webtools/rest/gisco/maps/tiles/OSMCartoComposite/{TileMatrixSet}/{TileMatrix}/{TileCol}/{TileRow}.png",
       "options": {
         "matrixSet": "EPSG3857",
         "topLeft": [
@@ -95,12 +95,12 @@
           0.597164283478
         ]
       },
-      "minZoom": 11
+      "minZoom": 1
     },
     {
       "type": "WMTS",
       "crs": "EPSG:3035",
-      "url": "https://europa.eu/webtools/rest/gisco/maps/wmts/1.0.0/WMTSCapabilities.xml/wmts/OSMCartoComposite/{TileMatrixSet}/{TileMatrix}/{TileCol}/{TileRow}.png",
+      "url": "https://europa.eu/webtools/rest/gisco/maps/tiles/OSMCartoComposite/{TileMatrixSet}/{TileMatrix}/{TileCol}/{TileRow}.png",
       "options": {
         "matrixSet": "EPSG3035",
         "topLeft": [
@@ -129,61 +129,7 @@
           0.597164283478
         ]
       },
-      "minZoom": 11
-    },
-    {
-      "type": "TileArcGIS",
-      "crs": "EPSG:4326",
-      "url": "https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CountriesEurope_4326/MapServer",
-      "maxZoom": 11
-    },
-    {
-      "type": "TileArcGIS",
-      "crs": "EPSG:4326",
-      "url": "https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CitiesRoadsRiversLakes_4326/MapServer",
-      "maxZoom": 11
-    },
-    {
-      "type": "TileArcGIS",
-      "crs": "EPSG:4326",
-      "url": "https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CityNamesEurope_4326/MapServer",
-      "maxZoom": 11
-    },
-    {
-      "type": "TileArcGIS",
-      "crs": "EPSG:3857",
-      "url": "https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CountriesEurope_3857/MapServer",
-      "maxZoom": 11
-    },
-    {
-      "type": "TileArcGIS",
-      "crs": "EPSG:3857",
-      "url": "https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CitiesRoadsRiversLakes_3857/MapServer",
-      "maxZoom": 11
-    },
-    {
-      "type": "TileArcGIS",
-      "crs": "EPSG:3857",
-      "url": "https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CityNamesEurope_3857/MapServer",
-      "maxZoom": 11
-    },
-    {
-      "type": "TileArcGIS",
-      "crs": "EPSG:3035",
-      "url": "https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CountriesEurope_3035/MapServer",
-      "maxZoom": 11
-    },
-    {
-      "type": "TileArcGIS",
-      "crs": "EPSG:3035",
-      "url": "https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CitiesRoadsRiversLakes_3035/MapServer",
-      "maxZoom": 11
-    },
-    {
-      "type": "TileArcGIS",
-      "crs": "EPSG:3035",
-      "url": "https://webgate.ec.europa.eu/estat/inspireec/gis/arcgis/rest/services/Basemaps/CityNamesEurope_3035/MapServer",
-      "maxZoom": 11
+      "minZoom": 1
     }
   ],
   "languages": [
