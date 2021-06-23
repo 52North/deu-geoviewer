@@ -1,4 +1,5 @@
 import { Map, View } from 'ol';
+import Attribution from 'ol/control/Attribution';
 import Projection from 'ol/proj/Projection';
 import { Observable, of } from 'rxjs';
 
@@ -12,7 +13,7 @@ export class EmptyMapHandler extends MapHandler {
 
         this.map = new Map({
             layers: this.createBaseLayers(projection),
-            controls: [],
+            controls: [new Attribution()],
             target: mapId,
             view: new View({
                 projection: projection.getCode(),

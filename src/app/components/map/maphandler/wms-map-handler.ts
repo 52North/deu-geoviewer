@@ -6,6 +6,7 @@ import TileLayer from 'ol/layer/Tile';
 import Projection from 'ol/proj/Projection';
 import TileWMS from 'ol/source/TileWMS';
 import { Observable, of } from 'rxjs';
+import Attribution from 'ol/control/Attribution';
 
 import { ConfigurationService } from '../../../configuration/configuration.service';
 import { WmsFeatureInfoComponent } from '../wms-feature-info/wms-feature-info.component';
@@ -50,7 +51,7 @@ export class WmsMapHandler extends MapHandler {
 
         this.map = new Map({
             layers,
-            controls: [],
+            controls: [new Attribution()],
             target: mapId,
             view: new View({
                 projection: this.projection.getCode(),

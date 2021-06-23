@@ -46,4 +46,46 @@ body {
     .btn {
         @include button-size($input-btn-padding-y-sm, $input-btn-padding-x-sm, $font-size-sm, $line-height-sm, 1.875rem);
     }
-  }
+}
+
+.ol-attribution {
+    text-align: left;
+    top: 0em;
+    left: 0em;
+    bottom: auto;
+    right: auto;
+    font-size: 0.875rem;
+}
+
+.ol-control {
+    button {
+        font-family: $btn-font-family;
+        font-weight: $btn-font-weight;
+        background-color: transparent;
+        border: $btn-border-width solid transparent;
+        color: $body-color;
+        @include transition($btn-transition);
+        @include hover() {
+            color: $body-color;
+            text-decoration: none;
+        }
+        &:focus, &.focus {
+            outline: 0;
+            box-shadow: $btn-focus-box-shadow;
+        }
+        &.disabled, &:disabled {
+            opacity: $btn-disabled-opacity;
+            @include box-shadow(none);
+        }
+        &:not(:disabled):not(.disabled) {
+            cursor: if($enable-pointer-cursor-for-buttons, pointer, null);
+            &:active, &.active {
+                @include box-shadow($btn-active-box-shadow);
+                &:focus {
+                    @include box-shadow($btn-focus-box-shadow, $btn-active-box-shadow);
+                }
+            }
+        }
+        @include button-variant($light, $light);
+    }
+}

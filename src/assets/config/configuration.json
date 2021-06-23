@@ -61,7 +61,8 @@
           2.68220901489e-06
         ]
       },
-      "minZoom": 1
+      "minZoom": 1,
+      "attributions": ["© <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors"]
     },
     {
       "type": "WMTS",
@@ -95,7 +96,8 @@
           0.597164283478
         ]
       },
-      "minZoom": 1
+      "minZoom": 1,
+      "attributions": ["© <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors"]
     },
     {
       "type": "WMTS",
@@ -129,7 +131,8 @@
           0.597164283478
         ]
       },
-      "minZoom": 1
+      "minZoom": 1,
+      "attributions": ["© <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors"]
     }
   ],
   "languages": [

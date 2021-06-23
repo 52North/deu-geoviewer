@@ -92,7 +92,8 @@ export abstract class MapHandler {
                             origin: lc.options.topLeft,
                             resolutions: lc.options.resolutions,
                             matrixIds: lc.options.resolutions.map((e: number, i: number) => i.toString())
-                        })
+                        }),
+                        attributions: lc.attributions
                     });
                     this.addloadingEvents(wmtsSource);
                     layers.push(new TileLayer({
@@ -102,7 +103,10 @@ export abstract class MapHandler {
                     }));
                     break;
                 case 'TileArcGIS':
-                    const source = new TileArcGISRest({ url: lc.url });
+                    const source = new TileArcGISRest({
+                        url: lc.url,
+                        attributions: lc.attributions
+                    });
                     this.addloadingEvents(source);
                     layers.push(new TileLayer({
                         source,

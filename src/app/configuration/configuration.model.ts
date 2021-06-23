@@ -12,6 +12,7 @@ export type Configuration = {
         options?: any;
         minZoom?: number;
         maxZoom?: number;
+        attributions?: string | string[]
     }[];
     languages: LanguageConfig[];
     supportTicketPrefix: string;

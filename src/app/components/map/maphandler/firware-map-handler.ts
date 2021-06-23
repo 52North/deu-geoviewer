@@ -1,6 +1,7 @@
 import { HttpClient, HttpXhrBackend } from '@angular/common/http';
 import { ComponentFactoryResolver, ComponentRef, ViewContainerRef } from '@angular/core';
 import { Map, View } from 'ol';
+import Attribution from 'ol/control/Attribution';
 import { pointerMove } from 'ol/events/condition';
 import Feature, { FeatureLike } from 'ol/Feature';
 import GeoJSON from 'ol/format/GeoJSON';
@@ -85,7 +86,7 @@ export class FiwareMapHandler extends MapHandler {
 
         this.map = new Map({
             layers,
-            controls: [],
+            controls: [new Attribution()],
             target: mapId,
             view: new View({
                 projection: projection.getCode(),
