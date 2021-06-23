@@ -1,6 +1,5 @@
 import { ComponentFactoryResolver, ViewContainerRef } from '@angular/core';
 import { Map, View } from 'ol';
-import Attribution from 'ol/control/Attribution';
 import { pointerMove } from 'ol/events/condition';
 import GeoJSON from 'ol/format/GeoJSON';
 import Select, { SelectEvent } from 'ol/interaction/Select';
@@ -69,7 +68,7 @@ export class GeoJsonMapHandler extends MapHandler {
 
         this.map = new Map({
             layers,
-            controls: [new Attribution()],
+            controls: this.createControls(),
             target: mapId,
             view: new View({
                 projection: projection.getCode(),

@@ -1,4 +1,6 @@
 import { Map, Overlay } from 'ol';
+import Attribution from 'ol/control/Attribution';
+import Control from 'ol/control/Control';
 import { Extent } from 'ol/extent';
 import Layer from 'ol/layer/Layer';
 import TileLayer from 'ol/layer/Tile';
@@ -72,6 +74,10 @@ export abstract class MapHandler {
 
     public zoomToExtent(extent: Extent): void {
         this.map.getView().fit(extent);
+    }
+
+    protected createControls(): Control[] {
+        return [new Attribution({collapseLabel:"«"})];
     }
 
     protected createBaseLayers(projection: Projection): Layer[] {
