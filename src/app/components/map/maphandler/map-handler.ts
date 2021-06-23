@@ -77,7 +77,13 @@ export abstract class MapHandler {
     }
 
     protected createControls(): Control[] {
-        return [new Attribution({collapseLabel:"«"})];
+        return [
+            new Attribution({
+                collapseLabel:"«",
+                collapsed: false,
+                collapsible: false
+            })
+        ];
     }
 
     protected createBaseLayers(projection: Projection): Layer[] {

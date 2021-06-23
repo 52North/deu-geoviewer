@@ -48,15 +48,14 @@ body {
     }
 }
 
-.ol-attribution {
-    text-align: left;
-    top: 0em;
-    left: 0em;
+.ol-attribution, .ol-attribution.ol-uncollapsible {
+    top: 0px;
+    left: auto;
     bottom: auto;
-    right: auto;
-    font-size: 0.875rem;
+    right: 0px;
+    font-size: 0.75rem;
 }
-
+/*
 .ol-control {
     button {
         font-family: $btn-font-family;
@@ -89,3 +88,4 @@ body {
         @include button-variant($light, $light);
     }
 }
+*/
