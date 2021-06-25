@@ -62,7 +62,10 @@
         ]
       },
       "minZoom": 1,
-      "attributions": ["© <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors"]
+      "attributions": [
+        "© <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors",
+        "© <a href=\"https://ec.europa.eu/eurostat/web/gisco\">GISCO</a>"
+      ]
     },
     {
       "type": "WMTS",
@@ -97,7 +100,10 @@
         ]
       },
       "minZoom": 1,
-      "attributions": ["© <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors"]
+      "attributions": [
+        "© <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors",
+        "© <a href=\"https://ec.europa.eu/eurostat/web/gisco\">GISCO</a>"
+      ]
     },
     {
       "type": "WMTS",
@@ -132,7 +138,10 @@
         ]
       },
       "minZoom": 1,
-      "attributions": ["© <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors"]
+      "attributions": [
+        "© <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors",
+        "© <a href=\"https://ec.europa.eu/eurostat/web/gisco\">GISCO</a>"
+      ]
     }
   ],
   "languages": [
