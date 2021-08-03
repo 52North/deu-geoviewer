@@ -8,7 +8,7 @@ import Select, { SelectEvent } from 'ol/interaction/Select';
 import VectorLayer from 'ol/layer/Vector';
 import Projection from 'ol/proj/Projection';
 import VectorSource from 'ol/source/Vector';
-import { Circle as CircleStyle, Style } from 'ol/style';
+import { Circle as CircleStyle, Stroke, Style, Text } from 'ol/style';
 import Fill from 'ol/style/Fill';
 import { interval, Observable, Subscription, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
@@ -23,7 +23,7 @@ import { FiwareOptions, MapProjection } from './model';
 
 interface FiwareResponseEntry {
     id: string;
-    location?: GeoJSON.Point;
+    location?: any;
     [key: string]: any;
 }
 
@@ -101,20 +101,41 @@ export class FiwareMapHandler extends MapHandler {
             const vectorSource = new VectorSource({ features });
             this.vectorLayer = new VectorLayer({
                 source: vectorSource,
-                style: (feature) => {
-                    return new Style({
-                        image: new CircleStyle({
-                            radius: 7,
-                            fill: new Fill({ color: this.getColor(feature) })
-                        }),
-                    });
-                }
+                style: (feature) => this.styleFeaetures(feature)
             });
             this.map.addLayer(this.vectorLayer);
             this.map.getView().fit(vectorSource.getExtent());
         } else {
             this.map.getView().fit(this.getDefaultExtent(projection));
         }
+    }
+
+    private styleFeaetures(feature: FeatureLike, activate: boolean = false): Style[] {
+        if (feature.getProperties()?.category?.length > 0 && feature.getProperties()?.category[0] === 'municipalServices' && feature.getProperties()?.vehicleType === "bus"){
+            return [new Style({
+                image: new CircleStyle({
+                    radius: activate? 9: 7,
+                    fill: new Fill({ color: this.getColor(feature) })
+                }),
+            })]
+        } else if (feature.getProperties()?.type === 'OffStreetParking'){
+            const p = activate? 2:0;
+            return [new Style({
+                text: new Text({text: 'P',
+                padding: [2+p, 4+p, 1+p, 6+p], 
+                scale:3, 
+                fill: new Fill({ color: 'white' }), 
+                backgroundStroke:new Stroke({
+                    width: 1
+               }),
+               backgroundFill: new Fill({ color: '#1c47e2' }),
+             }),
+            }),
+             new Style({
+                text: new Text({text: feature.getProperties()?.availableSpotNumber, scale:1.2, offsetX: 10,offsetY: 10, fill: new Fill({ color: 'white' })})
+                })]
+            }
+        return [];
     }
 
     private updateData(features: Feature[]): void {
@@ -124,11 +145,15 @@ export class FiwareMapHandler extends MapHandler {
     }
 
     private transformFeature(payload: FiwareResponseEntry): any {
-        const geom = payload.location;
+        const geom = payload.location?.type === 'geo:json'? payload.location.value: payload.location;
         delete payload.location;
+        let data : any = {}
+        Object.keys(payload).forEach(key => {
+            data[key] = payload[key].hasOwnProperty('value')?  payload[key].value:  payload[key];
+        });
         return {
             type: 'Feature',
-            properties: payload,
+            properties: data,
             geometry: geom
         };
     }
@@ -144,14 +169,7 @@ export class FiwareMapHandler extends MapHandler {
 
             this.hoverSelectGeojsonFeature = new Select({
                 condition: pointerMove,
-                style: (feature) => {
-                    return new Style({
-                        image: new CircleStyle({
-                            radius: 9,
-                            fill: new Fill({ color: this.getColor(feature) })
-                        }),
-                    });
-                },
+                style: feature => this.styleFeaetures(feature, true),
                 layers: [this.vectorLayer]
             });
             this.hoverSelectGeojsonFeature.on('select', (evt => {
