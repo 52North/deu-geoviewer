@@ -101,7 +101,7 @@ export class FiwareMapHandler extends MapHandler {
             const vectorSource = new VectorSource({ features });
             this.vectorLayer = new VectorLayer({
                 source: vectorSource,
-                style: (feature) => this.styleFeaetures(feature)
+                style: (feature) => this.styleFeatures(feature)
             });
             this.map.addLayer(this.vectorLayer);
             this.map.getView().fit(vectorSource.getExtent());
@@ -110,7 +110,7 @@ export class FiwareMapHandler extends MapHandler {
         }
     }
 
-    private styleFeaetures(feature: FeatureLike, activate: boolean = false): Style[] {
+    private styleFeatures(feature: FeatureLike, activate: boolean = false): Style[] {
         if (feature.getProperties()?.category?.length > 0 && feature.getProperties()?.category[0] === 'municipalServices' && feature.getProperties()?.vehicleType === "bus"){
             return [new Style({
                 image: new CircleStyle({
@@ -147,13 +147,13 @@ export class FiwareMapHandler extends MapHandler {
     private transformFeature(payload: FiwareResponseEntry): any {
         const geom = payload.location?.type === 'geo:json'? payload.location.value: payload.location;
         delete payload.location;
-        let data : any = {}
+        let properties : any = {}
         Object.keys(payload).forEach(key => {
-            data[key] = payload[key].hasOwnProperty('value')?  payload[key].value:  payload[key];
+            properties[key] = payload[key].hasOwnProperty('value')?  payload[key].value:  payload[key];
         });
         return {
             type: 'Feature',
-            properties: data,
+            properties,
             geometry: geom
         };
     }
@@ -169,7 +169,7 @@ export class FiwareMapHandler extends MapHandler {
 
             this.hoverSelectGeojsonFeature = new Select({
                 condition: pointerMove,
-                style: feature => this.styleFeaetures(feature, true),
+                style: feature => this.styleFeatures(feature, true),
                 layers: [this.vectorLayer]
             });
             this.hoverSelectGeojsonFeature.on('select', (evt => {
