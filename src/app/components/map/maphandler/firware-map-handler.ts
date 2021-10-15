@@ -4,6 +4,7 @@ import { Map, View } from 'ol';
 import { pointerMove } from 'ol/events/condition';
 import Feature, { FeatureLike } from 'ol/Feature';
 import GeoJSON from 'ol/format/GeoJSON';
+import Point from 'ol/geom/Point';
 import Select, { SelectEvent } from 'ol/interaction/Select';
 import VectorLayer from 'ol/layer/Vector';
 import Projection from 'ol/proj/Projection';
@@ -75,7 +76,17 @@ export class FiwareMapHandler extends MapHandler {
         return this.httpClient.get<FiwareResponseEntry[]>(`${this.proxyUrl}${this.options.url}`)
             .pipe(
                 catchError(err => throwError(new NotAvailableError(this.options.url, this.options.resource, err))),
-                map(res => res.map(e => new GeoJSON().readFeature(this.transformFeature(e))))
+                map(res =>
+                    res.map(e => new GeoJSON().readFeature(this.transformFeature(e)))
+                        .filter(e => {
+                            if (e.getGeometry() instanceof Point) {
+                                const point = e.getGeometry() as Point;
+                                const coords = point.getCoordinates();
+                                return !coords.every(n => n === 0);
+                            }
+                            return true;
+                        })
+                )
             );
     }
 
@@ -104,37 +115,39 @@ export class FiwareMapHandler extends MapHandler {
                 style: (feature) => this.styleFeatures(feature)
             });
             this.map.addLayer(this.vectorLayer);
-            this.map.getView().fit(vectorSource.getExtent());
+            const p = 50;
+            this.map.getView().fit(vectorSource.getExtent(), { padding: [p, p, p, p] });
         } else {
             this.map.getView().fit(this.getDefaultExtent(projection));
         }
     }
 
     private styleFeatures(feature: FeatureLike, activate: boolean = false): Style[] {
-        if (feature.getProperties()?.category?.length > 0 && feature.getProperties()?.category[0] === 'municipalServices' && feature.getProperties()?.vehicleType === "bus"){
+        if (feature.getProperties()?.category?.length > 0 && feature.getProperties()?.category[0] === 'municipalServices' && feature.getProperties()?.vehicleType === "bus") {
             return [new Style({
                 image: new CircleStyle({
-                    radius: activate? 9: 7,
+                    radius: activate ? 9 : 7,
                     fill: new Fill({ color: this.getColor(feature) })
                 }),
             })]
-        } else if (feature.getProperties()?.type === 'OffStreetParking'){
-            const p = activate? 2:0;
+        } else if (feature.getProperties()?.type === 'OffStreetParking') {
+            const p = activate ? 2 : 0;
             return [new Style({
-                text: new Text({text: 'P',
-                padding: [2+p, 4+p, 1+p, 6+p], 
-                scale:3, 
-                fill: new Fill({ color: 'white' }), 
-                backgroundStroke:new Stroke({
-                    width: 1
-               }),
-               backgroundFill: new Fill({ color: '#1c47e2' }),
-             }),
+                text: new Text({
+                    text: 'P',
+                    padding: [2 + p, 4 + p, 1 + p, 6 + p],
+                    scale: 3,
+                    fill: new Fill({ color: 'white' }),
+                    backgroundStroke: new Stroke({
+                        width: 1
+                    }),
+                    backgroundFill: new Fill({ color: '#1c47e2' }),
+                }),
             }),
-             new Style({
-                text: new Text({text: feature.getProperties()?.availableSpotNumber, scale:1.2, offsetX: 10,offsetY: 10, fill: new Fill({ color: 'white' })})
-                })]
-            }
+            new Style({
+                text: new Text({ text: feature.getProperties()?.availableSpotNumber, scale: 1.2, offsetX: 10, offsetY: 10, fill: new Fill({ color: 'white' }) })
+            })]
+        }
         return [];
     }
 
@@ -144,12 +157,12 @@ export class FiwareMapHandler extends MapHandler {
         source.addFeatures(features);
     }
 
-    private transformFeature(payload: FiwareResponseEntry): any {
-        const geom = payload.location?.type === 'geo:json'? payload.location.value: payload.location;
+    private transformFeature(payload: FiwareResponseEntry) {
+        const geom = payload.location?.type === 'geo:json' ? payload.location.value : payload.location;
         delete payload.location;
-        let properties : any = {}
+        let properties: any = {}
         Object.keys(payload).forEach(key => {
-            properties[key] = payload[key].hasOwnProperty('value')?  payload[key].value:  payload[key];
+            properties[key] = payload[key].hasOwnProperty('value') ? payload[key].value : payload[key];
         });
         return {
             type: 'Feature',
