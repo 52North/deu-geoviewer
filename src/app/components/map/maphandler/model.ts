@@ -1,6 +1,7 @@
 import { Extent } from 'ol/extent';
-import Layer from 'ol/layer/Layer';
+import TileLayer from 'ol/layer/Tile';
 import { register } from 'ol/proj/proj4';
+import { TileWMS } from 'ol/source';
 import proj4 from 'proj4';
 
 import { WMSLayer } from '../../../services/wms.service';
@@ -53,5 +54,5 @@ export type LegendEntry = {
     title: string;
     abstract: string;
     extent?: Extent;
-    layer: Layer;
+    layer: TileLayer<TileWMS>;
 };

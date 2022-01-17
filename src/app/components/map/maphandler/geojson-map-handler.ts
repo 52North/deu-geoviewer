@@ -2,6 +2,7 @@ import { ComponentFactoryResolver, ViewContainerRef } from '@angular/core';
 import { Map, View } from 'ol';
 import { pointerMove } from 'ol/events/condition';
 import GeoJSON from 'ol/format/GeoJSON';
+import Geometry from 'ol/geom/Geometry';
 import Select, { SelectEvent } from 'ol/interaction/Select';
 import VectorLayer from 'ol/layer/Vector';
 import Projection from 'ol/proj/Projection';
@@ -48,7 +49,7 @@ const featureHoverStyle = new Style({
 
 export class GeoJsonMapHandler extends MapHandler {
 
-    private vectorLayer!: VectorLayer;
+    private vectorLayer!: VectorLayer<VectorSource<Geometry>>;
     private clickSelectGeojsonFeature!: Select;
     private hoverSelectGeojsonFeature!: Select;
 
@@ -133,8 +134,8 @@ export class GeoJsonMapHandler extends MapHandler {
             this.overlay.setPosition(coordinate);
             if (evt.selected.length) {
                 const properties = evt.selected[0].getKeys()
-                    .filter(e => e !== 'geometry')
-                    .map(e => ({ key: e, value: evt.selected[0].get(e) }));
+                    .filter((e: any) => e !== 'geometry')
+                    .map((e: any) => ({ key: e, value: evt.selected[0].get(e) }));
                 this.viewContainerRef.clear();
                 const factory = this.factoryResolver.resolveComponentFactory(FeatureInfoPopupComponent);
                 const component = factory.create(this.viewContainerRef.injector);

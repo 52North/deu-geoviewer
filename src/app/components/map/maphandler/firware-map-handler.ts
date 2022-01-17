@@ -4,6 +4,7 @@ import { Map, View } from 'ol';
 import { pointerMove } from 'ol/events/condition';
 import Feature, { FeatureLike } from 'ol/Feature';
 import GeoJSON from 'ol/format/GeoJSON';
+import Geometry from 'ol/geom/Geometry';
 import Point from 'ol/geom/Point';
 import Select, { SelectEvent } from 'ol/interaction/Select';
 import VectorLayer from 'ol/layer/Vector';
@@ -32,7 +33,7 @@ export class FiwareMapHandler extends MapHandler {
 
     private httpClient = new HttpClient(new HttpXhrBackend({ build: () => new XMLHttpRequest() }));
 
-    private vectorLayer!: VectorLayer;
+    private vectorLayer!: VectorLayer<VectorSource<Geometry>>;
     private clickSelectGeojsonFeature!: Select;
     private hoverSelectGeojsonFeature!: Select;
 
@@ -72,7 +73,7 @@ export class FiwareMapHandler extends MapHandler {
         }
     }
 
-    private fetchData(): Observable<Feature[]> {
+    private fetchData(): Observable<Feature<Geometry>[]> {
         return this.httpClient.get<FiwareResponseEntry[]>(`${this.proxyUrl}${this.options.url}`)
             .pipe(
                 catchError(err => throwError(new NotAvailableError(this.options.url, this.options.resource, err))),
@@ -90,7 +91,7 @@ export class FiwareMapHandler extends MapHandler {
             );
     }
 
-    private initMap(mapId: string, features: Feature[]): void {
+    private initMap(mapId: string, features: Feature<Geometry>[]): void {
         const projection = new Projection({ code: MapProjection.EPSG_4326 });
         const layers = this.createBaseLayers(projection);
 
@@ -151,7 +152,7 @@ export class FiwareMapHandler extends MapHandler {
         return [];
     }
 
-    private updateData(features: Feature[]): void {
+    private updateData(features: Feature<Geometry>[]): void {
         const source = this.vectorLayer.getSource();
         source.clear();
         source.addFeatures(features);
@@ -222,8 +223,8 @@ export class FiwareMapHandler extends MapHandler {
             this.overlay.setPosition(coordinate);
             if (evt.selected.length) {
                 const properties = evt.selected[0].getKeys()
-                    .filter(e => e !== 'geometry')
-                    .map(e => ({ key: e, value: evt.selected[0].get(e) }));
+                    .filter((e: any) => e !== 'geometry')
+                    .map((e: any) => ({ key: e, value: evt.selected[0].get(e) }));
                 this.popupContainerRef.clear();
                 const factory = this.factoryResolver.resolveComponentFactory(FeatureInfoPopupComponent);
                 const component = factory.create(this.popupContainerRef.injector);

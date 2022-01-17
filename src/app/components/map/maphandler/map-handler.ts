@@ -86,8 +86,8 @@ export abstract class MapHandler {
         ];
     }
 
-    protected createBaseLayers(projection: Projection): Layer[] {
-        const layers: Layer[] = [];
+    protected createBaseLayers(projection: Projection): TileLayer<TileImage>[] {
+        const layers: TileLayer<TileImage>[] = [];
         const crsCode = this.findMapProjection(projection);
         const layerConfs = this.config.configuration.baseLayer.filter(e => !e.crs || e.crs === crsCode);
         layerConfs.forEach(lc => {
