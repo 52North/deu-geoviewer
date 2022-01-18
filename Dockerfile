@@ -1,4 +1,4 @@
-FROM node:latest AS BUILD
+FROM node:16 AS BUILD
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
@@ -9,7 +9,7 @@ RUN npm install
 
 # copy the app and build it
 COPY . /usr/src/app
-RUN npm run build -- --prod
+RUN npm run build
 
 FROM nginx:alpine
 
