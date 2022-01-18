@@ -10,7 +10,7 @@ import Select, { SelectEvent } from 'ol/interaction/Select';
 import VectorLayer from 'ol/layer/Vector';
 import Projection from 'ol/proj/Projection';
 import VectorSource from 'ol/source/Vector';
-import { Circle as CircleStyle, Stroke, Style, Text } from 'ol/style';
+import { Circle as CircleStyle, Icon, Stroke, Style, Text } from 'ol/style';
 import Fill from 'ol/style/Fill';
 import { interval, Observable, Subscription, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
@@ -148,6 +148,16 @@ export class FiwareMapHandler extends MapHandler {
             new Style({
                 text: new Text({ text: feature.getProperties()?.availableSpotNumber, scale: 1.2, offsetX: 10, offsetY: 10, fill: new Fill({ color: 'white' }) })
             })]
+        } else if (feature.getProperties().type === 'BikeHireDockingStation') {
+            return [
+                new Style({
+                    image: new Icon({
+                        anchor: [0.5, 0.5],
+                        scale: 0.8,
+                        src: './assets/images/bike.png',
+                    }),
+                })
+            ]
         }
         return [];
     }
