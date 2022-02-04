@@ -32,7 +32,7 @@
     {
       "type": "WMTS",
       "crs": "EPSG:4326",
-      "url": "https://europa.eu/webtools/rest/gisco/maps/tiles/OSMCartoComposite/{TileMatrixSet}/{TileMatrix}/{TileCol}/{TileRow}.png",
+      "url": "https://gisco-services.ec.europa.eu/maps/tiles/OSMCartoComposite/{TileMatrixSet}/{TileMatrix}/{TileCol}/{TileRow}.png",
       "options": {
         "matrixSet": "EPSG4326",
         "topLeft": [
@@ -70,7 +70,7 @@
     {
       "type": "WMTS",
       "crs": "EPSG:3857",
-      "url": "https://europa.eu/webtools/rest/gisco/maps/tiles/OSMCartoComposite/{TileMatrixSet}/{TileMatrix}/{TileCol}/{TileRow}.png",
+      "url": "https://gisco-services.ec.europa.eu/maps/tiles/OSMCartoComposite/{TileMatrixSet}/{TileMatrix}/{TileCol}/{TileRow}.png",
       "options": {
         "matrixSet": "EPSG3857",
         "topLeft": [
@@ -108,7 +108,7 @@
     {
       "type": "WMTS",
       "crs": "EPSG:3035",
-      "url": "https://europa.eu/webtools/rest/gisco/maps/tiles/OSMCartoComposite/{TileMatrixSet}/{TileMatrix}/{TileCol}/{TileRow}.png",
+      "url": "https://gisco-services.ec.europa.eu/maps/tiles/OSMCartoComposite/{TileMatrixSet}/{TileMatrix}/{TileCol}/{TileRow}.png",
       "options": {
         "matrixSet": "EPSG3035",
         "topLeft": [
