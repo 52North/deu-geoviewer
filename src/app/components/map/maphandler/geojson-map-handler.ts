@@ -147,6 +147,9 @@ export class GeoJsonMapHandler extends MapHandler {
 
     private detectProjection(): Projection {
         try {
+            if (this.options.geojson.crs && !this.options.geojson.crs?.type) {
+                delete this.options.geojson.crs;
+            }
             const geojsonProj = new GeoJSON().readProjection(this.options.geojson);
             if (geojsonProj) {
                 return geojsonProj;
