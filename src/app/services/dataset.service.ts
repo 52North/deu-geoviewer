@@ -49,7 +49,7 @@ export class DatasetService {
             resource,
             description: dist.description,
             title: this.fetchTitle(dist),
-            primaryUrl: dist.accessURL
+            primaryUrl: dist.downloadURL
           };
           if (dist.downloadURL) { dataset.secondaryUrl = dist.downloadURL; }
           return dataset;
