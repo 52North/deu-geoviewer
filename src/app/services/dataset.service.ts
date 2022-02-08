@@ -45,11 +45,12 @@ export class DatasetService {
             throw new NotSupportedError(url, resource, NotSupportedReason.fileFormat);
           }
 
+          const primaryUrl = dist.downloadURL ? dist.downloadURL : dist.accessURL;
           const dataset: Dataset = {
             resource,
             description: dist.description,
             title: this.fetchTitle(dist),
-            primaryUrl: dist.downloadURL
+            primaryUrl
           };
           if (dist.downloadURL) { dataset.secondaryUrl = dist.downloadURL; }
           return dataset;
