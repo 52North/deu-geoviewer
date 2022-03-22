@@ -3,8 +3,15 @@ export interface CkanResource {
     type: DatasetType | undefined;
 }
 
-export interface Dataset {
+export interface LangTitle {
+    code: string;
     title: string;
+}
+
+export type TitleInput = string | LangTitle[];
+
+export interface Dataset {
+    title: TitleInput;
     description: string;
     resource: CkanResource;
     primaryUrl: string;

@@ -4,7 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
 import { ConfigurationService } from '../configuration/configuration.service';
-import { CkanResource, Dataset, DatasetType } from '../model';
+import { CkanResource, Dataset, DatasetType, LangTitle, TitleInput } from '../model';
 import { NotAvailableError, NotSupportedError, NotSupportedReason } from './error-handling/model';
 
 export interface DistributionResponse {
@@ -58,17 +58,27 @@ export class DatasetService {
       );
   }
 
-  private fetchTitle(dist: any): string {
+  private fetchTitle(dist: any): TitleInput {
     if (dist.title) {
       if (typeof dist.title === 'string') {
         return dist.title;
       }
     }
-    // if (dist.accessURL) {
-    //   if (typeof dist.accessURL === 'string') {
-    //     return dist.accessURL;
-    //   }
-    // }
+    if (Array.isArray(dist.title)) {
+      if (dist.title.length) {
+        const titleLangs = dist.title.map((e: any) => {
+          if (typeof e === 'string') {
+            const found = dist.title.find((e: any) => typeof e === 'object' && e.hasOwnProperty('@language') && e.hasOwnProperty('@value'));
+            return { code: found['@language'].substring(5, 7), title: e }
+          }
+          if (typeof e === 'object' && e.hasOwnProperty('@language') && e.hasOwnProperty('@value')) {
+            return { code: e['@language'].substring(0, 2), title: e['@value'] }
+          }
+          return { code: '' };
+        })
+        return titleLangs as LangTitle[];
+      }
+    }
     return '';
   }
 
