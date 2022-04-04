@@ -35,7 +35,7 @@ export class DatasetService {
 
           let dist: any;
           res['@graph'].forEach((e: any) => {
-            if (e['@type'] === 'http://www.w3.org/ns/dcat#Distribution') {
+            if (e['@type'] === 'http://www.w3.org/ns/dcat#Distribution' || e['@type'] === 'dcat:Distribution') {
               dist = e;
             }
           });
