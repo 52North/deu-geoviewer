@@ -1,6 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
 
-$primary : #001D85;
+$blue100: #004494;
+$white: #ffffff;
+
+$primary: $blue100;
+$custom-checkbox-indicator-border-radius: 0px;
 
 /* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap';
@@ -27,7 +31,12 @@ body {
     padding: .75rem 1.5rem;
     font-size: 1.125rem;
     line-height: 1.33;
-    border-radius: 1.875rem;
+    color: $blue100;
+    border-radius: 0px;
+
+    &.btn-primary {
+        color: $white;
+    }
 }
 
 .btn-group-sm>.btn,
