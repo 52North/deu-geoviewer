@@ -1,9 +1,9 @@
 <div class="wrapper">
   <nav class="navbar navbar-light">
-    <div class="container">
+    <!-- <div class="container">
       <a class="branding" style="align-items: center;">
         <div>
-          <img src="./assets/images/logo.svg">
+          <img src="./assets/images/logo_new.svg">
         </div>
         <div class="d-none d-md-block">
           {{'tagline' | translate}}
@@ -13,6 +13,39 @@
         <app-dataset-title></app-dataset-title>
       </div>
       <app-language-selector></app-language-selector>
+    </div> -->
+    <div class="ecl-site-header__container ecl-container">
+      <div class="ecl-site-header__top">
+        <a href="/en" class="ecl-link ecl-link--standalone ecl-site-header__logo-link"
+          aria-label="Home (European Commission)">
+          <img src="./assets/images/logo_new.svg"
+            class="ecl-site-header-core__logo-image ecl-site-header-core__logo-image-desktop">
+        </a>
+        <div class="ecl-site-header__action">
+          <!-- <div class="ecl-site-header__login-container">
+            <div class="region region-header-user">
+              <nav role="navigation" aria-labelledby="block-useraccountmenu-menu" id="block-useraccountmenu"
+                class="block block-menu navigation menu--account">
+                <a href="/en/user/login"
+                  class="ecl-button ecl-button--ghost ecl-site-header-standardised__login-toggle">
+                  <svg width="48px" height="48px" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                    class="ecl-icon ecl-icon--s ecl-site-header-standardised__icon">
+                    <title>EC/Icons/General/2XL_48x48px/Icon-Log-in</title>
+                    <g id="EC/Icons/General/2XL_48x48px/Icon-Log-in" stroke="none" stroke-width="1">
+                      <path
+                        d="M23.978,2 C36.144,2 46,11.856 46,24 C46,31.7405172 41.9957873,38.551485 35.941438,42.4731304 C35.4817167,38.8234665 32.3576304,36 28.5730277,36 L28.5730277,36 L19.4269723,36 L19.1818178,36.0039587 C15.503358,36.1229224 12.5009937,38.9092999 12.0566982,42.4860864 C6.00410794,38.5665341 2,31.7490693 2,24 C2,11.856 11.834,2 23.978,2 Z M23.9997467,15 C19.0294424,15 15,19.0291626 15,24.00076 C15,28.9723575 19.0294424,33 23.9997467,33 C28.9705576,33 33,28.9723575 33,24.00076 C33,19.0291626 28.9705576,15 23.9997467,15 Z"
+                        id="Shape"></path>
+                    </g>
+                  </svg>
+                  Log in
+                </a>
+              </nav>
+            </div>
+          </div> -->
+          <app-language-button></app-language-button>
+        </div>
+      </div>
     </div>
     <div class="dataset-title-small d-sm-block d-md-none">
       <app-dataset-title></app-dataset-title>

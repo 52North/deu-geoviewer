@@ -1,0 +1,9 @@
+:host {
+    width: 100%;
+
+    .ecl-language-list__item {
+        &:hover {
+            cursor: pointer;
+        }
+    }
+}

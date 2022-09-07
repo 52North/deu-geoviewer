@@ -13,6 +13,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DatasetTitleComponent } from './components/dataset-title/dataset-title.component';
 import { CustomGuidedTourComponent } from './components/guided-tour/custom-guided-tour.component';
+import { LanguageButtonComponent } from './components/language-overlay-selection/language-button/language-button.component';
+import {
+  LanguageOverlaySelectionComponent,
+} from './components/language-overlay-selection/language-overlay-selection.component';
 import { LanguageSelectorComponent } from './components/language-selector/language-selector.component';
 import { CounterComponent } from './components/map/counter/counter.component';
 import { FeatureInfoPopupComponent } from './components/map/feature-info-popup/feature-info-popup.component';
@@ -59,6 +63,7 @@ export const translateConfig = {
     ErrorComponent,
     FeatureInfoPopupComponent,
     LanguageSelectorComponent,
+    LanguageOverlaySelectionComponent,
     LegalDisclaimerComponent,
     LinkViewComponent,
     LoadingDatasetComponent,
@@ -68,7 +73,8 @@ export const translateConfig = {
     WmsFeatureInfoComponent,
     CounterComponent,
     DatasetTitleComponent,
-    CustomGuidedTourComponent
+    CustomGuidedTourComponent,
+    LanguageButtonComponent
   ],
   imports: [
     AppRoutingModule,
