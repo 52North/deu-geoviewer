@@ -13,6 +13,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DatasetTitleComponent } from './components/dataset-title/dataset-title.component';
 import { CustomGuidedTourComponent } from './components/guided-tour/custom-guided-tour.component';
+import { InfoOverlayComponent } from './components/info-overlay/info-overlay.component';
 import { LanguageButtonComponent } from './components/language-overlay-selection/language-button/language-button.component';
 import {
   LanguageOverlaySelectionComponent,
@@ -60,10 +61,15 @@ export const translateConfig = {
 @NgModule({
   declarations: [
     AppComponent,
+    CounterComponent,
+    CustomGuidedTourComponent,
+    DatasetTitleComponent,
     ErrorComponent,
     FeatureInfoPopupComponent,
-    LanguageSelectorComponent,
+    InfoOverlayComponent,
+    LanguageButtonComponent,
     LanguageOverlaySelectionComponent,
+    LanguageSelectorComponent,
     LegalDisclaimerComponent,
     LinkViewComponent,
     LoadingDatasetComponent,
@@ -71,10 +77,6 @@ export const translateConfig = {
     MapViewComponent,
     WelcomeComponent,
     WmsFeatureInfoComponent,
-    CounterComponent,
-    DatasetTitleComponent,
-    CustomGuidedTourComponent,
-    LanguageButtonComponent
   ],
   imports: [
     AppRoutingModule,

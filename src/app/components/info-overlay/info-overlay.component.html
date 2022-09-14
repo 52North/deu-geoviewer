@@ -1,0 +1,18 @@
+<button [hidden]="datasetId === undefined" class="btn btn-light btn-sm" (click)="isOpen = !isOpen" cdkOverlayOrigin #trigger="cdkOverlayOrigin">
+  <i class="bi bi-info"></i>
+</button>
+
+<ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="trigger" [cdkConnectedOverlayOpen]="isOpen"
+  [cdkConnectedOverlayPositions]="position">
+
+  <div class="overlay-content">
+    <div class="close">
+      <button type="button" class="btn btn-light btn-sm" (click)="isOpen = !isOpen">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+    <div class="dataset-title" (click)="datasetClick()">{{datasetTitle}}</div>
+    <div class="catalog-title" (click)="catalogClick()">{{catalogTitle}}</div>
+  </div>
+
+</ng-template>
