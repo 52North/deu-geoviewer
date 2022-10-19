@@ -14,6 +14,7 @@ import { AppComponent } from './app.component';
 import { DatasetTitleComponent } from './components/dataset-title/dataset-title.component';
 import { CustomGuidedTourComponent } from './components/guided-tour/custom-guided-tour.component';
 import { InfoOverlayComponent } from './components/info-overlay/info-overlay.component';
+import { LanguageLabelComponent } from './components/language-label/language-label.component';
 import { LanguageButtonComponent } from './components/language-overlay-selection/language-button/language-button.component';
 import {
   LanguageOverlaySelectionComponent,
@@ -68,6 +69,7 @@ export const translateConfig = {
     FeatureInfoPopupComponent,
     InfoOverlayComponent,
     LanguageButtonComponent,
+    LanguageLabelComponent,
     LanguageOverlaySelectionComponent,
     LanguageSelectorComponent,
     LegalDisclaimerComponent,

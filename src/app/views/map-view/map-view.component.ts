@@ -45,13 +45,13 @@ export class MapViewComponent implements OnInit {
 
   ngOnInit(): void {
     const params = this.route.snapshot.queryParams;
-    const datasetId = params.dataset;
+    const distributionId = params.distribution;
     const type = params.type;
     const file = params.file;
     if (file && type) {
       this.loadFile(file, type);
-    } else if (datasetId) {
-      this.loadDataset(datasetId, type);
+    } else if (distributionId) {
+      this.loadDistribution(distributionId, type);
     } else {
       this.mapOptions = new MapOptions();
     }
@@ -73,7 +73,7 @@ export class MapViewComponent implements OnInit {
     this.contactSrvc.openContact();
   }
 
-  private loadDataset(id: string, type: string): void {
+  private loadDistribution(id: string, type: string): void {
     this.showloading();
     const resource = { id, type: parseDatasetType(type) };
     this.datasetSrvc.getDataset(resource).subscribe(
