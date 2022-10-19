@@ -11,6 +11,7 @@ import { DatasetType, parseDatasetType } from '../../model';
 import { DatasetService } from '../../services/dataset.service';
 import { GeneralErrorHandler } from '../../services/error-handling/general-error-handler.service';
 import { ViewerError } from '../../services/error-handling/model';
+import { FileLoaderService } from '../../services/file-loader.service';
 import { FiwareOptions } from './../../components/map/maphandler/model';
 import { WelcomeScreenService } from './../../components/modals/welcome/welcome.component';
 import { ContactService } from './../../services/contact.service';
@@ -38,15 +39,19 @@ export class MapViewComponent implements OnInit {
     private legalDisclaimerSrvc: LegalDisclaimerService,
     private datasetTitleSrvc: DatasetTitleService,
     private contactSrvc: ContactService,
+    private fileLoader: FileLoaderService,
     public overlay: Overlay
   ) { }
 
   ngOnInit(): void {
     const params = this.route.snapshot.queryParams;
-    const datasetId = params.dataset;
+    const distributionId = params.distribution;
     const type = params.type;
-    if (datasetId) {
-      this.loadDataset(datasetId, type);
+    const file = params.file;
+    if (file && type) {
+      this.loadFile(file, type);
+    } else if (distributionId) {
+      this.loadDistribution(distributionId, type);
     } else {
       this.mapOptions = new MapOptions();
     }
@@ -68,7 +73,7 @@ export class MapViewComponent implements OnInit {
     this.contactSrvc.openContact();
   }
 
-  private loadDataset(id: string, type: string): void {
+  private loadDistribution(id: string, type: string): void {
     this.showloading();
     const resource = { id, type: parseDatasetType(type) };
     this.datasetSrvc.getDataset(resource).subscribe(
@@ -115,6 +120,19 @@ export class MapViewComponent implements OnInit {
       },
       error => this.handleError(error)
     );
+  }
+
+  private loadFile(fileUrl: string, type: string) {
+    this.showloading()
+    this.fileLoader.loadFile(fileUrl, type).subscribe({
+      next: res => {
+        this.mapOptions = new GeoJSONOptions(fileUrl, { id: 'bla', type: DatasetType.GEOJSON }, res);
+        this.hideLoading();
+      },
+      error: err => {
+        this.handleError(err);
+      }
+    });
   }
 
   private handleError(error: ViewerError): void {

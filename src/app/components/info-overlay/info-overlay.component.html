@@ -1,0 +1,25 @@
+<button [hidden]="false" class="btn btn-light btn-sm" (click)="isOpen = !isOpen" cdkOverlayOrigin
+  #trigger="cdkOverlayOrigin">
+  <i class="bi bi-info"></i>
+</button>
+
+<ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="trigger" [cdkConnectedOverlayOpen]="isOpen"
+  [cdkConnectedOverlayPositions]="position">
+
+  <div class="overlay-content">
+    <div class="header">
+      <div class="dataset-title" (click)="datasetClick()">
+        <app-language-label [languageList]="distributionTitle"></app-language-label>
+      </div>
+      <div>
+        <button type="button" class="btn btn-light btn-sm" (click)="isOpen = !isOpen">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+    </div>
+    <div class="catalog-title" (click)="catalogClick()">
+      <app-language-label [languageList]="catalogTitle"></app-language-label>
+    </div>
+  </div>
+
+</ng-template>

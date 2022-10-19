@@ -1,9 +1,9 @@
 <div class="wrapper">
   <nav class="navbar navbar-light">
-    <div class="container">
+    <!-- <div class="container">
       <a class="branding" style="align-items: center;">
         <div>
-          <img src="./assets/images/logo.svg">
+          <img src="./assets/images/logo_new.svg">
         </div>
         <div class="d-none d-md-block">
           {{'tagline' | translate}}
@@ -13,6 +13,39 @@
         <app-dataset-title></app-dataset-title>
       </div>
       <app-language-selector></app-language-selector>
+    </div> -->
+    <div class="ecl-site-header__container ecl-container">
+      <div class="ecl-site-header__top">
+        <a href="/en" class="ecl-link ecl-link--standalone ecl-site-header__logo-link"
+          aria-label="Home (European Commission)">
+          <img src="./assets/images/logo_new.svg"
+            class="ecl-site-header-core__logo-image ecl-site-header-core__logo-image-desktop">
+        </a>
+        <div class="ecl-site-header__action">
+          <!-- <div class="ecl-site-header__login-container">
+            <div class="region region-header-user">
+              <nav role="navigation" aria-labelledby="block-useraccountmenu-menu" id="block-useraccountmenu"
+                class="block block-menu navigation menu--account">
+                <a href="/en/user/login"
+                  class="ecl-button ecl-button--ghost ecl-site-header-standardised__login-toggle">
+                  <svg width="48px" height="48px" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                    class="ecl-icon ecl-icon--s ecl-site-header-standardised__icon">
+                    <title>EC/Icons/General/2XL_48x48px/Icon-Log-in</title>
+                    <g id="EC/Icons/General/2XL_48x48px/Icon-Log-in" stroke="none" stroke-width="1">
+                      <path
+                        d="M23.978,2 C36.144,2 46,11.856 46,24 C46,31.7405172 41.9957873,38.551485 35.941438,42.4731304 C35.4817167,38.8234665 32.3576304,36 28.5730277,36 L28.5730277,36 L19.4269723,36 L19.1818178,36.0039587 C15.503358,36.1229224 12.5009937,38.9092999 12.0566982,42.4860864 C6.00410794,38.5665341 2,31.7490693 2,24 C2,11.856 11.834,2 23.978,2 Z M23.9997467,15 C19.0294424,15 15,19.0291626 15,24.00076 C15,28.9723575 19.0294424,33 23.9997467,33 C28.9705576,33 33,28.9723575 33,24.00076 C33,19.0291626 28.9705576,15 23.9997467,15 Z"
+                        id="Shape"></path>
+                    </g>
+                  </svg>
+                  Log in
+                </a>
+              </nav>
+            </div>
+          </div> -->
+          <app-language-button></app-language-button>
+        </div>
+      </div>
     </div>
     <div class="dataset-title-small d-sm-block d-md-none">
       <app-dataset-title></app-dataset-title>
@@ -23,6 +56,253 @@
     <router-outlet></router-outlet>
   </div>
 
+</div>
+
+<div class="footer">
+  <footer id="main-footer" class="ecl-site-footer">
+    <div class="ecl-container ecl-site-footer__container">
+      <div class="ecl-site-footer__row">
+        <div class="ecl-site-foooter__column">
+          <div class="region region-footer-top-left">
+
+            <div id="block-dataeuropaeu"
+              class="block block-block-content block-block-contentcdf6bd7c-4521-4c5b-a836-31e5b821f158 block-dataeuropaeu">
+              <section class="ecl-footer-standardised__section">
+
+                <h2 class="ecl-footer-standardised__title">
+                  <a href="#"
+                    class="ecl-link ecl-link--standalone ecl-footer-standardised__title-link">data.europa.eu</a>
+                </h2>
+
+                <div class="ecl-footer-standardised__description ecl-u-mv-m">
+
+                  <div
+                    class="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-hidden field__item">
+                    <p>This site is managed by the Publications Office of the European Union</p>
+                  </div>
+
+                </div>
+              </section>
+            </div>
+
+          </div>
+
+        </div>
+        <div class="ecl-site-foooter__column">
+          <div class="region region-footer-top-middle">
+
+            <div id="block-contactus"
+              class="block block-block-content block-block-content0a5a8e72-3589-4c29-ba54-f3aa1ee3ff8b block-contact-us">
+              <section class="ecl-footer-standardised__section">
+
+                <h2 class="ecl-footer-standardised__title ecl-footer-standardised__title--separator">Contact us</h2>
+
+                <ul class="ecl-footer-standardised__list ecl-u-mh-none">
+                  <li class="ecl-footer-standardised__list-item">
+                    <a href="" class="ecl-link ecl-link--standalone ecl-site-footer__link">
+                      <div
+                        class="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-hidden field__item">
+                        <p>Contact the portal here and subscribe to our newsletter.</p>
+                      </div>
+                    </a>
+                  </li>
+                </ul>
+              </section>
+            </div>
+
+            <div id="block-followuson-3"
+              class="block block-block-content block-block-content88b24905-94d2-4470-8449-538d60771f42 block-follow-us-on">
+              <section class="ecl-footer-standardised__section">
+
+                <h2 class="ecl-footer-standardised__title ecl-footer-standardised__title--separator">Follow us on</h2>
+
+                <ul class="ecl-footer-standardised__list ecl-footer-standardised__list--inline ecl-u-mh-none">
+                  <li class="ecl-footer-standardised__list-item">
+                    <a href="#"
+                      class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-footer-standardised__link"
+                      aria-label="Link to Facebook">
+                      <!--?xml version="1.0" encoding="UTF-8"?-->
+                      <svg width="48px" height="48px" viewBox="0 0 48 48" version="1.1"
+                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                        class="ecl-icon ecl-icon--xs ecl-link__icon">
+                        <title>EC/Icons/Social/2XL_48x48px/Icon-Facebook/Negative</title>
+                        <g id="EC/Icons/Social/2XL_48x48px/Icon-Facebook/Negative" stroke="none" stroke-width="1"
+                          fill="none" fill-rule="evenodd">
+                          <path
+                            d="M46,24.1341885 C46,11.9105829 36.150875,2 24,2 C11.8505,2 2,11.9105829 2,24.1341885 C2,35.1819154 10.045125,44.3385525 20.5625,46 L20.5625,30.5323524 L14.97725,30.5323524 L14.97725,24.1341885 L20.5625,24.1341885 L20.5625,19.2577501 C20.5625,13.7103691 23.847375,10.6461674 28.871625,10.6461674 C31.27925,10.6461674 33.796875,11.0777841 33.796875,11.0777841 L33.796875,16.5255612 L31.022125,16.5255612 C28.29,16.5255612 27.4375,18.2312771 27.4375,19.9826448 L27.4375,24.1341885 L33.538375,24.1341885 L32.564875,30.5323524 L27.4375,30.5323524 L27.4375,46 C37.954875,44.3385525 46,35.1819154 46,24.1341885"
+                            id="Fill-1" fill="#FFFFFF"></path>
+                        </g>
+                      </svg>
+                      <span class="ecl-link__label">Facebook</span>
+                    </a>
+                  </li>
+                  <li class="ecl-footer-standardised__list-item">
+                    <a href="#"
+                      class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-footer-standardised__link"
+                      aria-label="Link to Facebook">
+                      <!--?xml version="1.0" encoding="UTF-8"?-->
+                      <svg width="48px" height="48px" viewBox="0 0 48 48" version="1.1"
+                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                        class="ecl-icon ecl-icon--xs ecl-link__icon">
+                        <title>EC/Icons/Social/2XL_48x48px/Icon-Twitter/Negative</title>
+                        <g id="EC/Icons/Social/2XL_48x48px/Icon-Twitter/Negative" stroke="none" stroke-width="1"
+                          fill="none" fill-rule="evenodd">
+                          <path
+                            d="M15.838,42 C32.4425,42 41.523,28.1506517 41.523,16.1423463 C41.523,15.7492214 41.51475,15.3574807 41.496875,14.9671242 C43.25825,13.6853155 44.791375,12.0851309 46,10.2620833 C44.383,10.9860422 42.64225,11.4732957 40.81625,11.692006 C42.679375,10.5680009 44.11075,8.78786481 44.785875,6.66582074 C43.041,7.70677125 41.109125,8.46395201 39.0535,8.87091937 C37.40625,7.10600992 35.059125,6 32.4645,6 C27.47875,6 23.434875,10.0710578 23.434875,15.0875534 C23.434875,15.8004383 23.514625,16.4939439 23.67,17.1597647 C16.166625,16.7804822 9.514375,13.163456 5.062125,7.66524397 C4.286625,9.0079594 3.83975,10.5680009 3.83975,12.2318607 C3.83975,15.3851655 5.433375,18.1688776 7.8575,19.796747 C6.376625,19.751067 4.985125,19.3413312 3.76825,18.6602838 C3.766875,18.6990426 3.766875,18.7364171 3.766875,18.7765602 C3.766875,23.1770677 6.8785,26.8522321 11.009,27.6855462 C10.251375,27.8931826 9.4525,28.0053063 8.628875,28.0053063 C8.04725,28.0053063 7.482125,27.9471681 6.932125,27.8405814 C8.081625,31.4520706 11.41325,34.0793632 15.365,34.1541124 C12.275375,36.5903795 8.38275,38.0438344 4.15325,38.0438344 C3.425875,38.0438344 2.70675,38.0009228 2,37.9178683 C5.99575,40.4953282 10.7395,42 15.838,42"
+                            id="Fill-1" fill="#FFFFFF"></path>
+                        </g>
+                      </svg> <span class="ecl-link__label">Twitter</span>
+                    </a>
+                  </li>
+                  <li class="ecl-footer-standardised__list-item">
+                    <a href="#"
+                      class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-footer-standardised__link"
+                      aria-label="Link to Facebook">
+                      <!--?xml version="1.0" encoding="UTF-8"?-->
+                      <svg width="48px" height="48px" viewBox="0 0 48 48" version="1.1"
+                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                        class="ecl-icon ecl-icon--xs ecl-link__icon">
+                        <title>EC/Icons/Social/2XL_48x48px/Icon-LinkedIn/Negative</title>
+                        <g id="EC/Icons/Social/2XL_48x48px/Icon-LinkedIn/Negative" stroke="none" stroke-width="1"
+                          fill="none" fill-rule="evenodd">
+                          <path
+                            d="M42.740288,2.00027876 C44.515815,1.97714719 45.9746697,3.39652233 46,5.17206186 L46,5.17206186 L46,42.8245959 C45.9754085,44.6009882 44.5166719,46.0217679 42.740288,45.9997475 L42.740288,45.9997475 L5.24680897,45.9997475 C3.47393233,46.0183503 2.02088609,44.5974886 2,42.8245959 L2,42.8245959 L2,5.17477835 C2.02162652,3.40273949 3.47478971,1.98328321 5.24680897,2.00328088 L5.24680897,2.00328088 L42.740288,2.00328088 Z M31.2951301,17.7778762 C28.8081803,17.6854011 26.4720276,18.9706934 25.2156106,21.1226747 L25.2156106,21.1226747 L25.129362,21.1226747 L25.129362,18.2929243 L18.9676056,18.2929243 L18.9676056,38.9993302 L25.3861019,38.9993302 L25.3869609,28.5676856 C25.4114227,25.9345486 25.9753192,23.4387166 29.2405426,23.4387166 C32.386244,23.4387166 32.5682188,26.2550649 32.5782626,28.5994328 L32.5782626,28.5994328 L32.5788293,39 L38.9973256,39 L39,27.6408124 C39,22.0643621 37.8005435,17.7778762 31.2951301,17.7778762 Z M14.9346504,18.2929243 L8.50946815,18.2929243 L8.50946815,39 L14.9346504,39 L14.9346504,18.2929243 Z M11.7240651,8.00000006 C9.66695155,8.00037003 7.99963088,9.67120829 8.00000006,11.7319218 C8.00036937,13.7926354 9.6682887,15.4628739 11.7254022,15.4625041 C12.713263,15.4623264 13.6605932,15.0690432 14.3589908,14.3691721 C15.0573885,13.669301 15.4496446,12.7201718 15.4494673,11.7305823 C15.449098,9.66986872 13.7811786,7.99963021 11.7240651,8.00000006 Z"
+                            id="Combined-Shape" fill="#FFFFFF"></path>
+                        </g>
+                      </svg>
+                      <span class="ecl-link__label">LinkedIn</span>
+                    </a>
+                  </li>
+                </ul>
+              </section>
+            </div>
+
+          </div>
+
+        </div>
+        <div class="ecl-site-foooter__column">
+          <div class="region region-footer-top-right">
+
+            <div id="block-aboutus"
+              class="block block-block-content block-block-contentfdc088e1-8f46-4c54-bcf7-1c83f9d916d2 block-about-us">
+              <section class="ecl-footer-standardised__section">
+
+                <h2 class="ecl-footer-standardised__title ecl-footer-standardised__title--separator">About us</h2>
+
+                <ul class="ecl-footer-standardised__list ecl-u-mh-none">
+                  <li class="ecl-footer-standardised__list-item">
+
+                    <div
+                      class="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-hidden field__item">
+                      <p>The Publications Office of the European Union is the official provider of publishing services
+                        to all EU institutions, bodies, and agencies. As such, it is a central point of access to EU
+                        law, publications, open data, research results, procurement notices and other official
+                        information.</p>
+                    </div>
+
+                  </li>
+                </ul>
+              </section>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+      <div class="ecl-site-footer__row">
+        <div class="ecl-site-foooter__column">
+          <div class="region region-footer-bottom-left">
+
+            <div id="block-europeancommission"
+              class="block block-block-content block-block-content177de30a-3ea2-4530-8741-f87807c6528a block-european-commission">
+              <section class="ecl-footer-standardised__section">
+
+                <h2 class="ecl-footer-standardised__title">
+                  <a href="https://ec.europa.eu/info/index_en"
+                    class="ecl-link ecl-link--standalone ecl-footer-standardised__title-link">European Commission</a>
+                </h2>
+
+              </section>
+            </div>
+
+          </div>
+
+        </div>
+        <div class="ecl-site-foooter__column">
+          <div class="region region-footer-bottom-middle">
+            <nav role="navigation" aria-labelledby="block-footerresourcesmenu-menu" id="block-footerresourcesmenu"
+              class="block block-menu navigation menu--footer-resources-menu">
+
+              <!-- <h2 class="visually-hidden" id="block-footerresourcesmenu-menu">Footer Resources menu</h2> -->
+
+              <div class="ecl-footer-standardised__section ecl-footer-standardised__section--split-list">
+                <ul class="ecl-footer-standardised__list ecl-u-mh-none">
+                  <li class="ecl-footer-standardised__list-item">
+                    <a href="https://ec.europa.eu/info/about-european-commission/contact_en"
+                      class="ecl-link ecl-link--standalone ecl-footer-standardised__link">
+                      Contact the European Commission
+                    </a>
+                  </li>
+                  <li class="ecl-footer-standardised__list-item">
+                    <a href="https://european-union.europa.eu/contact-eu/social-media-channels_en#/search?page=0&amp;institutions=european_commission"
+                      class="ecl-link ecl-link--standalone ecl-footer-standardised__link">
+                      Follow the European Commission on social media
+                    </a>
+                  </li>
+                  <li class="ecl-footer-standardised__list-item">
+                    <a href="https://ec.europa.eu/info/resources-partners_en"
+                      class="ecl-link ecl-link--standalone ecl-footer-standardised__link">
+                      Resources for partners
+                    </a>
+                  </li>
+                </ul>
+              </div>
+
+            </nav>
+
+          </div>
+
+        </div>
+        <div class="ecl-site-foooter__column">
+          <div class="region region-footer-bottom-right">
+            <nav role="navigation" aria-labelledby="block-footerpolicymenu-menu" id="block-footerpolicymenu"
+              class="block block-menu navigation menu--footer-policy-menu">
+
+              <!-- <h2 class="visually-hidden" id="block-footerpolicymenu-menu">Footer policy menu</h2> -->
+
+              <div class="ecl-footer-standardised__section ecl-footer-standardised__section--split-list">
+                <ul class="ecl-footer-standardised__list ecl-u-mh-none">
+                  <li class="ecl-footer-standardised__list-item">
+                    <a href="/en" class="ecl-link ecl-link--standalone ecl-footer-standardised__link">
+                      Language policy
+                    </a>
+                  </li>
+                  <li class="ecl-footer-standardised__list-item">
+                    <a href="/en" class="ecl-link ecl-link--standalone ecl-footer-standardised__link">
+                      Cookies
+                    </a>
+                  </li>
+                  <li class="ecl-footer-standardised__list-item">
+                    <a href="/en" class="ecl-link ecl-link--standalone ecl-footer-standardised__link">
+                      Privacy policy
+                    </a>
+                  </li>
+                  <li class="ecl-footer-standardised__list-item">
+                    <a href="/en/legal-notice" class="ecl-link ecl-link--standalone ecl-footer-standardised__link">
+                      Legal notice
+                    </a>
+                  </li>
+                </ul>
+              </div>
+
+            </nav>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </footer>
 </div>
 
 <ngx-guided-tour></ngx-guided-tour>

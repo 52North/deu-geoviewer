@@ -147,99 +147,99 @@
   "languages": [
     {
       "code": "bg",
-      "label": "Български (bg)"
+      "label": "Български"
     },
     {
       "code": "cs",
-      "label": "čeština (cs)"
+      "label": "čeština"
     },
     {
       "code": "da",
-      "label": "dansk (da)"
+      "label": "dansk"
     },
     {
       "code": "de",
-      "label": "Deutsch (de)"
+      "label": "Deutsch"
     },
     {
       "code": "el",
-      "label": "Ελληνικά (el)"
+      "label": "Ελληνικά"
     },
     {
       "code": "en",
-      "label": "English (en)"
+      "label": "English"
     },
     {
       "code": "es",
-      "label": "español (es)"
+      "label": "español"
     },
     {
       "code": "et",
-      "label": "eesti (et)"
+      "label": "eesti"
     },
     {
       "code": "fr",
-      "label": "français (fr)"
+      "label": "français"
     },
     {
       "code": "ga",
-      "label": "Gaeilge (ga)"
+      "label": "Gaeilge"
     },
     {
       "code": "hr",
-      "label": "Hrvatski (hr)"
+      "label": "Hrvatski"
     },
     {
       "code": "hu",
-      "label": "Magyar (hu)"
+      "label": "Magyar"
     },
     {
       "code": "it",
-      "label": "italiano (it)"
+      "label": "italiano"
     },
     {
       "code": "lt",
-      "label": "lietuvių (lt)"
+      "label": "lietuvių"
     },
     {
       "code": "lv",
-      "label": "latviešu (lv)"
+      "label": "latviešu"
     },
     {
       "code": "mt",
-      "label": "Malti (mt)"
+      "label": "Malti"
     },
     {
       "code": "nl",
-      "label": "Nederlands (nl)"
+      "label": "Nederlands"
     },
     {
       "code": "pl",
-      "label": "polski (pl)"
+      "label": "polski"
     },
     {
       "code": "pt",
-      "label": "português (pt)"
+      "label": "português"
     },
     {
       "code": "ro",
-      "label": "română (ro)"
+      "label": "română"
     },
     {
       "code": "sk",
-      "label": "slovenčina (sk)"
+      "label": "slovenčina"
     },
     {
       "code": "sl",
-      "label": "slovenščina (sl)"
+      "label": "slovenščina"
     },
     {
       "code": "fi",
-      "label": "suomi (fi)"
+      "label": "suomi"
     },
     {
       "code": "sv",
-      "label": "svenska (sv)"
+      "label": "svenska"
     }
   ],
   "supportTicketPrefix": "https://www.europeandataportal.eu/en/feedback/form?"

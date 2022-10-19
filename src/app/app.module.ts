@@ -13,6 +13,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DatasetTitleComponent } from './components/dataset-title/dataset-title.component';
 import { CustomGuidedTourComponent } from './components/guided-tour/custom-guided-tour.component';
+import { InfoOverlayComponent } from './components/info-overlay/info-overlay.component';
+import { LanguageLabelComponent } from './components/language-label/language-label.component';
+import { LanguageButtonComponent } from './components/language-overlay-selection/language-button/language-button.component';
+import {
+  LanguageOverlaySelectionComponent,
+} from './components/language-overlay-selection/language-overlay-selection.component';
 import { LanguageSelectorComponent } from './components/language-selector/language-selector.component';
 import { CounterComponent } from './components/map/counter/counter.component';
 import { FeatureInfoPopupComponent } from './components/map/feature-info-popup/feature-info-popup.component';
@@ -56,8 +62,15 @@ export const translateConfig = {
 @NgModule({
   declarations: [
     AppComponent,
+    CounterComponent,
+    CustomGuidedTourComponent,
+    DatasetTitleComponent,
     ErrorComponent,
     FeatureInfoPopupComponent,
+    InfoOverlayComponent,
+    LanguageButtonComponent,
+    LanguageLabelComponent,
+    LanguageOverlaySelectionComponent,
     LanguageSelectorComponent,
     LegalDisclaimerComponent,
     LinkViewComponent,
@@ -66,9 +79,6 @@ export const translateConfig = {
     MapViewComponent,
     WelcomeComponent,
     WmsFeatureInfoComponent,
-    CounterComponent,
-    DatasetTitleComponent,
-    CustomGuidedTourComponent
   ],
   imports: [
     AppRoutingModule,

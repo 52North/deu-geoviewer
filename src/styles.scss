@@ -1,6 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
 
-$primary : #001D85;
+$blue100: #004494;
+$white: #ffffff;
+
+$primary: $blue100;
+$custom-checkbox-indicator-border-radius: 0px;
 
 /* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap';
@@ -8,6 +12,8 @@ $primary : #001D85;
 @import '@angular/cdk/overlay-prebuilt.css';
 @import 'assets/intro-themes.css';
 @import '~ngx-guided-tour/scss/guided-tour-base-theme.scss';
+
+@import 'layout.scss';
 
 body {
     font-family: Ubuntu, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
@@ -27,7 +33,12 @@ body {
     padding: .75rem 1.5rem;
     font-size: 1.125rem;
     line-height: 1.33;
-    border-radius: 1.875rem;
+    color: $blue100;
+    border-radius: 0px;
+
+    &.btn-primary {
+        color: $white;
+    }
 }
 
 .btn-group-sm>.btn,
@@ -44,7 +55,7 @@ body {
 
 @include media-breakpoint-between(xs,sm){
     .btn {
-        @include button-size($input-btn-padding-y-sm, $input-btn-padding-x-sm, $font-size-sm, $line-height-sm, 1.875rem);
+        @include button-size($input-btn-padding-y-sm, $input-btn-padding-x-sm, $font-size-sm, $line-height-sm, 0rem);
     }
 }
 
