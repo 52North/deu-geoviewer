@@ -23,7 +23,7 @@ spec:
           value: /geo-viewer/
         - name: DEPLOY_URL
           value: https://data.europa.eu/
-        image: 52north/deu-viewer:0.9.9
+        image: 52north/deu-viewer:latest
         imagePullPolicy: Always
         name: geo-viewer
         ports:
