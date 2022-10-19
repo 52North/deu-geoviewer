@@ -1,9 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  annotations: {}
   name: deu-proxy-service
-  namespace: 52north
 spec:
   ports:
   - port: 9090

@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deu-proxy-deployment
+spec:
+  selector:
+    matchLabels:
+      app: deu-proxy
+  template:
+    metadata:
+      labels:
+        app: deu-proxy
+    spec:
+      containers:
+        - env:
+            - name: SEARCH_ENDPOINT
+              value: http://piveau-hub-search.fokus.svc.cluster.local:8080/search
+            - name: WHITELIST_UPDATE_INTERVAL_MINUTES
+              value: "60"
+            - name: CONFIG_FILE
+              value: /etc/ckan-proxy.json
+            - name: LOGGING_LEVEL
+              value: debug
+          image: 52north/deu-proxy:latest
+          imagePullPolicy: Always
+          name: deu-proxy
+          ports:
+            - containerPort: 9090

@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    prometheus.io/port: '10254'
+    prometheus.io/scrape: 'true'
+  name: 52north-ingress-proxy
+spec:
+  rules:
+  - host: $(HOST_NAME)
+    http:
+      paths:
+      - backend:
+          serviceName: deu-proxy-service
+          servicePort: 9090
+        path: /deu-proxy
