@@ -13,6 +13,6 @@ configMapGenerator:
       - HOST_NAME=ppe.data.europa.eu
 
 images:
-  - name: 52north/deu-viewer:0.9.9
+  - name: 52north/deu-viewer:latest
+    newTag: 0.9.9
   - name: 52north/deu-proxy:latest
-    newTag: ppe
