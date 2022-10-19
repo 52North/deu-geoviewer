@@ -16,13 +16,13 @@ spec:
       containers:
       - env:
         - name: PROXY_URL
-          value: https://data.europa.eu/deu-proxy?
+          value: https://$(HOST_NAME)/deu-proxy?
         - name: API_URL
-          value: https://data.europa.eu/api/hub/repo/
+          value: https://$(API_HOST_NAME)/api/hub/repo/
         - name: BASE_HREF
           value: /geo-viewer/
         - name: DEPLOY_URL
-          value: https://data.europa.eu/
+          value: https://$(HOST_NAME)/
         image: 52north/deu-viewer:latest
         imagePullPolicy: Always
         name: geo-viewer

@@ -11,6 +11,7 @@ configMapGenerator:
     behavior: merge
     literals:
       - HOST_NAME=v2.ppe.data.europa.eu
+      - API_HOST_NAME=ppe.data.europa.eu
 
 images:
   - name: 52north/deu-viewer:latest
