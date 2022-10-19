@@ -9,6 +9,7 @@ configMapGenerator:
   - name: config
     literals:
       - HOST_NAME=
+      - API_HOST_NAME=
 
 vars:
   - name: HOST_NAME
@@ -18,3 +19,10 @@ vars:
       name: config
     fieldref:
       fieldpath: data.HOST_NAME
+  - name: API_HOST_NAME
+    objref:
+      apiVersion: v1
+      kind: ConfigMap
+      name: config
+    fieldref:
+      fieldpath: data.API_HOST_NAME

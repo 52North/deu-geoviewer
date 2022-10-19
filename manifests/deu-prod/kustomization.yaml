@@ -11,7 +11,9 @@ configMapGenerator:
     behavior: merge
     literals:
       - HOST_NAME=data.europa.eu
+      - API_HOST_NAME=data.europa.eu
 
 images:
-  - name: 52north/deu-viewer:0.9.9
+  - name: 52north/deu-viewer:latest
+    newTag: 0.9.9
   - name: 52north/deu-proxy:latest
