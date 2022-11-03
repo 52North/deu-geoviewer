@@ -1,6 +1,6 @@
 {
   "name": "deu-viewer",
-  "version": "0.9.11",
+  "version": "1.0.1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
