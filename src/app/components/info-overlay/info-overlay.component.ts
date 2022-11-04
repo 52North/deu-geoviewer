@@ -13,12 +13,14 @@ interface Entry {
 
 interface DeuDataset {
   '@context': any;
+  '@id'?: string;
   '@graph': {
     '@id': string;
     '@type'?: string;
     title: (Entry | string)[];
     publisher?: string;
     name?: string;
+    [key: string]: any;
   }[]
 }
 
@@ -94,9 +96,19 @@ export class InfoOverlayComponent implements OnInit {
   private loadCatalog(catalogId: string) {
     this.catalogId = catalogId;
     this.http.get<DeuDataset>(`${this.apiUrl}catalogues/${catalogId}.jsonld`).subscribe(res => {
+      // first option to find catalog title
       const match = res['@graph'].find(e => e['@type'] ? e['@type']?.indexOf('dcat:Catalog') >= 0 : false);
       if (match?.title) {
         this.catalogTitle = this.getLanguageList(match.title);
+        return;
+      }
+      // second option to find catalog title
+      const id = res['@id'];
+      if (id) {
+        const entry = res['@graph'].find(e => e['@id'] === id);
+        if (entry && entry['http://purl.org/dc/terms/title']) {
+          this.catalogTitle = this.getLanguageList(entry['http://purl.org/dc/terms/title']);
+        }
       }
     });
   }
