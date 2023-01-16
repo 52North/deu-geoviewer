@@ -7,11 +7,11 @@ $primary: $blue100;
 $custom-checkbox-indicator-border-radius: 0px;
 
 /* Importing Bootstrap SCSS file. */
-@import '~bootstrap/scss/bootstrap';
+@import 'node_modules/bootstrap/scss/bootstrap';
 @import '~ol/ol.css';
 @import '@angular/cdk/overlay-prebuilt.css';
 @import 'assets/intro-themes.css';
-@import '~ngx-guided-tour/scss/guided-tour-base-theme.scss';
+@import 'node_modules/ngx-guided-tour/scss/guided-tour-base-theme.scss';
 
 @import 'layout.scss';
 
