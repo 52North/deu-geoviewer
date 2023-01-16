@@ -13,10 +13,14 @@ interface Entry {
 
 interface DeuDataset {
   '@context': any;
+  '@id'?: string;
   '@graph': {
     '@id': string;
     '@type'?: string;
-    'title': (Entry | string)[]
+    title: (Entry | string)[];
+    publisher?: string;
+    name?: string;
+    [key: string]: any;
   }[]
 }
 
@@ -33,11 +37,12 @@ export class InfoOverlayComponent implements OnInit {
 
   distributionTitle: LangTitle[] | undefined;
   catalogTitle: LangTitle[] | undefined;
+  publisherTitle: string | undefined;
 
   datasetId: string | undefined;
   catalogId: string | undefined;
 
-  isOpen = true;
+  isOpen = false;
 
   position: ConnectedPosition[] = [{
     overlayX: 'start',
@@ -67,20 +72,43 @@ export class InfoOverlayComponent implements OnInit {
   private loadDataset(datasetId: string, distributionId: string) {
     this.datasetId = datasetId;
     this.http.get<DeuDataset>(`${this.apiUrl}datasets/${datasetId}.jsonld?useNormalizedId=true`).subscribe(res => {
+      this.tryToGetPublisher(res, datasetId);
       const match = res['@graph'].find(e => e['@id'].indexOf(distributionId) >= 0);
       const titles = match?.title;
       if (titles) {
         this.distributionTitle = this.getLanguageList(titles);
       }
+      this.isOpen = true;
     });
+  }
+
+  private tryToGetPublisher(res: DeuDataset, datasetId: string) {
+    const match = res['@graph'].find(e => e['@id'].indexOf(datasetId) >= 0);
+    const publisherId = match?.publisher;
+    if (publisherId) {
+      const publisher = res['@graph'].find(e => e['@id'].indexOf(publisherId) >= 0);
+      if (publisher?.name) {
+        this.publisherTitle = publisher.name;
+      }
+    }
   }
 
   private loadCatalog(catalogId: string) {
     this.catalogId = catalogId;
     this.http.get<DeuDataset>(`${this.apiUrl}catalogues/${catalogId}.jsonld`).subscribe(res => {
+      // first option to find catalog title
       const match = res['@graph'].find(e => e['@type'] ? e['@type']?.indexOf('dcat:Catalog') >= 0 : false);
       if (match?.title) {
         this.catalogTitle = this.getLanguageList(match.title);
+        return;
+      }
+      // second option to find catalog title
+      const id = res['@id'];
+      if (id) {
+        const entry = res['@graph'].find(e => e['@id'] === id);
+        if (entry && entry['http://purl.org/dc/terms/title']) {
+          this.catalogTitle = this.getLanguageList(entry['http://purl.org/dc/terms/title']);
+        }
       }
     });
   }

@@ -7,6 +7,7 @@
     .header {
         display: flex;
         gap: 20px;
+        justify-content: space-between;
 
         .btn {
             border-radius: 50%;
@@ -16,7 +17,7 @@
     .dataset-title {
         font-size: 150%;
 
-        &:hover {
+        &.clickable:hover {
             cursor: pointer;
             text-decoration: underline;
         }
@@ -26,9 +27,14 @@
         padding-top: 10px;
         color: #001d85;
 
-        &:hover {
+        :hover {
             cursor: pointer;
             text-decoration: underline;
         }
+
+    }
+
+    .publisher {
+        padding-top: 10px;
     }
 }
