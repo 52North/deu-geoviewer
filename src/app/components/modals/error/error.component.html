@@ -3,7 +3,8 @@
     <h4 class="text-primary">{{ error.titleKey | translate }}</h4>
     <p>{{ 'error.general.invalidResource' | translate }} {{'error.general.errorSource' | translate}}</p>
     <p class="bold">{{errorMessage}}</p>
-    <p class="bold">{{ 'error.general.requestedUrl' | translate }}: <a href="{{error.url}}" target="_blank">{{error.url}}</a></p>
+    <p class="bold">{{ 'error.general.requestedUrl' | translate }}: <a href="{{error.url}}"
+        target="_blank">{{error.url}}</a></p>
     <p>{{ 'error.general.weWillContactProvider' | translate }}</p>
     <p>{{ 'error.general.technicalSupport' | translate }}</p>
   </div>
@@ -11,7 +12,8 @@
     <button type="button" class="btn btn-light"
       (click)="createTicket()">{{ 'error.general.technicalSupportCreateTicket' | translate }}
     </button>
-    <button type="button" class="btn btn-light" (click)="overlayRef.dispose()">{{ 'error.general.closeButton' | translate }}
+    <button type="button" class="btn btn-light"
+      (click)="overlayRef.dispose()">{{ 'error.general.closeButton' | translate }}
     </button>
   </div>
 </div>

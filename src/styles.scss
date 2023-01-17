@@ -7,7 +7,7 @@ $primary: $blue100;
 $custom-checkbox-indicator-border-radius: 0px;
 
 /* Importing Bootstrap SCSS file. */
-@import 'node_modules/bootstrap/scss/bootstrap';
+@import 'bootstrap/scss/bootstrap';
 @import '~ol/ol.css';
 @import '@angular/cdk/overlay-prebuilt.css';
 @import 'assets/intro-themes.css';
@@ -41,6 +41,14 @@ body {
     }
 }
 
+.modal-body {
+    padding: 1rem;
+}
+
+.modal-footer {
+    padding: 1rem;
+}
+
 .btn-group-sm>.btn,
 .btn-sm {
     padding: .25rem .5rem;
@@ -55,7 +63,7 @@ body {
 
 @include media-breakpoint-between(xs,sm){
     .btn {
-        @include button-size($input-btn-padding-y-sm, $input-btn-padding-x-sm, $font-size-sm, $line-height-sm, 0rem);
+        // @include button-size($input-btn-padding-y-sm, $input-btn-padding-x-sm, $font-size-sm, $line-height-sm, 0rem);
     }
 }
 
