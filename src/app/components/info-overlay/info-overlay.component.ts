@@ -74,7 +74,7 @@ export class InfoOverlayComponent implements OnInit {
     this.http.get<DeuDataset>(`${this.apiUrl}datasets/${datasetId}.jsonld?useNormalizedId=true`).subscribe(res => {
       this.tryToGetPublisher(res, datasetId);
       const match = res['@graph'].find(e => e['@id'].indexOf(distributionId) >= 0);
-      const titles = match?.title;
+      const titles = match?.title || match?.["dct:title"];
       if (titles) {
         this.distributionTitle = this.getLanguageList(titles);
       }
