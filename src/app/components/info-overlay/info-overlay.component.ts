@@ -20,6 +20,9 @@ interface DeuDataset {
     title: (Entry | string)[];
     publisher?: string;
     name?: string;
+    'dct:title'?: (Entry | string)[];
+    'dct:publisher'?: string;
+    'dct:name'?: string;
     [key: string]: any;
   }[]
 }
@@ -37,7 +40,7 @@ export class InfoOverlayComponent implements OnInit {
 
   distributionTitle: LangTitle[] | undefined;
   catalogTitle: LangTitle[] | undefined;
-  publisherTitle: string | undefined;
+  publisherTitle: LangTitle[] | undefined;
 
   datasetId: string | undefined;
   catalogId: string | undefined;
@@ -74,7 +77,7 @@ export class InfoOverlayComponent implements OnInit {
     this.http.get<DeuDataset>(`${this.apiUrl}datasets/${datasetId}.jsonld?useNormalizedId=true`).subscribe(res => {
       this.tryToGetPublisher(res, datasetId);
       const match = res['@graph'].find(e => e['@id'].indexOf(distributionId) >= 0);
-      const titles = match?.title || match?.["dct:title"];
+      const titles = match?.title || match?.['dct:title'];
       if (titles) {
         this.distributionTitle = this.getLanguageList(titles);
       }
@@ -84,12 +87,9 @@ export class InfoOverlayComponent implements OnInit {
 
   private tryToGetPublisher(res: DeuDataset, datasetId: string) {
     const match = res['@graph'].find(e => e['@id'].indexOf(datasetId) >= 0);
-    const publisherId = match?.publisher;
-    if (publisherId) {
-      const publisher = res['@graph'].find(e => e['@id'].indexOf(publisherId) >= 0);
-      if (publisher?.name) {
-        this.publisherTitle = publisher.name;
-      }
+    const titles = match?.title || match?.['dct:title'];
+    if (titles) {
+      this.publisherTitle = this.getLanguageList(titles);
     }
   }
 
@@ -98,8 +98,9 @@ export class InfoOverlayComponent implements OnInit {
     this.http.get<DeuDataset>(`${this.apiUrl}catalogues/${catalogId}.jsonld`).subscribe(res => {
       // first option to find catalog title
       const match = res['@graph'].find(e => e['@type'] ? e['@type']?.indexOf('dcat:Catalog') >= 0 : false);
-      if (match?.title) {
-        this.catalogTitle = this.getLanguageList(match.title);
+      const titles = match?.title || match?.['dct:title'];
+      if (titles) {
+        this.catalogTitle = this.getLanguageList(titles);
         return;
       }
       // second option to find catalog title

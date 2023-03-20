@@ -21,7 +21,9 @@
     <div class="catalog-title" (click)="catalogClick()">
       <app-language-label [languageList]="catalogTitle"></app-language-label>
     </div>
-    <div class="publisher"> {{publisherTitle}} </div>
+    <div class="publisher">
+      <app-language-label [languageList]="publisherTitle"></app-language-label>
+    </div>
   </div>
 
 </ng-template>
