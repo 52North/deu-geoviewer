@@ -44,6 +44,7 @@ export class WmsMapHandler extends MapHandler {
                 title: e.title,
                 abstract: e.abstract,
                 layer,
+                queryable: e.queryable,
                 extent: e.bbox ? e.bbox as Extent : undefined
             });
         });
@@ -76,10 +77,10 @@ export class WmsMapHandler extends MapHandler {
     }
 
     private featureInfoClick = (evt: MapBrowserEvent<UIEvent>) => {
-        if (this.legendEntries.some(e => e.layer.getVisible())) {
+        if (this.legendEntries.some(e => e.layer.getVisible() && e.queryable)) {
             const urls: string[] = [];
             this.legendEntries.forEach(l => {
-                if (l.layer.getVisible()) {
+                if (l.layer.getVisible() && l.queryable) {
                     const source = l.layer.getSource();
                     if (source instanceof TileWMS) {
                         const url = source.getFeatureInfoUrl(

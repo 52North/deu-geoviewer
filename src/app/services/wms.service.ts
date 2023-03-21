@@ -4,10 +4,9 @@ import WMSCapabilities from 'ol/format/WMSCapabilities';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
-import { NotAvailableError } from './error-handling/model';
 import { ConfigurationService } from '../configuration/configuration.service';
 import { CkanResource } from '../model';
-import { NotSupportedError, NotSupportedReason } from './error-handling/model';
+import { NotAvailableError, NotSupportedError, NotSupportedReason } from './error-handling/model';
 
 interface InternalWMSLayer {
   Name: string;
@@ -34,6 +33,7 @@ interface InternalWMSLayer {
     }[]
   }[];
   EX_GeographicBoundingBox: number[];
+  queryable?: boolean;
 }
 
 export interface WMSLayer {
@@ -42,6 +42,7 @@ export interface WMSLayer {
   abstract: string;
   url: string;
   bbox: number[];
+  queryable: boolean;
   childLayer?: WMSLayer[];
 }
 
@@ -62,13 +63,7 @@ export class WmsService {
 
   public asList(entry: WMSLayer, list: WMSLayer[]): WMSLayer[] {
     if (entry.name !== undefined) {
-      list.push({
-        name: entry.name,
-        title: entry.title,
-        abstract: entry.abstract,
-        bbox: entry.bbox,
-        url: entry.url
-      });
+      list.push({ ...entry });
     }
     if (entry.childLayer && entry.childLayer.length > 0) {
       entry.childLayer.forEach(e => this.asList(e, list));
@@ -83,6 +78,7 @@ export class WmsService {
       abstract: layer.Abstract,
       url,
       bbox: layer.EX_GeographicBoundingBox,
+      queryable: layer.queryable === undefined ? true : layer.queryable,
       childLayer: layer.Layer ? layer.Layer.map(l => this.createLayer(l, url)) : []
     };
   }

@@ -55,4 +55,5 @@ export type LegendEntry = {
     abstract: string;
     extent?: Extent;
     layer: TileLayer<TileWMS>;
+    queryable: boolean;
 };

@@ -3,11 +3,12 @@
     <ngb-panel *ngFor="let entry of legendEntries; index as i" [id]="'panel-' + i">
       <ng-template ngbPanelHeader let-opened="opened">
         <div class="d-flex align-items-center" (click)="toggleVisibility(entry)">
-          <div class="custom-checkbox">
-            <input type="checkbox" class="custom-control-input" [checked]="entry.layer.getVisible()">
-            <label class="custom-control-label" for="hideWelcomeCheck"></label>
+          <div class="form-check flex-grow-1">
+            <input class="form-check-input" type="checkbox" [checked]="entry.layer.getVisible()">
+            <label class="form-check-label" for="flexCheckDefault">
+              {{entry.title}}
+            </label>
           </div>
-          <div class="entry-title flex-grow-1">{{entry.title}}</div>
           <div (click)="acc.toggle('panel-'+i); $event.stopPropagation()" class="information-toggler">
             <i *ngIf="!opened" class="bi-plus"></i>
             <i *ngIf="opened" class="bi-dash"></i>
