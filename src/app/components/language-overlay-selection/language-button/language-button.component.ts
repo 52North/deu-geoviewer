@@ -1,10 +1,10 @@
-import { Overlay, OverlayRef } from '@angular/cdk/overlay';
-import { ComponentPortal } from '@angular/cdk/portal';
-import { Component, InjectionToken, Injector, OnInit } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+import { Overlay, OverlayRef } from "@angular/cdk/overlay";
+import { ComponentPortal } from "@angular/cdk/portal";
+import { Component, InjectionToken, Injector, OnInit } from "@angular/core";
+import { TranslateService } from "@ngx-translate/core";
 
-import { ConfigurationService } from '../../../configuration/configuration.service';
-import { LanguageOverlaySelectionComponent } from '../language-overlay-selection.component';
+import { ConfigurationService } from "../../../configuration/configuration.service";
+import { LanguageOverlaySelectionComponent } from "../language-overlay-selection.component";
 
 export interface LanguageOverlayConfig {
   overlayRef: OverlayRef
@@ -14,7 +14,8 @@ export const CONTAINER_DATA = new InjectionToken<LanguageOverlayConfig>('CONTAIN
 @Component({
   selector: 'app-language-button',
   templateUrl: './language-button.component.html',
-  styleUrls: ['./language-button.component.scss']
+  styleUrls: ['./language-button.component.scss'],
+  standalone: true
 })
 export class LanguageButtonComponent implements OnInit {
 

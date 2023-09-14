@@ -1,11 +1,14 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, Input, OnInit } from '@angular/core';
-import { forkJoin } from 'rxjs';
+import { NgFor, NgIf } from "@angular/common";
+import { HttpClient } from "@angular/common/http";
+import { Component, Input, OnInit } from "@angular/core";
+import { forkJoin } from "rxjs";
 
 @Component({
   selector: 'app-wms-feature-info',
   templateUrl: './wms-feature-info.component.html',
-  styleUrls: ['./wms-feature-info.component.scss']
+  styleUrls: ['./wms-feature-info.component.scss'],
+  standalone: true,
+  imports: [NgIf, NgFor]
 })
 export class WmsFeatureInfoComponent implements OnInit {
 

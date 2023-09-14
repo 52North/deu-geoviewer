@@ -1,11 +1,11 @@
-import { OverlayModule } from '@angular/cdk/overlay';
-import { HttpClientModule } from '@angular/common/http';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterModule } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+import { OverlayModule } from "@angular/cdk/overlay";
+import { HttpClientModule } from "@angular/common/http";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { RouterModule } from "@angular/router";
+import { TranslateModule } from "@ngx-translate/core";
 
-import { translateConfig } from './../../app.module';
-import { MapViewComponent } from './map-view.component';
+import { translateConfig } from "./../../app.module";
+import { MapViewComponent } from "./map-view.component";
 
 describe('MapViewComponent', () => {
   let component: MapViewComponent;
@@ -13,14 +13,12 @@ describe('MapViewComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [
-        MapViewComponent
-      ],
       imports: [
         HttpClientModule,
         RouterModule.forRoot([]),
         OverlayModule,
-        TranslateModule.forRoot(translateConfig)
+        TranslateModule.forRoot(translateConfig),
+        MapViewComponent
       ]
     }).compileComponents();
   });

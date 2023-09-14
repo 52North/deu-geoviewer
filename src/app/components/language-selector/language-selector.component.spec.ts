@@ -1,11 +1,11 @@
-import { HttpClientModule } from '@angular/common/http';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterModule } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+import { HttpClientModule } from "@angular/common/http";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { RouterModule } from "@angular/router";
+import { TranslateModule } from "@ngx-translate/core";
 
-import { translateConfig } from '../../app.module';
-import { ConfigurationService } from './../../configuration/configuration.service';
-import { LanguageSelectorComponent } from './language-selector.component';
+import { translateConfig } from "../../app.module";
+import { ConfigurationService } from "./../../configuration/configuration.service";
+import { LanguageSelectorComponent } from "./language-selector.component";
 
 describe('LanguageSelectorComponent', () => {
   let component: LanguageSelectorComponent;
@@ -13,13 +13,11 @@ describe('LanguageSelectorComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [
-        LanguageSelectorComponent
-      ],
       imports: [
         RouterModule.forRoot([]),
         TranslateModule.forRoot(translateConfig),
         HttpClientModule,
+        LanguageSelectorComponent
       ],
       providers: [
         {

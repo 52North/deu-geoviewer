@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { FeatureInfoPopupComponent } from './feature-info-popup.component';
+import { FeatureInfoPopupComponent } from "./feature-info-popup.component";
 
 describe('FeatureInfoPopupComponent', () => {
   let component: FeatureInfoPopupComponent;
@@ -8,9 +8,9 @@ describe('FeatureInfoPopupComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FeatureInfoPopupComponent ]
+      imports: [FeatureInfoPopupComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

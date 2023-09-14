@@ -1,8 +1,8 @@
-import { Component, Injectable, OnInit } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import { Subject } from 'rxjs';
+import { Component, Injectable, OnInit } from "@angular/core";
+import { TranslateService } from "@ngx-translate/core";
+import { Subject } from "rxjs";
 
-import { TitleInput } from '../../model';
+import { TitleInput } from "../../model";
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,8 @@ export class DatasetTitleService {
 @Component({
   selector: 'app-dataset-title',
   templateUrl: './dataset-title.component.html',
-  styleUrls: ['./dataset-title.component.scss']
+  styleUrls: ['./dataset-title.component.scss'],
+  standalone: true
 })
 export class DatasetTitleComponent implements OnInit {
 

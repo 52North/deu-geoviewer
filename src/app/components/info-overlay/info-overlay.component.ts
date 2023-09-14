@@ -1,10 +1,12 @@
-import { ConnectedPosition } from '@angular/cdk/overlay';
-import { HttpClient } from '@angular/common/http';
-import { Component, Inject, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
+import { CdkConnectedOverlay, CdkOverlayOrigin, ConnectedPosition } from "@angular/cdk/overlay";
+import { NgIf } from "@angular/common";
+import { HttpClient } from "@angular/common/http";
+import { Component, Inject, OnInit } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+import { TranslateService } from "@ngx-translate/core";
 
-import { LangTitle } from './../../model';
+import { LanguageLabelComponent } from "../language-label/language-label.component";
+import { LangTitle } from "./../../model";
 
 interface Entry {
   '@language': string;
@@ -34,7 +36,9 @@ const DISTRIBUTION_ID_PARAM = 'distribution';
 @Component({
   selector: 'app-info-overlay',
   templateUrl: './info-overlay.component.html',
-  styleUrls: ['./info-overlay.component.scss']
+  styleUrls: ['./info-overlay.component.scss'],
+  standalone: true,
+  imports: [CdkOverlayOrigin, CdkConnectedOverlay, NgIf, LanguageLabelComponent]
 })
 export class InfoOverlayComponent implements OnInit {
 
