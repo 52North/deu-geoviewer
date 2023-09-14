@@ -1,12 +1,12 @@
-import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
-import WMSCapabilities from 'ol/format/WMSCapabilities';
-import { Observable, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { HttpClient } from "@angular/common/http";
+import { Inject, Injectable } from "@angular/core";
+import WMSCapabilities from "ol/format/WMSCapabilities";
+import { Observable, throwError } from "rxjs";
+import { catchError, map } from "rxjs/operators";
 
-import { ConfigurationService } from '../configuration/configuration.service';
-import { CkanResource } from '../model';
-import { NotAvailableError, NotSupportedError, NotSupportedReason } from './error-handling/model';
+import { ConfigurationService } from "../configuration/configuration.service";
+import { CkanResource } from "../model";
+import { NotAvailableError, NotSupportedError, NotSupportedReason } from "./error-handling/model";
 
 interface InternalWMSLayer {
   Name: string;
@@ -83,16 +83,13 @@ export class WmsService {
     };
   }
 
-  private cleanUpWMSUrl(url: string): string {
-    let wmsRequesturl = url;
-    if (wmsRequesturl.indexOf('?') !== -1) {
-      wmsRequesturl = wmsRequesturl.substring(0, wmsRequesturl.indexOf('?'));
-    }
-    return wmsRequesturl;
+  private cleanUpWMSUrl(urlStr: string): string {
+    const url = new URL(urlStr);
+    return url.origin + url.pathname;
   }
 
   private getCapabilities(url: string, resource: CkanResource): Observable<any> {
-    const wmsRequesturl = `${this.proxyUrl}${this.cleanUpWMSUrl(url)}?request=GetCapabilities&service=wms&version=1.3.0`;
+    const wmsRequesturl = `${this.proxyUrl}${this.createCapabilitiesUrl(url)}`;
     return this.http.get(wmsRequesturl, { responseType: 'text' }).pipe(
       catchError(err => this.handleError(url, err, resource)),
       map(res => {
@@ -103,6 +100,21 @@ export class WmsService {
         }
       })
     );
+  }
+
+  private createCapabilitiesUrl(urlStr: string): string {
+    const url = new URL(urlStr);
+    const { searchParams } = url;
+    if (!searchParams.has("request")) {
+      searchParams.set("request", "GetCapabilities");
+    }
+    if (!searchParams.has("service")) {
+      searchParams.set("service", "wms");
+    }
+    if (!searchParams.has("version")) {
+      searchParams.set("version", "1.3.0");
+    }
+    return url.toString();
   }
 
   private handleError(url: string, err: any, resource: CkanResource): Observable<never> {
