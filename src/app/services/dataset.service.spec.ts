@@ -10,6 +10,10 @@ describe('DatasetService', () => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientModule
+      ],
+      providers: [
+        { provide: 'PROXY_URL', useValue: "" },
+        { provide: 'API_URL', useValue: "" },
       ]
     });
     service = TestBed.inject(DatasetService);

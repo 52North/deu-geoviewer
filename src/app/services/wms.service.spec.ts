@@ -10,6 +10,9 @@ describe('WmsService', () => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientModule
+      ],
+      providers: [
+        { provide: 'PROXY_URL', useValue: "" },
       ]
     });
     service = TestBed.inject(WmsService);

@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { TranslateModule } from "@ngx-translate/core";
 
 import { DatasetTitleComponent } from "./dataset-title.component";
 
@@ -8,7 +9,10 @@ describe('DatasetTitleComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DatasetTitleComponent]
+      imports: [
+        DatasetTitleComponent,
+        TranslateModule.forRoot()
+      ],
     })
       .compileComponents();
   });

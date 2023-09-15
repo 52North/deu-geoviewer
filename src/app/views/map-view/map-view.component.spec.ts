@@ -4,8 +4,8 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { RouterModule } from "@angular/router";
 import { TranslateModule } from "@ngx-translate/core";
 
-import { translateConfig } from "./../../app.module";
 import { MapViewComponent } from "./map-view.component";
+import { translateConfig } from "../../../main";
 
 describe('MapViewComponent', () => {
   let component: MapViewComponent;
