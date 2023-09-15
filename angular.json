@@ -25,6 +25,14 @@
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
+            "allowedCommonJsDependencies": [
+              "lodash",
+              "rbush",
+              "web-worker",
+              "lru-cache",
+              "xml-utils/find-tags-by-name.js",
+              "xml-utils/get-attribute.js"
+            ],
             "assets": [
               "src/favicon.ico",
               "src/assets"
