@@ -1,4 +1,5 @@
-<ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="trigger" [cdkConnectedOverlayOpen]="legendOpen">
+<ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="legendOverlay" [cdkConnectedOverlayOpen]="legendOpen"
+  [cdkConnectedOverlayLockPosition]="true">
   <ngb-accordion *ngIf="legendEntries.length > 0" #acc="ngbAccordion">
     <ngb-panel *ngFor="let entry of legendEntries; index as i" [id]="'panel-' + i">
       <ng-template ngbPanelHeader let-opened="opened">
@@ -45,7 +46,7 @@
     <div>
       <button type="button" class="btn legend-button" [disabled]="legendEntries.length === 0"
         (click)="legendOpen = !legendOpen" cdkOverlayOrigin
-        [ngClass]="{'btn-primary': legendOpen, 'btn-light': !legendOpen}" #trigger="cdkOverlayOrigin">
+        [ngClass]="{'btn-primary': legendOpen, 'btn-light': !legendOpen}" #legendOverlay="cdkOverlayOrigin">
         {{'functions.legend' | translate}}
       </button>
     </div>
