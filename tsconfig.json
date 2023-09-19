@@ -12,6 +12,12 @@
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "declaration": false,
+    "paths": {
+      "ngx-guided-tour": [
+        "dist/ngx-guided-tour"
+        // "project/ngx-guided-tour/src/public-api.ts",
+      ]
+    },
     "downlevelIteration": true,
     "experimentalDecorators": true,
     "moduleResolution": "node",
