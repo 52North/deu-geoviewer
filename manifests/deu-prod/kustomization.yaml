@@ -3,7 +3,7 @@ kind: Kustomization
 
 namespace: 52north
 
-bases:
+resources:
   - ../base
 
 configMapGenerator:
