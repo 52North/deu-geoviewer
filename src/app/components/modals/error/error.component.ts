@@ -1,14 +1,16 @@
-import { OverlayRef } from '@angular/cdk/overlay';
-import { Component, OnInit } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+import { OverlayRef } from "@angular/cdk/overlay";
+import { Component, OnInit } from "@angular/core";
+import { TranslateModule, TranslateService } from "@ngx-translate/core";
 
-import { ViewerError } from '../../../services/error-handling/model';
-import { ContactService } from './../../../services/contact.service';
+import { ViewerError } from "../../../services/error-handling/model";
+import { ContactService } from "./../../../services/contact.service";
 
 @Component({
   selector: 'app-error',
   templateUrl: './error.component.html',
-  styleUrls: ['./error.component.scss']
+  styleUrls: ['./error.component.scss'],
+  standalone: true,
+  imports: [TranslateModule]
 })
 export class ErrorComponent implements OnInit {
 

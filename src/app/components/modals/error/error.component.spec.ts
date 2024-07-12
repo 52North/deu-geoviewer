@@ -1,12 +1,12 @@
-import { HttpClientModule } from '@angular/common/http';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NgbActiveModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
-import { TranslateModule } from '@ngx-translate/core';
+import { HttpClientModule } from "@angular/common/http";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { NgbActiveModal, NgbModalModule } from "@ng-bootstrap/ng-bootstrap";
+import { TranslateModule } from "@ngx-translate/core";
 
-import { DatasetType } from '../../../model';
-import { NotSupportedReason } from '../../../services/error-handling/model';
-import { NotSupportedError } from './../../../services/error-handling/model';
-import { ErrorComponent } from './error.component';
+import { DatasetType } from "../../../model";
+import { NotSupportedReason } from "../../../services/error-handling/model";
+import { NotSupportedError } from "./../../../services/error-handling/model";
+import { ErrorComponent } from "./error.component";
 
 describe('ErrorComponent', () => {
   let component: ErrorComponent;
@@ -14,13 +14,11 @@ describe('ErrorComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [
-        ErrorComponent
-      ],
       imports: [
         NgbModalModule,
         HttpClientModule,
-        TranslateModule.forRoot()
+        TranslateModule.forRoot(),
+        ErrorComponent
       ],
       providers: [
         NgbActiveModal

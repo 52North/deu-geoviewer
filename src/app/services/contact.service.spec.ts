@@ -1,12 +1,20 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed } from "@angular/core/testing";
+import { TranslateModule } from "@ngx-translate/core";
 
-import { ContactService } from './contact.service';
+import { ContactService } from "./contact.service";
 
 describe('ContactService', () => {
   let service: ContactService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      imports: [
+        TranslateModule.forRoot(),
+      ],
+      providers: [
+        { provide: 'DEPLOY_URL', useValue: "" },
+      ]
+    });
     service = TestBed.inject(ContactService);
   });
 

@@ -1,12 +1,19 @@
 /* tslint:disable:no-unused-variable */
+import { HttpClient, HttpHandler } from "@angular/common/http";
+import { inject, TestBed } from "@angular/core/testing";
 
-import { TestBed, async, inject } from '@angular/core/testing';
-import { FileLoaderService } from './file-loader.service';
+import { FileLoaderService } from "./file-loader.service";
+
 
 describe('Service: FileLoader', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [FileLoaderService]
+      providers: [
+        FileLoaderService,
+        HttpClient,
+        HttpHandler,
+        { provide: 'PROXY_URL', useValue: "" },
+      ],
     });
   });
 

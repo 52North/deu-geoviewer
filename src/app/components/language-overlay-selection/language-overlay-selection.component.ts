@@ -1,15 +1,18 @@
-import { Component, Injector, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
+import { NgClass, NgFor, NgIf } from "@angular/common";
+import { Component, Injector, OnInit } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
+import { TranslateService } from "@ngx-translate/core";
 
-import { LanguageConfig } from './../../configuration/configuration.model';
-import { ConfigurationService } from './../../configuration/configuration.service';
-import { CONTAINER_DATA, LanguageOverlayConfig } from './language-button/language-button.component';
+import { LanguageConfig } from "./../../configuration/configuration.model";
+import { ConfigurationService } from "./../../configuration/configuration.service";
+import { CONTAINER_DATA, LanguageOverlayConfig } from "./language-button/language-button.component";
 
 @Component({
   selector: 'app-language-overlay-selection',
   templateUrl: './language-overlay-selection.component.html',
-  styleUrls: ['./language-overlay-selection.component.scss']
+  styleUrls: ['./language-overlay-selection.component.scss'],
+  standalone: true,
+  imports: [NgFor, NgIf, NgClass]
 })
 export class LanguageOverlaySelectionComponent implements OnInit {
 

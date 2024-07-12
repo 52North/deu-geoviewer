@@ -1,3 +1,5 @@
+import { CdkConnectedOverlay, CdkOverlayOrigin } from "@angular/cdk/overlay";
+import { NgClass, NgFor, NgIf } from "@angular/common";
 import {
   AfterViewInit,
   Component,
@@ -9,21 +11,25 @@ import {
   SimpleChanges,
   ViewChild,
   ViewContainerRef,
-} from '@angular/core';
-import { TileWMS } from 'ol/source';
+} from "@angular/core";
+import { NgbAccordion, NgbPanel, NgbPanelContent, NgbPanelHeader } from "@ng-bootstrap/ng-bootstrap";
+import { TranslateModule } from "@ngx-translate/core";
+import { TileWMS } from "ol/source";
 
-import { ConfigurationService } from '../../configuration/configuration.service';
-import { EmptyMapHandler } from './maphandler/empty-map-handler';
-import { FiwareMapHandler } from './maphandler/firware-map-handler';
-import { GeoJsonMapHandler } from './maphandler/geojson-map-handler';
-import { MapHandler } from './maphandler/map-handler';
-import { FiwareOptions, GeoJSONOptions, LegendEntry, MapOptions, WmsOptions } from './maphandler/model';
-import { WmsMapHandler } from './maphandler/wms-map-handler';
+import { ConfigurationService } from "../../configuration/configuration.service";
+import { EmptyMapHandler } from "./maphandler/empty-map-handler";
+import { FiwareMapHandler } from "./maphandler/firware-map-handler";
+import { GeoJsonMapHandler } from "./maphandler/geojson-map-handler";
+import { MapHandler } from "./maphandler/map-handler";
+import { FiwareOptions, GeoJSONOptions, LegendEntry, MapOptions, WmsOptions } from "./maphandler/model";
+import { WmsMapHandler } from "./maphandler/wms-map-handler";
 
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
-  styleUrls: ['./map.component.scss']
+  styleUrls: ['./map.component.scss'],
+  standalone: true,
+  imports: [CdkConnectedOverlay, NgIf, NgbAccordion, NgFor, NgbPanel, NgbPanelHeader, NgbPanelContent, CdkOverlayOrigin, NgClass, TranslateModule]
 })
 export class MapComponent implements AfterViewInit, OnChanges, OnDestroy {
 

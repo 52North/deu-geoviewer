@@ -3341,7 +3341,7 @@
         border-inline-start: 0;
         display: flex;
         flex-direction: row-reverse;
-        justify-content: start;
+        justify-content: flex-start;
         padding: 0
     }
 
@@ -5157,7 +5157,7 @@
 }
 
 .ecl-hero-banner__content {
-    align-items: start;
+    align-items: flex-start;
     box-sizing: content-box;
     display: inline-flex;
     flex-direction: column
@@ -5613,7 +5613,7 @@
 }
 
 .ecl-page-banner__content {
-    align-items: start;
+    align-items: flex-start;
     box-sizing: content-box;
     display: inline-flex;
     flex-direction: column
@@ -8227,7 +8227,7 @@
 }
 
 .ecl-accordion__toggle-flex {
-    align-items: start;
+    align-items: flex-start;
     display: flex;
     flex-direction: row
 }

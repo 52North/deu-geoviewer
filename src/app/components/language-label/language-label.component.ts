@@ -1,12 +1,13 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from "@angular/core";
+import { TranslateService } from "@ngx-translate/core";
 
-import { LangTitle } from '../../model';
+import { LangTitle } from "../../model";
 
 @Component({
   selector: 'app-language-label',
   templateUrl: './language-label.component.html',
-  styleUrls: ['./language-label.component.scss']
+  styleUrls: ['./language-label.component.scss'],
+  standalone: true
 })
 export class LanguageLabelComponent implements OnInit, OnChanges {
 

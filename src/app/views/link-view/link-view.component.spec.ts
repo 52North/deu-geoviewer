@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { LinkViewComponent } from './link-view.component';
+import { LinkViewComponent } from "./link-view.component";
 
 describe('LinkViewComponent', () => {
   let component: LinkViewComponent;
@@ -8,9 +8,9 @@ describe('LinkViewComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LinkViewComponent ]
+      imports: [LinkViewComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

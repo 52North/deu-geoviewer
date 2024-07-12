@@ -1,6 +1,7 @@
-import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
-import { ComponentPortal } from '@angular/cdk/portal';
-import { Component, Injectable } from '@angular/core';
+import { Overlay, OverlayConfig, OverlayRef } from "@angular/cdk/overlay";
+import { ComponentPortal } from "@angular/cdk/portal";
+import { Component, Injectable } from "@angular/core";
+import { TranslateModule } from "@ngx-translate/core";
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +27,9 @@ export class LegalDisclaimerService {
 @Component({
   selector: 'app-legal-disclaimer',
   templateUrl: './legal-disclaimer.component.html',
-  styleUrls: ['./legal-disclaimer.component.scss']
+  styleUrls: ['./legal-disclaimer.component.scss'],
+  standalone: true,
+  imports: [TranslateModule]
 })
 export class LegalDisclaimerComponent {
 

@@ -1,27 +1,32 @@
-import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
-import { ComponentPortal } from '@angular/cdk/portal';
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Overlay, OverlayConfig, OverlayRef } from "@angular/cdk/overlay";
+import { ComponentPortal } from "@angular/cdk/portal";
+import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+import { TranslateModule } from "@ngx-translate/core";
 
-import { DatasetTitleService } from '../../components/dataset-title/dataset-title.component';
-import { GeoJSONOptions, MapOptions, WmsOptions } from '../../components/map/maphandler/model';
-import { LegalDisclaimerService } from '../../components/modals/legal-disclaimer/legal-disclaimer.component';
-import { LoadingDatasetComponent } from '../../components/modals/loading-dataset/loading-dataset.component';
-import { DatasetType, parseDatasetType } from '../../model';
-import { DatasetService } from '../../services/dataset.service';
-import { GeneralErrorHandler } from '../../services/error-handling/general-error-handler.service';
-import { ViewerError } from '../../services/error-handling/model';
-import { FileLoaderService } from '../../services/file-loader.service';
-import { FiwareOptions } from './../../components/map/maphandler/model';
-import { WelcomeScreenService } from './../../components/modals/welcome/welcome.component';
-import { ContactService } from './../../services/contact.service';
-import { TutorialService } from './../../services/intro.service';
-import { WmsService } from './../../services/wms.service';
+import { DatasetTitleService } from "../../components/dataset-title/dataset-title.component";
+import { InfoOverlayComponent } from "../../components/info-overlay/info-overlay.component";
+import { MapComponent } from "../../components/map/map.component";
+import { GeoJSONOptions, MapOptions, WmsOptions } from "../../components/map/maphandler/model";
+import { LegalDisclaimerService } from "../../components/modals/legal-disclaimer/legal-disclaimer.component";
+import { LoadingDatasetComponent } from "../../components/modals/loading-dataset/loading-dataset.component";
+import { DatasetType, parseDatasetType } from "../../model";
+import { DatasetService } from "../../services/dataset.service";
+import { GeneralErrorHandler } from "../../services/error-handling/general-error-handler.service";
+import { ViewerError } from "../../services/error-handling/model";
+import { FileLoaderService } from "../../services/file-loader.service";
+import { FiwareOptions } from "./../../components/map/maphandler/model";
+import { WelcomeScreenService } from "./../../components/modals/welcome/welcome.component";
+import { ContactService } from "./../../services/contact.service";
+import { TutorialService } from "./../../services/intro.service";
+import { WmsService } from "./../../services/wms.service";
 
 @Component({
   selector: 'app-map-view',
   templateUrl: './map-view.component.html',
-  styleUrls: ['./map-view.component.scss']
+  styleUrls: ['./map-view.component.scss'],
+  standalone: true,
+  imports: [InfoOverlayComponent, MapComponent, TranslateModule]
 })
 export class MapViewComponent implements OnInit {
 
