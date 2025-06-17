@@ -7,7 +7,8 @@
     "build": "ng build ngx-guided-tour && ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "license-report": "license-report --output=json --config license/license-report-config.json > license/license-report.json && tablemark license/license-report.json > license/license-report.md && rm license/license-report.json"
   },
   "private": true,
   "dependencies": {
@@ -49,8 +50,10 @@
     "karma-coverage": "~2.2.1",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "^2.1.0",
+    "license-report": "^6.7.2",
     "lodash": "^4.17.21",
     "ng-packagr": "^16.2.0",
+    "tablemark-cli": "^3.0.0",
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",
     "typescript": "~5.1.6"
