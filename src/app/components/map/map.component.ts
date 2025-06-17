@@ -12,7 +12,7 @@ import {
   ViewChild,
   ViewContainerRef,
 } from "@angular/core";
-import { NgbAccordion, NgbPanel, NgbPanelContent, NgbPanelHeader } from "@ng-bootstrap/ng-bootstrap";
+import { NgbAccordionModule, NgbCollapseModule } from "@ng-bootstrap/ng-bootstrap";
 import { TranslateModule } from "@ngx-translate/core";
 import { TileWMS } from "ol/source";
 
@@ -29,9 +29,13 @@ import { WmsMapHandler } from "./maphandler/wms-map-handler";
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss'],
   standalone: true,
-  imports: [CdkConnectedOverlay, NgIf, NgbAccordion, NgFor, NgbPanel, NgbPanelHeader, NgbPanelContent, CdkOverlayOrigin, NgClass, TranslateModule]
+  imports: [CdkConnectedOverlay, NgIf, NgFor, CdkOverlayOrigin, NgClass, TranslateModule, NgbAccordionModule, NgbCollapseModule]
 })
 export class MapComponent implements AfterViewInit, OnChanges, OnDestroy {
+  // toggle() {
+  //   debugger;
+  //   // accordion.toggle('panel-'+i); $event.stopPropagation()
+  // }
 
   @Input() options?: MapOptions;
 
