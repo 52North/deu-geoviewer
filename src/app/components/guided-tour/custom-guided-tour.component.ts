@@ -8,7 +8,6 @@ import { GuidedTourComponent } from "ngx-guided-tour";
     templateUrl: 'custom-guided-tour.component.html',
     styleUrls: ['./custom-guided-tour.component.scss'],
     encapsulation: ViewEncapsulation.None,
-    standalone: true,
     imports: [NgIf, NgClass, NgTemplateOutlet, TranslateModule]
 })
 export class CustomGuidedTourComponent extends GuidedTourComponent { }

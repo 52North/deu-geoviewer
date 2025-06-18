@@ -8,11 +8,10 @@ import { ConfigurationService } from "./../../configuration/configuration.servic
 import { CONTAINER_DATA, LanguageOverlayConfig } from "./language-button/language-button.component";
 
 @Component({
-  selector: 'app-language-overlay-selection',
-  templateUrl: './language-overlay-selection.component.html',
-  styleUrls: ['./language-overlay-selection.component.scss'],
-  standalone: true,
-  imports: [NgFor, NgIf, NgClass]
+    selector: 'app-language-overlay-selection',
+    templateUrl: './language-overlay-selection.component.html',
+    styleUrls: ['./language-overlay-selection.component.scss'],
+    imports: [NgFor, NgIf, NgClass]
 })
 export class LanguageOverlaySelectionComponent implements OnInit {
 

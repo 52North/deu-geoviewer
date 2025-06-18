@@ -8,11 +8,10 @@ import { CustomGuidedTourComponent } from "./components/guided-tour/custom-guide
 import { LanguageButtonComponent } from "./components/language-overlay-selection/language-button/language-button.component";
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
-  standalone: true,
-  imports: [LanguageButtonComponent, DatasetTitleComponent, RouterOutlet, CustomGuidedTourComponent]
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
+    imports: [LanguageButtonComponent, DatasetTitleComponent, RouterOutlet, CustomGuidedTourComponent]
 })
 export class AppComponent implements OnInit {
 

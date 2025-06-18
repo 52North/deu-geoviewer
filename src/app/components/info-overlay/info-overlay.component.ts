@@ -34,11 +34,10 @@ const DATASET_ID_PARAM = 'dataset';
 const DISTRIBUTION_ID_PARAM = 'distribution';
 
 @Component({
-  selector: 'app-info-overlay',
-  templateUrl: './info-overlay.component.html',
-  styleUrls: ['./info-overlay.component.scss'],
-  standalone: true,
-  imports: [CdkOverlayOrigin, CdkConnectedOverlay, NgIf, LanguageLabelComponent]
+    selector: 'app-info-overlay',
+    templateUrl: './info-overlay.component.html',
+    styleUrls: ['./info-overlay.component.scss'],
+    imports: [CdkOverlayOrigin, CdkConnectedOverlay, NgIf, LanguageLabelComponent]
 })
 export class InfoOverlayComponent implements OnInit {
 

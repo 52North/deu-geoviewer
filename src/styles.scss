@@ -1,3 +1,4 @@
+@use "sass:meta";
 /* You can add global styles to this file, and also import other style files */
 
 $blue100: #004494;
@@ -7,13 +8,16 @@ $primary: $blue100;
 $custom-checkbox-indicator-border-radius: 0px;
 
 /* Importing Bootstrap SCSS file. */
-@import 'bootstrap/scss/bootstrap';
+@use 'bootstrap/scss/bootstrap.scss' with (
+    $primary: $blue100
+);
+@include meta.load-css('bootstrap/scss/bootstrap.scss');
 @import 'ol/ol.css';
 @import '@angular/cdk/overlay-prebuilt.css';
 @import 'assets/intro-themes.css';
-@import 'projects/ngx-guided-tour/src/lib/guided-tour-base-theme.scss';
+@include meta.load-css('projects/ngx-guided-tour/src/lib/guided-tour-base-theme.scss');
 
-@import 'layout.scss';
+@include meta.load-css('layout.scss');
 
 body {
     font-family: Ubuntu, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
@@ -59,12 +63,6 @@ body {
 .btn-primary:hover {
     background-color: #062fc5;
     border-color: #062fc5;
-}
-
-@include media-breakpoint-between(xs,sm){
-    .btn {
-        // @include button-size($input-btn-padding-y-sm, $input-btn-padding-x-sm, $font-size-sm, $line-height-sm, 0rem);
-    }
 }
 
 .ol-attribution, .ol-attribution.ol-uncollapsible {

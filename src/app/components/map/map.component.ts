@@ -25,11 +25,10 @@ import { FiwareOptions, GeoJSONOptions, LegendEntry, MapOptions, WmsOptions } fr
 import { WmsMapHandler } from "./maphandler/wms-map-handler";
 
 @Component({
-  selector: 'app-map',
-  templateUrl: './map.component.html',
-  styleUrls: ['./map.component.scss'],
-  standalone: true,
-  imports: [CdkConnectedOverlay, NgIf, NgFor, CdkOverlayOrigin, NgClass, TranslateModule, NgbAccordionModule, NgbCollapseModule]
+    selector: 'app-map',
+    templateUrl: './map.component.html',
+    styleUrls: ['./map.component.scss'],
+    imports: [CdkConnectedOverlay, NgIf, NgFor, CdkOverlayOrigin, NgClass, TranslateModule, NgbAccordionModule, NgbCollapseModule]
 })
 export class MapComponent implements AfterViewInit, OnChanges, OnDestroy {
   // toggle() {

@@ -6,11 +6,10 @@ import { ViewerError } from "../../../services/error-handling/model";
 import { ContactService } from "./../../../services/contact.service";
 
 @Component({
-  selector: 'app-error',
-  templateUrl: './error.component.html',
-  styleUrls: ['./error.component.scss'],
-  standalone: true,
-  imports: [TranslateModule]
+    selector: 'app-error',
+    templateUrl: './error.component.html',
+    styleUrls: ['./error.component.scss'],
+    imports: [TranslateModule]
 })
 export class ErrorComponent implements OnInit {
 

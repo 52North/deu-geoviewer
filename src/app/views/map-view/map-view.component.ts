@@ -22,11 +22,10 @@ import { TutorialService } from "./../../services/intro.service";
 import { WmsService } from "./../../services/wms.service";
 
 @Component({
-  selector: 'app-map-view',
-  templateUrl: './map-view.component.html',
-  styleUrls: ['./map-view.component.scss'],
-  standalone: true,
-  imports: [InfoOverlayComponent, MapComponent, TranslateModule]
+    selector: 'app-map-view',
+    templateUrl: './map-view.component.html',
+    styleUrls: ['./map-view.component.scss'],
+    imports: [InfoOverlayComponent, MapComponent, TranslateModule]
 })
 export class MapViewComponent implements OnInit {
 

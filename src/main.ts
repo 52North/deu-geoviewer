@@ -1,7 +1,7 @@
 /// <reference types="@angular/localize" />
 import { OverlayModule } from "@angular/cdk/overlay";
 import { HttpClient, provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
-import { APP_INITIALIZER, enableProdMode, ErrorHandler, importProvidersFrom } from "@angular/core";
+import { enableProdMode, ErrorHandler, importProvidersFrom, inject, provideAppInitializer } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { bootstrapApplication, BrowserModule } from "@angular/platform-browser";
 import { NgbAccordionModule, NgbModalModule } from "@ng-bootstrap/ng-bootstrap";
@@ -57,12 +57,10 @@ bootstrapApplication(AppComponent, {
         },
         GuidedTourService,
         WindowRefService,
-        {
-            provide: APP_INITIALIZER,
-            useFactory: initApplication,
-            deps: [ConfigurationService, TranslateService],
-            multi: true
-        },
+        provideAppInitializer(() => {
+        const initializerFn = (initApplication)(inject(ConfigurationService), inject(TranslateService));
+        return initializerFn();
+      }),
         provideHttpClient(withInterceptorsFromDi())
     ]
 })

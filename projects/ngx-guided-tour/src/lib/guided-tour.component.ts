@@ -95,7 +95,8 @@ import { WindowRefService } from "./windowref.service";
         </ng-template>
     `,
     styleUrls: ['./guided-tour.component.scss'],
-    encapsulation: ViewEncapsulation.None
+    encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class GuidedTourComponent implements AfterViewInit, OnDestroy {
     @Input() public topOfPageAdjustment = 0;

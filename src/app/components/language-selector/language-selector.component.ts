@@ -7,11 +7,10 @@ import { TranslateService } from "@ngx-translate/core";
 import { ConfigurationService } from "../../configuration/configuration.service";
 
 @Component({
-  selector: 'app-language-selector',
-  templateUrl: './language-selector.component.html',
-  styleUrls: ['./language-selector.component.scss'],
-  standalone: true,
-  imports: [NgFor, FormsModule]
+    selector: 'app-language-selector',
+    templateUrl: './language-selector.component.html',
+    styleUrls: ['./language-selector.component.scss'],
+    imports: [NgFor, FormsModule]
 })
 export class LanguageSelectorComponent implements OnInit {
 

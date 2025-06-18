@@ -25,11 +25,10 @@ export class LegalDisclaimerService {
 }
 
 @Component({
-  selector: 'app-legal-disclaimer',
-  templateUrl: './legal-disclaimer.component.html',
-  styleUrls: ['./legal-disclaimer.component.scss'],
-  standalone: true,
-  imports: [TranslateModule]
+    selector: 'app-legal-disclaimer',
+    templateUrl: './legal-disclaimer.component.html',
+    styleUrls: ['./legal-disclaimer.component.scss'],
+    imports: [TranslateModule]
 })
 export class LegalDisclaimerComponent {
 

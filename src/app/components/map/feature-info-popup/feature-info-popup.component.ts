@@ -4,11 +4,10 @@ import { Component, Input, OnInit } from "@angular/core";
 import { KeyValuePair } from "../../../model";
 
 @Component({
-  selector: 'app-feature-info-popup',
-  templateUrl: './feature-info-popup.component.html',
-  styleUrls: ['./feature-info-popup.component.scss'],
-  standalone: true,
-  imports: [NgIf, NgFor]
+    selector: 'app-feature-info-popup',
+    templateUrl: './feature-info-popup.component.html',
+    styleUrls: ['./feature-info-popup.component.scss'],
+    imports: [NgIf, NgFor]
 })
 export class FeatureInfoPopupComponent implements OnInit {
 
