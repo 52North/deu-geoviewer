@@ -1,4 +1,4 @@
-import { HttpClientModule } from "@angular/common/http";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { NgbActiveModal, NgbModalModule } from "@ng-bootstrap/ng-bootstrap";
 import { TranslateModule } from "@ngx-translate/core";
@@ -14,16 +14,14 @@ describe('ErrorComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        NgbModalModule,
-        HttpClientModule,
+    imports: [NgbModalModule,
         TranslateModule.forRoot(),
-        ErrorComponent
-      ],
-      providers: [
-        NgbActiveModal
-      ]
-    }).compileComponents();
+        ErrorComponent],
+    providers: [
+        NgbActiveModal,
+        provideHttpClient(withInterceptorsFromDi())
+    ]
+}).compileComponents();
   });
 
   beforeEach(() => {

@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 
 import { DatasetService } from './dataset.service';
@@ -8,14 +8,13 @@ describe('DatasetService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientModule
-      ],
-      providers: [
+    imports: [],
+    providers: [
         { provide: 'PROXY_URL', useValue: "" },
         { provide: 'API_URL', useValue: "" },
-      ]
-    });
+        provideHttpClient(withInterceptorsFromDi()),
+    ]
+});
     service = TestBed.inject(DatasetService);
   });
 

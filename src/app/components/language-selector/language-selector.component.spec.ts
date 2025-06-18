@@ -1,4 +1,4 @@
-import { HttpClientModule } from "@angular/common/http";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { RouterModule } from "@angular/router";
 import { TranslateModule } from "@ngx-translate/core";
@@ -13,23 +13,21 @@ describe('LanguageSelectorComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        RouterModule.forRoot([]),
+    imports: [RouterModule.forRoot([]),
         TranslateModule.forRoot(translateConfig),
-        HttpClientModule,
-        LanguageSelectorComponent
-      ],
-      providers: [
+        LanguageSelectorComponent],
+    providers: [
         {
-          provide: ConfigurationService,
-          useValue: {
-            configuration: {
-              languages: []
+            provide: ConfigurationService,
+            useValue: {
+                configuration: {
+                    languages: []
+                }
             }
-          }
-        }
-      ]
-    }).compileComponents();
+        },
+        provideHttpClient(withInterceptorsFromDi())
+    ]
+}).compileComponents();
   });
 
   beforeEach(() => {

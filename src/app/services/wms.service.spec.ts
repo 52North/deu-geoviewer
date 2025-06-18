@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 
 import { WmsService } from './wms.service';
@@ -8,13 +8,12 @@ describe('WmsService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientModule
-      ],
-      providers: [
+    imports: [],
+    providers: [
         { provide: 'PROXY_URL', useValue: "" },
-      ]
-    });
+        provideHttpClient(withInterceptorsFromDi()),
+    ]
+});
     service = TestBed.inject(WmsService);
   });
 
