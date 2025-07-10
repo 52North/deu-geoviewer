@@ -1,6 +1,6 @@
 <div class="popup-wrapper">
-  <div>{{title}}</div>
-  @if (properties.length) {
+  <div>{{title()}}</div>
+  @if (properties().length) {
     <table class="table table-sm">
       <thead>
         <tr>
@@ -10,7 +10,7 @@
         </tr>
       </thead>
       <tbody>
-        @for (country of properties; track country; let i = $index) {
+        @for (country of properties(); track country; let i = $index) {
           <tr>
             <td>{{ i + 1 }}</td>
             <td>{{ country.key }}</td>

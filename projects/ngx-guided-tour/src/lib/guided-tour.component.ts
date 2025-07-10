@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, DOCUMENT, ElementRef, Input, OnDestroy, TemplateRef, ViewChild, ViewEncapsulation, inject } from '@angular/core';
+import { AfterViewInit, Component, DOCUMENT, ElementRef, OnDestroy, TemplateRef, ViewChild, ViewEncapsulation, inject, input } from '@angular/core';
 import { fromEvent, Subscription } from 'rxjs';
 
 import { NgClass, NgTemplateOutlet } from '@angular/common';
@@ -47,7 +47,7 @@ import { WindowRefService } from "./windowref.service";
                 }
                 <div class="tour-block">
                   @if (
-                    progressIndicatorLocation === progressIndicatorLocations.TopOfTourBlock
+                    progressIndicatorLocation() === progressIndicatorLocations.TopOfTourBlock
                     && !guidedTourService.onResizeMessage) {
                     <div
                       class="tour-progress-indicator">
@@ -70,15 +70,15 @@ import { WindowRefService } from "./windowref.service";
                       <button
                         (click)="guidedTourService.skipTour()"
                         class="skip-button link-button">
-                        {{ skipText }}
+                        {{ skipText() }}
                       </button>
                     }
                     @if (!guidedTourService.onLastStep && !guidedTourService.onResizeMessage) {
                       <button
                         class="next-button"
                         (click)="guidedTourService.nextStep()">
-                        {{ nextText }}
-                        @if (progressIndicatorLocation === progressIndicatorLocations.InsideNextButton) {
+                        {{ nextText() }}
+                        @if (progressIndicatorLocation() === progressIndicatorLocations.InsideNextButton) {
                           <ng-container *ngTemplateOutlet="progress"></ng-container>
                         }
                       </button>
@@ -87,21 +87,21 @@ import { WindowRefService } from "./windowref.service";
                       <button
                         class="next-button"
                         (click)="guidedTourService.nextStep()">
-                        {{ doneText }}
+                        {{ doneText() }}
                       </button>
                     }
                     @if (guidedTourService.onResizeMessage) {
                       <button
                         class="next-button"
                         (click)="guidedTourService.resetTour()">
-                        {{ closeText }}
+                        {{ closeText() }}
                       </button>
                     }
                     @if (!guidedTourService.onFirstStep && !guidedTourService.onResizeMessage) {
                       <button
                         class="back-button link-button"
                         (click)="guidedTourService.backStep()">
-                        {{ backText }}
+                        {{ backText() }}
                       </button>
                     }
                   </div>
@@ -112,12 +112,12 @@ import { WindowRefService } from "./windowref.service";
         }
         <ng-template #progress>
             <ng-container *ngTemplateOutlet="
-                progressIndicator || defaultProgressIndicator; 
+                progressIndicator() || defaultProgressIndicator; 
                 context: { currentStepNumber: guidedTourService.currentTourStepDisplay, totalSteps: guidedTourService.currentTourStepCount }
             "></ng-container> 
         </ng-template>
         <ng-template #defaultProgressIndicator let-currentStepNumber="currentStepNumber" let-totalSteps="totalSteps">
-          @if (progressIndicatorLocation === progressIndicatorLocations.InsideNextButton) {
+          @if (progressIndicatorLocation() === progressIndicatorLocations.InsideNextButton) {
             &nbsp;
             }{{ currentStepNumber }}/{{ totalSteps }}
           </ng-template>
@@ -131,16 +131,16 @@ export class GuidedTourComponent implements AfterViewInit, OnDestroy {
     private windowRef = inject(WindowRefService);
     private dom = inject(DOCUMENT);
 
-    @Input() public topOfPageAdjustment = 0;
-    @Input() public tourStepWidth = 300;
-    @Input() public minimalTourStepWidth = 200;
-    @Input() public skipText ?= 'Skip';
-    @Input() public nextText ?= 'Next';
-    @Input() public doneText ?= 'Done';
-    @Input() public closeText ?= 'Close';
-    @Input() public backText ?= 'Back';
-    @Input() public progressIndicatorLocation?: ProgressIndicatorLocation = ProgressIndicatorLocation.InsideNextButton;
-    @Input() public progressIndicator?: TemplateRef<any> = undefined;
+    public readonly topOfPageAdjustment = input(0);
+    public readonly tourStepWidth = input(300);
+    public readonly minimalTourStepWidth = input(200);
+    public readonly skipText = input<string | undefined>('Skip');
+    public readonly nextText = input<string | undefined>('Next');
+    public readonly doneText = input<string | undefined>('Done');
+    public readonly closeText = input<string | undefined>('Close');
+    public readonly backText = input<string | undefined>('Back');
+    public readonly progressIndicatorLocation = input<ProgressIndicatorLocation | undefined>(ProgressIndicatorLocation.InsideNextButton);
+    public readonly progressIndicator = input<TemplateRef<any>>();
     @ViewChild('tourStep', { static: false }) public tourStep!: ElementRef;
     public highlightPadding = 4;
     public currentTourStep: TourStep | null = null;
@@ -152,7 +152,7 @@ export class GuidedTourComponent implements AfterViewInit, OnDestroy {
     private scrollSubscription: Subscription | undefined;
 
     private get maxWidthAdjustmentForTourStep(): number {
-        return this.tourStepWidth - this.minimalTourStepWidth;
+        return this.tourStepWidth() - this.minimalTourStepWidth();
     }
 
     private get widthAdjustmentForScreenBound(): number {
@@ -163,15 +163,15 @@ export class GuidedTourComponent implements AfterViewInit, OnDestroy {
         if (this.calculatedLeftPosition < 0) {
             adjustment = -this.calculatedLeftPosition;
         }
-        if (this.calculatedLeftPosition > this.windowRef.nativeWindow.innerWidth - this.tourStepWidth) {
-            adjustment = this.calculatedLeftPosition - (this.windowRef.nativeWindow.innerWidth - this.tourStepWidth);
+        if (this.calculatedLeftPosition > this.windowRef.nativeWindow.innerWidth - this.tourStepWidth()) {
+            adjustment = this.calculatedLeftPosition - (this.windowRef.nativeWindow.innerWidth - this.tourStepWidth());
         }
 
         return Math.min(this.maxWidthAdjustmentForTourStep, adjustment);
     }
 
     public get calculatedTourStepWidth() {
-        return this.tourStepWidth - this.widthAdjustmentForScreenBound;
+        return this.tourStepWidth() - this.widthAdjustmentForScreenBound;
     }
 
     public ngAfterViewInit(): void {
@@ -214,7 +214,7 @@ export class GuidedTourComponent implements AfterViewInit, OnDestroy {
             if (!this.isOrbShowing && !this.isTourOnScreen()) {
                 if (this.selectedElementRect && this.isBottom()) {
                     // Scroll so the element is on the top of the screen.
-                    const topPos = ((this.windowRef.nativeWindow.scrollY + this.selectedElementRect.top) - this.topOfPageAdjustment)
+                    const topPos = ((this.windowRef.nativeWindow.scrollY + this.selectedElementRect.top) - this.topOfPageAdjustment())
                         - (this.currentTourStep?.scrollAdjustment ? this.currentTourStep.scrollAdjustment : 0)
                         + this.getStepScreenAdjustment();
                     try {
@@ -279,14 +279,14 @@ export class GuidedTourComponent implements AfterViewInit, OnDestroy {
         if (this.isBottom()) {
             return (
                 top >= (this.windowRef.nativeWindow.pageYOffset
-                    + this.topOfPageAdjustment
+                    + this.topOfPageAdjustment()
                     + (this.currentTourStep?.scrollAdjustment ? this.currentTourStep.scrollAdjustment : 0)
                     + this.getStepScreenAdjustment())
                 && (top + height) <= (this.windowRef.nativeWindow.pageYOffset + this.windowRef.nativeWindow.innerHeight)
             );
         } else {
             return (
-                top >= (this.windowRef.nativeWindow.pageYOffset + this.topOfPageAdjustment - this.getStepScreenAdjustment())
+                top >= (this.windowRef.nativeWindow.pageYOffset + this.topOfPageAdjustment() - this.getStepScreenAdjustment())
                 && (top + height + (this.currentTourStep?.scrollAdjustment ? this.currentTourStep.scrollAdjustment : 0)) <= (this.windowRef.nativeWindow.pageYOffset + this.windowRef.nativeWindow.innerHeight)
             );
         }
@@ -352,7 +352,7 @@ export class GuidedTourComponent implements AfterViewInit, OnDestroy {
             this.currentTourStep!.orientation === Orientation.TopRight
             || this.currentTourStep!.orientation === Orientation.BottomRight
         ) {
-            return (this.selectedElementRect!.right - this.tourStepWidth);
+            return (this.selectedElementRect!.right - this.tourStepWidth());
         }
 
         if (
@@ -363,14 +363,14 @@ export class GuidedTourComponent implements AfterViewInit, OnDestroy {
         }
 
         if (this.currentTourStep!.orientation === Orientation.Left) {
-            return this.selectedElementRect!.left - this.tourStepWidth - paddingAdjustment;
+            return this.selectedElementRect!.left - this.tourStepWidth() - paddingAdjustment;
         }
 
         if (this.currentTourStep!.orientation === Orientation.Right) {
             return (this.selectedElementRect!.left + this.selectedElementRect!.width + paddingAdjustment);
         }
 
-        return (this.selectedElementRect!.right - (this.selectedElementRect!.width / 2) - (this.tourStepWidth / 2));
+        return (this.selectedElementRect!.right - (this.selectedElementRect!.width / 2) - (this.tourStepWidth() / 2));
     }
 
     public get leftPosition(): number {
@@ -497,8 +497,8 @@ export class GuidedTourComponent implements AfterViewInit, OnDestroy {
         const tourStepHeight = typeof this.tourStep.nativeElement.getBoundingClientRect === 'function' ? this.tourStep.nativeElement.getBoundingClientRect().height : 0;
         const elementHeight = this.selectedElementRect!.height + scrollAdjustment + tourStepHeight;
 
-        if ((this.windowRef.nativeWindow.innerHeight - this.topOfPageAdjustment) < elementHeight) {
-            return elementHeight - (this.windowRef.nativeWindow.innerHeight - this.topOfPageAdjustment);
+        if ((this.windowRef.nativeWindow.innerHeight - this.topOfPageAdjustment()) < elementHeight) {
+            return elementHeight - (this.windowRef.nativeWindow.innerHeight - this.topOfPageAdjustment());
         }
         return 0;
     }

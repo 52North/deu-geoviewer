@@ -139,7 +139,7 @@ export class GeoJsonMapHandler extends MapHandler {
                 this.viewContainerRef.clear();
                 const factory = this.factoryResolver.resolveComponentFactory(FeatureInfoPopupComponent);
                 const component = factory.create(this.viewContainerRef.injector);
-                component.instance.properties = properties;
+                component.setInput('properties', properties);
                 this.viewContainerRef.insert(component.hostView);
             }
         }

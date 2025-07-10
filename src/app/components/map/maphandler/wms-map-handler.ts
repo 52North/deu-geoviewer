@@ -105,7 +105,7 @@ export class WmsMapHandler extends MapHandler {
             this.viewContainerRef.clear();
             const factory = this.factoryResolver.resolveComponentFactory(WmsFeatureInfoComponent);
             const component = factory.create(this.viewContainerRef.injector);
-            component.instance.featureInfoUrl = urls;
+            component.setInput('featureInfoUrl', urls);
             this.viewContainerRef.insert(component.hostView);
         }
     }

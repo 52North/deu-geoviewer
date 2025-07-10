@@ -1,28 +1,40 @@
 <div class="shadow-lg">
   <div class="modal-body">
-    <h2 class="text-primary">{{ 'welcome-screen.title' | translate }}</h2>
-    <p>{{ 'welcome-screen.services' | translate }}</p>
+    <h2 class="text-primary">{{ "welcome-screen.title" | translate }}</h2>
+    <p>{{ "welcome-screen.services" | translate }}</p>
 
     <div class="aspects">
       <div class="graphic"></div>
       <ul>
-        <li>{{ 'welcome-screen.information' | translate }}</li>
-        <li>{{ 'welcome-screen.access' | translate }}</li>
-        <li>{{ 'welcome-screen.layer' | translate }}</li>
-        <li>{{ 'welcome-screen.loading' | translate }}</li>
-        <li>{{ 'welcome-screen.error' | translate }}
-          <a href="/feedback/form">{{ 'welcome-screen.support-contact' | translate }}</a>
+        <li>{{ "welcome-screen.information" | translate }}</li>
+        <li>{{ "welcome-screen.access" | translate }}</li>
+        <li>{{ "welcome-screen.layer" | translate }}</li>
+        <li>{{ "welcome-screen.loading" | translate }}</li>
+        <li>
+          {{ "welcome-screen.error" | translate }}
+          <a href="/feedback/form">{{
+            "welcome-screen.support-contact" | translate
+          }}</a>
         </li>
       </ul>
     </div>
 
-    <p>{{ 'welcome-screen.basemaps' | translate }}</p>
+    <p>{{ "welcome-screen.basemaps" | translate }}</p>
   </div>
   <div class="modal-footer">
     <div class="form-control-lg custom-checkbox">
-      <input type="checkbox" class="custom-control-input" id="hideWelcomeCheck" [(ngModel)]="initialHide">
-      <label class="custom-control-label" for="hideWelcomeCheck">{{ 'welcome-screen.not-display-again' | translate }}</label>
+      <input
+        type="checkbox"
+        class="custom-control-input"
+        id="hideWelcomeCheck"
+        [ngModel]="initialHide()"
+      />
+      <label class="custom-control-label" for="hideWelcomeCheck">{{
+        "welcome-screen.not-display-again" | translate
+      }}</label>
     </div>
-    <button type="button" class="btn btn-primary" (click)="close()">{{ 'welcome-screen.confirm' | translate }}</button>
+    <button type="button" class="btn btn-primary" (click)="close()">
+      {{ "welcome-screen.confirm" | translate }}
+    </button>
   </div>
 </div>

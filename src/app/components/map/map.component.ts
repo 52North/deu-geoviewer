@@ -1,6 +1,6 @@
 import { CdkConnectedOverlay, CdkOverlayOrigin } from "@angular/cdk/overlay";
 import { NgClass } from "@angular/common";
-import { AfterViewInit, Component, ComponentFactoryResolver, Input, OnChanges, OnDestroy, SimpleChanges, ViewChild, ViewContainerRef, inject } from "@angular/core";
+import { AfterViewInit, Component, ComponentFactoryResolver, OnChanges, OnDestroy, SimpleChanges, ViewChild, ViewContainerRef, inject, input } from "@angular/core";
 import { NgbAccordionModule, NgbCollapseModule } from "@ng-bootstrap/ng-bootstrap";
 import { TranslateModule } from "@ngx-translate/core";
 import { TileWMS } from "ol/source";
@@ -29,7 +29,7 @@ export class MapComponent implements AfterViewInit, OnChanges, OnDestroy {
   //   // accordion.toggle('panel-'+i); $event.stopPropagation()
   // }
 
-  @Input() options?: MapOptions;
+  readonly options = input<MapOptions>();
 
   public mapLoading!: boolean;
 
@@ -112,8 +112,9 @@ export class MapComponent implements AfterViewInit, OnChanges, OnDestroy {
   }
 
   private initMap(): void {
-    if (this.options && this.viewInit) {
-      this.mapHandler = this.findMapHandler(this.options);
+    const options = this.options();
+    if (options && this.viewInit) {
+      this.mapHandler = this.findMapHandler(options);
       this.mapHandler.mapLoading.subscribe(ml => this.mapLoading = ml);
       this.mapHandler.createMap(this.mapId).subscribe(() => {
         this.mapHandler?.activateFeatureInfo();

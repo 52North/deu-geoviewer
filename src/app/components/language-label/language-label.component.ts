@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges, inject } from "@angular/core";
+import { Component, OnChanges, OnInit, SimpleChanges, inject, input } from "@angular/core";
 import { TranslateService } from "@ngx-translate/core";
 
 import { LangTitle } from "../../model";
@@ -13,12 +13,12 @@ export class LanguageLabelComponent implements OnInit, OnChanges {
   translate = inject(TranslateService);
 
 
-  @Input() languageList: LangTitle[] | undefined;
+  readonly languageList = input<LangTitle[]>();
 
   label: string | undefined;
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['languageList'] && this.languageList) {
+    if (changes['languageList'] && this.languageList()) {
       this.adjustLabel();
     }
   }
@@ -30,9 +30,10 @@ export class LanguageLabelComponent implements OnInit, OnChanges {
 
   adjustLabel(): void {
     const code = this.translate.currentLang;
-    this.label = this.languageList?.find(e => e.code === code)?.title;
-    if (!this.label && this.languageList?.length) {
-      this.label = this.languageList[0].title;
+    const languageList = this.languageList();
+    this.label = languageList?.find(e => e.code === code)?.title;
+    if (!this.label && languageList?.length) {
+      this.label = languageList[0].title;
     }
   }
 

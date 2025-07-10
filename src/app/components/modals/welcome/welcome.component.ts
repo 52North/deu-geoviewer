@@ -1,6 +1,6 @@
 import { Overlay, OverlayConfig, OverlayRef } from "@angular/cdk/overlay";
 import { ComponentPortal } from "@angular/cdk/portal";
-import { Component, EventEmitter, Injectable, Input, Output, inject } from "@angular/core";
+import { Component, EventEmitter, Injectable, Output, inject, input } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { TranslateModule } from "@ngx-translate/core";
 
@@ -29,7 +29,7 @@ export class WelcomeScreenService {
     const overlayRef = this.overlay.create(config);
     const portal = new ComponentPortal<WelcomeComponent>(WelcomeComponent);
     const componentRef = overlayRef.attach(portal);
-    componentRef.instance.initialHide = this.shouldInitialHide();
+    componentRef.setInput('initialHide', this.shouldInitialHide());
     componentRef.instance.closeScreen.subscribe((initialDisplay: boolean) => this.closeOverlay(overlayRef, initialDisplay));
   }
 
@@ -56,10 +56,10 @@ export class WelcomeComponent {
 
   @Output() public closeScreen: EventEmitter<boolean> = new EventEmitter();
 
-  @Input() public initialHide!: boolean;
+  public readonly initialHide = input.required<boolean>();
 
   close(): void {
-    this.closeScreen.next(this.initialHide);
+    this.closeScreen.next(this.initialHide());
     this.closeScreen.complete();
   }
 }

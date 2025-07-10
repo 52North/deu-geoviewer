@@ -1,23 +1,15 @@
+import { Component, input } from '@angular/core';
 
-import { Component, Input, OnInit } from "@angular/core";
-
-import { KeyValuePair } from "../../../model";
+import { KeyValuePair } from '../../../model';
 
 @Component({
-    selector: 'app-feature-info-popup',
-    templateUrl: './feature-info-popup.component.html',
-    styleUrls: ['./feature-info-popup.component.scss'],
-    imports: []
+  selector: 'app-feature-info-popup',
+  templateUrl: './feature-info-popup.component.html',
+  styleUrls: ['./feature-info-popup.component.scss'],
+  imports: [],
 })
-export class FeatureInfoPopupComponent implements OnInit {
+export class FeatureInfoPopupComponent {
+  readonly title = input('');
 
-  @Input() title = '';
-
-  @Input() properties: KeyValuePair[] = [];
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  readonly properties = input<KeyValuePair[]>([]);
 }
