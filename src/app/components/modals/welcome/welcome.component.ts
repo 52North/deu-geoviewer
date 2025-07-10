@@ -1,17 +1,23 @@
-import { Overlay, OverlayConfig, OverlayRef } from "@angular/cdk/overlay";
-import { ComponentPortal } from "@angular/cdk/portal";
-import { Component, EventEmitter, Injectable, Output, inject, input } from "@angular/core";
-import { FormsModule } from "@angular/forms";
-import { TranslateModule } from "@ngx-translate/core";
+import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
+import { ComponentPortal } from '@angular/cdk/portal';
+import {
+  Component,
+  EventEmitter,
+  Injectable,
+  inject,
+  input,
+  output,
+} from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 
 const INITIAL_HIDE_DISPLAY_STORAGE_KEY = 'INITIAL_HIDE_DISPLAY_STORAGE_KEY';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class WelcomeScreenService {
   private overlay = inject(Overlay);
-
 
   public welcomeScreenClosed: EventEmitter<void> = new EventEmitter();
 
@@ -23,18 +29,27 @@ export class WelcomeScreenService {
 
   public openOverlay(): void {
     const config = new OverlayConfig({
-      positionStrategy: this.overlay.position().global().centerHorizontally().centerVertically(),
-      hasBackdrop: true
+      positionStrategy: this.overlay
+        .position()
+        .global()
+        .centerHorizontally()
+        .centerVertically(),
+      hasBackdrop: true,
     });
     const overlayRef = this.overlay.create(config);
     const portal = new ComponentPortal<WelcomeComponent>(WelcomeComponent);
     const componentRef = overlayRef.attach(portal);
     componentRef.setInput('initialHide', this.shouldInitialHide());
-    componentRef.instance.closeScreen.subscribe((initialDisplay: boolean) => this.closeOverlay(overlayRef, initialDisplay));
+    componentRef.instance.closeScreen.subscribe((initialDisplay: boolean) =>
+      this.closeOverlay(overlayRef, initialDisplay)
+    );
   }
 
   private closeOverlay(overlayRef: OverlayRef, initialDisplay: boolean): void {
-    localStorage.setItem(INITIAL_HIDE_DISPLAY_STORAGE_KEY, initialDisplay.toString());
+    localStorage.setItem(
+      INITIAL_HIDE_DISPLAY_STORAGE_KEY,
+      initialDisplay.toString()
+    );
     this.welcomeScreenClosed.next();
     this.welcomeScreenClosed.complete();
     return overlayRef.dispose();
@@ -43,23 +58,20 @@ export class WelcomeScreenService {
   private shouldInitialHide(): boolean {
     return localStorage.getItem(INITIAL_HIDE_DISPLAY_STORAGE_KEY) === 'true';
   }
-
 }
 
 @Component({
-    selector: 'app-welcome',
-    templateUrl: './welcome.component.html',
-    styleUrls: ['./welcome.component.scss'],
-    imports: [FormsModule, TranslateModule]
+  selector: 'app-welcome',
+  templateUrl: './welcome.component.html',
+  styleUrls: ['./welcome.component.scss'],
+  imports: [FormsModule, TranslateModule],
 })
 export class WelcomeComponent {
-
-  @Output() public closeScreen: EventEmitter<boolean> = new EventEmitter();
+  public readonly closeScreen = output<boolean>();
 
   public readonly initialHide = input.required<boolean>();
 
   close(): void {
-    this.closeScreen.next(this.initialHide());
-    this.closeScreen.complete();
+    this.closeScreen.emit(this.initialHide());
   }
 }
