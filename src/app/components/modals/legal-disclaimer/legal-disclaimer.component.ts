@@ -1,16 +1,14 @@
 import { Overlay, OverlayConfig, OverlayRef } from "@angular/cdk/overlay";
 import { ComponentPortal } from "@angular/cdk/portal";
-import { Component, Injectable } from "@angular/core";
+import { Component, Injectable, inject } from "@angular/core";
 import { TranslateModule } from "@ngx-translate/core";
 
 @Injectable({
   providedIn: 'root'
 })
 export class LegalDisclaimerService {
+  private overlay = inject(Overlay);
 
-  constructor(
-    private overlay: Overlay
-  ) { }
 
   public openOverlay(): void {
     const config = new OverlayConfig({

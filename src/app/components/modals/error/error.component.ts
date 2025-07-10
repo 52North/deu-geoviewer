@@ -1,5 +1,5 @@
 import { OverlayRef } from "@angular/cdk/overlay";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, inject } from "@angular/core";
 import { TranslateModule, TranslateService } from "@ngx-translate/core";
 
 import { ViewerError } from "../../../services/error-handling/model";
@@ -12,17 +12,15 @@ import { ContactService } from "./../../../services/contact.service";
     imports: [TranslateModule]
 })
 export class ErrorComponent implements OnInit {
+  private translate = inject(TranslateService);
+  private contactSrvc = inject(ContactService);
+
 
   public overlayRef!: OverlayRef;
 
   public error!: ViewerError;
 
   public errorMessage: string | undefined;
-
-  constructor(
-    private translate: TranslateService,
-    private contactSrvc: ContactService
-  ) { }
 
   ngOnInit(): void {
     if (this.error instanceof ViewerError) {

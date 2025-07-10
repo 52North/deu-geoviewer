@@ -1,5 +1,5 @@
-import { NgClass, NgFor, NgIf } from "@angular/common";
-import { Component, Injector, OnInit } from "@angular/core";
+import { NgClass } from "@angular/common";
+import { Component, Injector, OnInit, inject } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";
 
@@ -11,21 +11,19 @@ import { CONTAINER_DATA, LanguageOverlayConfig } from "./language-button/languag
     selector: 'app-language-overlay-selection',
     templateUrl: './language-overlay-selection.component.html',
     styleUrls: ['./language-overlay-selection.component.scss'],
-    imports: [NgFor, NgIf, NgClass]
+    imports: [NgClass]
 })
 export class LanguageOverlaySelectionComponent implements OnInit {
+  private inj = inject(Injector);
+  private config = inject(ConfigurationService);
+  private translate = inject(TranslateService);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+
 
   private data: LanguageOverlayConfig | undefined;
   public languages = this.config.configuration.languages;
   public currentLangCode: string | undefined;
-
-  constructor(
-    private inj: Injector,
-    private config: ConfigurationService,
-    private translate: TranslateService,
-    private router: Router,
-    private route: ActivatedRoute,
-  ) { }
 
   ngOnInit() {
     this.data = this.inj.get(CONTAINER_DATA);

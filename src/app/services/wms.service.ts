@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { Inject, Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import WMSCapabilities from "ol/format/WMSCapabilities";
 import { Observable, throwError } from "rxjs";
 import { catchError, map } from "rxjs/operators";
@@ -50,12 +50,10 @@ export interface WMSLayer {
   providedIn: 'root'
 })
 export class WmsService {
+  private http = inject(HttpClient);
+  private proxyUrl = inject<string>('PROXY_URL' as any);
+  private config = inject(ConfigurationService);
 
-  constructor(
-    private http: HttpClient,
-    @Inject('PROXY_URL') private proxyUrl: string,
-    private config: ConfigurationService
-  ) { }
 
   public getLayerTree(wmsurl: string, resource: CkanResource): Observable<WMSLayer> {
     return this.getCapabilities(wmsurl, resource).pipe(map(res => this.createLayer(res.Capability.Layer, this.cleanUpWMSUrl(wmsurl))));

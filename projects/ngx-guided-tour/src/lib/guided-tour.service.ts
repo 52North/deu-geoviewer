@@ -1,5 +1,5 @@
-import { DOCUMENT } from "@angular/common";
-import { ErrorHandler, Inject, Injectable } from "@angular/core";
+
+import { ErrorHandler, Injectable, DOCUMENT, inject } from "@angular/core";
 import { cloneDeep } from "lodash";
 import { fromEvent, Observable, Subject } from "rxjs";
 import { debounceTime } from "rxjs/operators";
@@ -9,6 +9,10 @@ import { WindowRefService } from "./windowref.service";
 
 @Injectable()
 export class GuidedTourService {
+    errorHandler = inject(ErrorHandler);
+    private windowRef = inject(WindowRefService);
+    private dom = inject<Document>(DOCUMENT);
+
     public guidedTourCurrentStepStream: Observable<TourStep>;
     public guidedTourOrbShowingStream: Observable<boolean>;
 
@@ -20,11 +24,7 @@ export class GuidedTourService {
     private _onLastStep = true;
     private _onResizeMessage = false;
 
-    constructor(
-        public errorHandler: ErrorHandler,
-        private windowRef: WindowRefService,
-        @Inject(DOCUMENT) private dom: Document
-    ) {
+    constructor() {
         this.guidedTourCurrentStepStream = this._guidedTourCurrentStepSubject.asObservable();
         this.guidedTourOrbShowingStream = this._guidedTourOrbShowingSubject.asObservable();
 

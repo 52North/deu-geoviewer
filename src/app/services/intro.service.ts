@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { GuidedTour, GuidedTourService, Orientation } from 'ngx-guided-tour';
 import { first } from 'rxjs/operators';
@@ -11,12 +11,12 @@ const INITIAL_INTRO_DISPLAYED_STORAGE_KEY = 'INITIAL_INTRO_DISPLAYED_STORAGE_KEY
   providedIn: 'root'
 })
 export class TutorialService {
+  private translate = inject(TranslateService);
+  private guidedTourService = inject(GuidedTourService);
+  private welcomeScreen = inject(WelcomeScreenService);
 
-  constructor(
-    private translate: TranslateService,
-    private guidedTourService: GuidedTourService,
-    private welcomeScreen: WelcomeScreenService
-  ) {
+
+  constructor() {
     this.welcomeScreen.welcomeScreenClosed.pipe(first()).subscribe(res => this.initionalTutorialDisplay());
   }
 

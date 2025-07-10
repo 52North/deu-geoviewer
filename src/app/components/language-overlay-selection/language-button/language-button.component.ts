@@ -1,6 +1,6 @@
 import { Overlay, OverlayRef } from "@angular/cdk/overlay";
 import { ComponentPortal } from "@angular/cdk/portal";
-import { Component, InjectionToken, Injector, OnInit } from "@angular/core";
+import { Component, InjectionToken, Injector, OnInit, inject } from "@angular/core";
 import { TranslateService } from "@ngx-translate/core";
 
 import { ConfigurationService } from "../../../configuration/configuration.service";
@@ -18,16 +18,14 @@ export const CONTAINER_DATA = new InjectionToken<LanguageOverlayConfig>('CONTAIN
   standalone: true
 })
 export class LanguageButtonComponent implements OnInit {
+  private overlay = inject(Overlay);
+  private translate = inject(TranslateService);
+  private config = inject(ConfigurationService);
+  private injector = inject(Injector);
+
 
   public currentCode!: string;
   public currentLang: string | undefined;
-
-  constructor(
-    private overlay: Overlay,
-    private translate: TranslateService,
-    private config: ConfigurationService,
-    private injector: Injector
-  ) { }
 
   ngOnInit(): void {
     this.translate.onLangChange.subscribe(res => this.setLanguage());

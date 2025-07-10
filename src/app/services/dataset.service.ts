@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
@@ -19,13 +19,11 @@ const dctPrefix = "dct";
   providedIn: 'root'
 })
 export class DatasetService {
+  private http = inject(HttpClient);
+  private proxyUrl = inject<string>('PROXY_URL' as any);
+  private apiUrl = inject<string>('API_URL' as any);
+  private config = inject(ConfigurationService);
 
-  constructor(
-    private http: HttpClient,
-    @Inject('PROXY_URL') private proxyUrl: string,
-    @Inject('API_URL') private apiUrl: string,
-    private config: ConfigurationService
-  ) { }
 
   getDataset(resource: CkanResource): Observable<Dataset> {
     const url = `${this.apiUrl}distributions/${resource.id}`;

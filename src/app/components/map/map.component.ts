@@ -1,17 +1,6 @@
 import { CdkConnectedOverlay, CdkOverlayOrigin } from "@angular/cdk/overlay";
-import { NgClass, NgFor, NgIf } from "@angular/common";
-import {
-  AfterViewInit,
-  Component,
-  ComponentFactoryResolver,
-  Inject,
-  Input,
-  OnChanges,
-  OnDestroy,
-  SimpleChanges,
-  ViewChild,
-  ViewContainerRef,
-} from "@angular/core";
+import { NgClass } from "@angular/common";
+import { AfterViewInit, Component, ComponentFactoryResolver, Input, OnChanges, OnDestroy, SimpleChanges, ViewChild, ViewContainerRef, inject } from "@angular/core";
 import { NgbAccordionModule, NgbCollapseModule } from "@ng-bootstrap/ng-bootstrap";
 import { TranslateModule } from "@ngx-translate/core";
 import { TileWMS } from "ol/source";
@@ -28,9 +17,13 @@ import { WmsMapHandler } from "./maphandler/wms-map-handler";
     selector: 'app-map',
     templateUrl: './map.component.html',
     styleUrls: ['./map.component.scss'],
-    imports: [CdkConnectedOverlay, NgIf, NgFor, CdkOverlayOrigin, NgClass, TranslateModule, NgbAccordionModule, NgbCollapseModule]
+    imports: [CdkConnectedOverlay, CdkOverlayOrigin, NgClass, TranslateModule, NgbAccordionModule, NgbCollapseModule]
 })
 export class MapComponent implements AfterViewInit, OnChanges, OnDestroy {
+  private factoryResolver = inject(ComponentFactoryResolver);
+  private config = inject(ConfigurationService);
+  private proxyUrl = inject<string>('PROXY_URL' as any);
+
   // toggle() {
   //   debugger;
   //   // accordion.toggle('panel-'+i); $event.stopPropagation()
@@ -57,12 +50,6 @@ export class MapComponent implements AfterViewInit, OnChanges, OnDestroy {
   private mapHandler: MapHandler | undefined;
 
   private viewInit = false;
-
-  constructor(
-    private factoryResolver: ComponentFactoryResolver,
-    private config: ConfigurationService,
-    @Inject('PROXY_URL') private proxyUrl: string,
-  ) { }
 
   ngOnDestroy(): void {
     if (this.mapHandler) {

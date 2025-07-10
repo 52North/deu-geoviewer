@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from "@angular/core";
+import { Component, Input, OnChanges, OnInit, SimpleChanges, inject } from "@angular/core";
 import { TranslateService } from "@ngx-translate/core";
 
 import { LangTitle } from "../../model";
@@ -10,14 +10,12 @@ import { LangTitle } from "../../model";
   standalone: true
 })
 export class LanguageLabelComponent implements OnInit, OnChanges {
+  translate = inject(TranslateService);
+
 
   @Input() languageList: LangTitle[] | undefined;
 
   label: string | undefined;
-
-  constructor(
-    public translate: TranslateService
-  ) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['languageList'] && this.languageList) {

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export const environment = {
   production: true,
   proxyUrl: window['env' as any]['proxyUrl' as any],

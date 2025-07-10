@@ -8,10 +8,14 @@
 
   <div class="overlay-content">
     <div class="header">
-      <div class="dataset-title clickable" *ngIf="distributionTitle" (click)="datasetClick()">
-        <app-language-label [languageList]="distributionTitle"></app-language-label>
-      </div>
-      <div class="dataset-title" *ngIf="!distributionTitle">No title available</div>
+      @if (distributionTitle) {
+        <div class="dataset-title clickable" (click)="datasetClick()">
+          <app-language-label [languageList]="distributionTitle"></app-language-label>
+        </div>
+      }
+      @if (!distributionTitle) {
+        <div class="dataset-title">No title available</div>
+      }
       <div>
         <button type="button" class="btn btn-light btn-sm" (click)="isOpen = !isOpen">
           <i class="bi bi-x-lg"></i>

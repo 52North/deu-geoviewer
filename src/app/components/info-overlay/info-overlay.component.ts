@@ -1,7 +1,7 @@
 import { CdkConnectedOverlay, CdkOverlayOrigin, ConnectedPosition } from "@angular/cdk/overlay";
-import { NgIf } from "@angular/common";
+
 import { HttpClient } from "@angular/common/http";
-import { Component, Inject, OnInit } from "@angular/core";
+import { Component, OnInit, inject } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";
 
@@ -37,9 +37,15 @@ const DISTRIBUTION_ID_PARAM = 'distribution';
     selector: 'app-info-overlay',
     templateUrl: './info-overlay.component.html',
     styleUrls: ['./info-overlay.component.scss'],
-    imports: [CdkOverlayOrigin, CdkConnectedOverlay, NgIf, LanguageLabelComponent]
+    imports: [CdkOverlayOrigin, CdkConnectedOverlay, LanguageLabelComponent]
 })
 export class InfoOverlayComponent implements OnInit {
+  private http = inject(HttpClient);
+  private translate = inject(TranslateService);
+  private apiUrl = inject<string>('API_URL' as any);
+  private deployUrl = inject<string>('DEPLOY_URL' as any);
+  private route = inject(ActivatedRoute);
+
 
   distributionTitle: LangTitle[] | undefined;
   catalogTitle: LangTitle[] | undefined;
@@ -56,14 +62,6 @@ export class InfoOverlayComponent implements OnInit {
     originX: 'start',
     originY: 'top'
   }];
-
-  constructor(
-    private http: HttpClient,
-    private translate: TranslateService,
-    @Inject('API_URL') private apiUrl: string,
-    @Inject('DEPLOY_URL') private deployUrl: string,
-    private route: ActivatedRoute
-  ) { }
 
   ngOnInit() {
     const params = this.route.snapshot.queryParams;

@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, inject } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { RouterOutlet } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";
@@ -14,11 +14,9 @@ import { LanguageButtonComponent } from "./components/language-overlay-selection
     imports: [LanguageButtonComponent, DatasetTitleComponent, RouterOutlet, CustomGuidedTourComponent]
 })
 export class AppComponent implements OnInit {
+  private titleSrvc = inject(Title);
+  private translateSrvc = inject(TranslateService);
 
-  constructor(
-    private titleSrvc: Title,
-    private translateSrvc: TranslateService
-  ) { }
 
   ngOnInit(): void {
     this.translateSrvc.onLangChange.subscribe(lang => this.setTitle());

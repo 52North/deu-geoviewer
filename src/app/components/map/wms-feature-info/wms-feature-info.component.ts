@@ -1,24 +1,22 @@
-import { NgFor, NgIf } from "@angular/common";
+
 import { HttpClient } from "@angular/common/http";
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnInit, inject } from "@angular/core";
 import { forkJoin } from "rxjs";
 
 @Component({
     selector: 'app-wms-feature-info',
     templateUrl: './wms-feature-info.component.html',
     styleUrls: ['./wms-feature-info.component.scss'],
-    imports: [NgIf, NgFor]
+    imports: []
 })
 export class WmsFeatureInfoComponent implements OnInit {
+  private http = inject(HttpClient);
+
 
   @Input() featureInfoUrl: string[] = [];
 
   public html: string[] = [];
   public loading = false;
-
-  constructor(
-    private http: HttpClient
-  ) { }
 
   ngOnInit(): void {
     if (this.featureInfoUrl.length) {

@@ -1,6 +1,6 @@
 import { Overlay, OverlayConfig, OverlayRef } from "@angular/cdk/overlay";
 import { ComponentPortal } from "@angular/cdk/portal";
-import { Component, EventEmitter, Injectable, Input, Output } from "@angular/core";
+import { Component, EventEmitter, Injectable, Input, Output, inject } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { TranslateModule } from "@ngx-translate/core";
 
@@ -10,12 +10,12 @@ const INITIAL_HIDE_DISPLAY_STORAGE_KEY = 'INITIAL_HIDE_DISPLAY_STORAGE_KEY';
   providedIn: 'root'
 })
 export class WelcomeScreenService {
+  private overlay = inject(Overlay);
+
 
   public welcomeScreenClosed: EventEmitter<void> = new EventEmitter();
 
-  constructor(
-    private overlay: Overlay
-  ) {
+  constructor() {
     if (!this.shouldInitialHide()) {
       this.openOverlay();
     }

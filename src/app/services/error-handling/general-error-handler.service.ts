@@ -1,6 +1,6 @@
 import { Overlay, OverlayConfig } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
-import { ErrorHandler, Injectable } from '@angular/core';
+import { ErrorHandler, Injectable, inject } from '@angular/core';
 
 import { ErrorComponent } from '../../components/modals/error/error.component';
 import { ViewerError } from './model';
@@ -9,12 +9,8 @@ import { ViewerError } from './model';
   providedIn: 'root'
 })
 export class GeneralErrorHandler extends ErrorHandler {
+  private overlay = inject(Overlay);
 
-  constructor(
-    private overlay: Overlay
-  ) {
-    super();
-  }
 
   public handleError(error: Error): void {
     if (error instanceof ViewerError) {

@@ -1,5 +1,5 @@
-import { NgFor } from "@angular/common";
-import { Component, OnInit } from "@angular/core";
+
+import { Component, OnInit, inject } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";
@@ -10,19 +10,17 @@ import { ConfigurationService } from "../../configuration/configuration.service"
     selector: 'app-language-selector',
     templateUrl: './language-selector.component.html',
     styleUrls: ['./language-selector.component.scss'],
-    imports: [NgFor, FormsModule]
+    imports: [FormsModule]
 })
 export class LanguageSelectorComponent implements OnInit {
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private translate = inject(TranslateService);
+  private config = inject(ConfigurationService);
+
 
   public languages = this.config.configuration.languages;
   public currentLangCode!: string;
-
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private translate: TranslateService,
-    private config: ConfigurationService,
-  ) { }
 
   ngOnInit(): void {
     this.currentLangCode = this.translate.currentLang;

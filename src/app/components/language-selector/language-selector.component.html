@@ -1,11 +1,15 @@
 <select class="form-control long" (change)="changeLang($event)">
-  <option [value]="lang.code" [selected]="currentLangCode === lang.code" *ngFor="let lang of languages">
-    {{lang.label}}
-  </option>
+  @for (lang of languages; track lang) {
+    <option [value]="lang.code" [selected]="currentLangCode === lang.code">
+      {{lang.label}}
+    </option>
+  }
 </select>
 
 <select class="form-control short" (change)="changeLang($event)">
-  <option [value]="lang.code" [selected]="currentLangCode === lang.code" *ngFor="let lang of languages">
-    {{lang.code}}
-  </option>
+  @for (lang of languages; track lang) {
+    <option [value]="lang.code" [selected]="currentLangCode === lang.code">
+      {{lang.code}}
+    </option>
+  }
 </select>

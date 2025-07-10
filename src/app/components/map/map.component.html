@@ -1,37 +1,43 @@
 <ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="legendOverlay" [cdkConnectedOverlayOpen]="legendOpen"
   [cdkConnectedOverlayLockPosition]="true">
-    <div ngbAccordion *ngIf="legendEntries.length > 0" #accordion="ngbAccordion">
-      <div [ngbAccordionItem]="'panel-' + i" *ngFor="let entry of legendEntries; index as i">
-        <div ngbAccordionHeader>
-          <div class="d-flex align-items-center" (click)="toggleVisibility(entry)">
-            <div class="form-check flex-grow-1">
-              <input class="form-check-input" type="checkbox" [checked]="entry.layer.getVisible()">
-              <label class="form-check-label" for="flexCheckDefault">
-                {{entry.title}}
-              </label>
+  @if (legendEntries.length > 0) {
+    <div ngbAccordion #accordion="ngbAccordion">
+      @for (entry of legendEntries; track entry; let i = $index) {
+        <div [ngbAccordionItem]="'panel-' + i">
+          <div ngbAccordionHeader>
+            <div class="d-flex align-items-center" (click)="toggleVisibility(entry)">
+              <div class="form-check flex-grow-1">
+                <input class="form-check-input" type="checkbox" [checked]="entry.layer.getVisible()">
+                <label class="form-check-label" for="flexCheckDefault">
+                  {{entry.title}}
+                </label>
+              </div>
+              <div (click)="accordion.toggle('panel-'+i); $event.stopPropagation()" class="information-toggler">
+                @if(!accordion.isExpanded('panel-'+i)) {
+                  <i class="bi-plus"></i>
+                } @else {
+                  <i class="bi-dash"></i>
+                }
+              </div>
             </div>
-          <div (click)="accordion.toggle('panel-'+i); $event.stopPropagation()" class="information-toggler">
-            @if(!accordion.isExpanded('panel-'+i)) {
-              <i class="bi-plus"></i>
-            } @else {
-              <i class="bi-dash"></i>
-            }
+          </div>
+          <div ngbAccordionCollapse>
+            <div ngbAccordionBody>
+              <button type="button" class="btn btn-light btn-sm"
+              (click)="zoomToExtent(entry)">To extent</button>
+            </div>
           </div>
         </div>
-        </div>
-      <div ngbAccordionCollapse>
-        <div ngbAccordionBody>
-          <button type="button" class="btn btn-light btn-sm"
-            (click)="zoomToExtent(entry)">To extent</button>
-        </div>
-      </div>
+      }
     </div>
-  </div>
+  }
 </ng-template>
 
 <div class="map" [attr.id]="mapId">
 
-  <div class="spinner-border loading-spinner" *ngIf="mapLoading"> </div>
+  @if (mapLoading) {
+    <div class="spinner-border loading-spinner"> </div>
+  }
 
   <div class="zoom-buttons btn-group-vertical btn-group-sm">
     <button type="button" class="btn btn-light zoom-in" (click)="zoomIn()"

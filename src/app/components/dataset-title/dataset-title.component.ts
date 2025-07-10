@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit } from "@angular/core";
+import { Component, Injectable, OnInit, inject } from "@angular/core";
 import { TranslateService } from "@ngx-translate/core";
 import { Subject } from "rxjs";
 
@@ -18,15 +18,13 @@ export class DatasetTitleService {
   standalone: true
 })
 export class DatasetTitleComponent implements OnInit {
+  titleSrvc = inject(DatasetTitleService);
+  translate = inject(TranslateService);
+
 
   title: string | undefined;
 
   input: TitleInput | undefined;
-
-  constructor(
-    public titleSrvc: DatasetTitleService,
-    public translate: TranslateService
-  ) { }
 
   ngOnInit(): void {
     this.titleSrvc.title.subscribe(res => this.setTitle(res));

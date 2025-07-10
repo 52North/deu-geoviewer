@@ -1,6 +1,6 @@
 import { Overlay, OverlayConfig, OverlayRef } from "@angular/cdk/overlay";
 import { ComponentPortal } from "@angular/cdk/portal";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, inject } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { TranslateModule } from "@ngx-translate/core";
 
@@ -28,24 +28,22 @@ import { WmsService } from "./../../services/wms.service";
     imports: [InfoOverlayComponent, MapComponent, TranslateModule]
 })
 export class MapViewComponent implements OnInit {
+  private datasetSrvc = inject(DatasetService);
+  private route = inject(ActivatedRoute);
+  private wmsSrvc = inject(WmsService);
+  private welcomeSrvc = inject(WelcomeScreenService);
+  private tutorialSrvc = inject(TutorialService);
+  private errorSrvc = inject(GeneralErrorHandler);
+  private legalDisclaimerSrvc = inject(LegalDisclaimerService);
+  private datasetTitleSrvc = inject(DatasetTitleService);
+  private contactSrvc = inject(ContactService);
+  private fileLoader = inject(FileLoaderService);
+  overlay = inject(Overlay);
+
 
   public mapOptions: MapOptions | undefined;
 
   private loadingOverlayRef!: OverlayRef;
-
-  constructor(
-    private datasetSrvc: DatasetService,
-    private route: ActivatedRoute,
-    private wmsSrvc: WmsService,
-    private welcomeSrvc: WelcomeScreenService,
-    private tutorialSrvc: TutorialService,
-    private errorSrvc: GeneralErrorHandler,
-    private legalDisclaimerSrvc: LegalDisclaimerService,
-    private datasetTitleSrvc: DatasetTitleService,
-    private contactSrvc: ContactService,
-    private fileLoader: FileLoaderService,
-    public overlay: Overlay
-  ) { }
 
   ngOnInit(): void {
     const params = this.route.snapshot.queryParams;

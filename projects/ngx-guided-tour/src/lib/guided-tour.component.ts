@@ -1,32 +1,39 @@
-import { AfterViewInit, Component, ElementRef, Input, OnDestroy, ViewChild, ViewEncapsulation, TemplateRef, Inject } from '@angular/core';
+import { AfterViewInit, Component, DOCUMENT, ElementRef, Input, OnDestroy, TemplateRef, ViewChild, ViewEncapsulation, inject } from '@angular/core';
 import { fromEvent, Subscription } from 'rxjs';
-import { DOCUMENT } from '@angular/common';
-import { Orientation, TourStep, ProgressIndicatorLocation } from './guided-tour.constants';
+
+import { NgClass, NgTemplateOutlet } from '@angular/common';
+import { Orientation, ProgressIndicatorLocation, TourStep } from './guided-tour.constants';
 import { GuidedTourService } from './guided-tour.service';
 import { WindowRefService } from "./windowref.service";
 
 @Component({
     selector: 'ngx-guided-tour',
     template: `
-        <div *ngIf="currentTourStep && selectedElementRect && isOrbShowing"
-                (mouseenter)="handleOrb()"
-                class="tour-orb tour-{{ currentTourStep.orientation }}"
-                [style.top.px]="orbTopPosition"
-                [style.left.px]="orbLeftPosition"
-                [style.transform]="orbTransform">
-                <div class="tour-orb-ring"></div>
-        </div>
-        <div *ngIf="currentTourStep && !isOrbShowing">
+        @if (currentTourStep && selectedElementRect && isOrbShowing) {
+          <div
+            (mouseenter)="handleOrb()"
+            class="tour-orb tour-{{ currentTourStep.orientation }}"
+            [style.top.px]="orbTopPosition"
+            [style.left.px]="orbLeftPosition"
+            [style.transform]="orbTransform">
+            <div class="tour-orb-ring"></div>
+          </div>
+        }
+        @if (currentTourStep && !isOrbShowing) {
+          <div>
             <div class="guided-tour-user-input-mask" (click)="backdropClick($event)"></div>
             <div class="guided-tour-spotlight-overlay"
-                [style.top.px]="overlayTop"
-                [style.left.px]="overlayLeft"
-                [style.height.px]="overlayHeight"
-                [style.width.px]="overlayWidth">
+              [style.top.px]="overlayTop"
+              [style.left.px]="overlayLeft"
+              [style.height.px]="overlayHeight"
+              [style.width.px]="overlayWidth">
             </div>
-        </div>
-        <div *ngIf="currentTourStep && !isOrbShowing">
-            <div #tourStep *ngIf="currentTourStep"
+          </div>
+        }
+        @if (currentTourStep && !isOrbShowing) {
+          <div>
+            @if (currentTourStep) {
+              <div #tourStep
                 class="tour-step tour-{{ currentTourStep.orientation }}"
                 [ngClass]="{
                     'page-tour-step': !currentTourStep.selector
@@ -35,55 +42,74 @@ import { WindowRefService } from "./windowref.service";
                 [style.left.px]="(currentTourStep.selector && selectedElementRect ? leftPosition : null)"
                 [style.width.px]="(currentTourStep.selector && selectedElementRect ? calculatedTourStepWidth : null)"
                 [style.transform]="(currentTourStep.selector && selectedElementRect ? transform : null)">
-                <div *ngIf="currentTourStep.selector" class="tour-arrow"></div>
+                @if (currentTourStep.selector) {
+                  <div class="tour-arrow"></div>
+                }
                 <div class="tour-block">
-                    <div *ngIf="
-                        progressIndicatorLocation === progressIndicatorLocations.TopOfTourBlock
-                        && !guidedTourService.onResizeMessage"
-                    class="tour-progress-indicator">
-                        <ng-container *ngTemplateOutlet="progress"></ng-container>
+                  @if (
+                    progressIndicatorLocation === progressIndicatorLocations.TopOfTourBlock
+                    && !guidedTourService.onResizeMessage) {
+                    <div
+                      class="tour-progress-indicator">
+                      <ng-container *ngTemplateOutlet="progress"></ng-container>
                     </div>
-                    <h3 class="tour-title" *ngIf="currentTourStep.title && currentTourStep.selector">
-                        {{ currentTourStep.title }}
+                  }
+                  @if (currentTourStep.title && currentTourStep.selector) {
+                    <h3 class="tour-title">
+                      {{ currentTourStep.title }}
                     </h3>
-                    <h2 class="tour-title" *ngIf="currentTourStep.title && !currentTourStep.selector">
-                        {{ currentTourStep.title }}
+                  }
+                  @if (currentTourStep.title && !currentTourStep.selector) {
+                    <h2 class="tour-title">
+                      {{ currentTourStep.title }}
                     </h2>
-                    <div class="tour-content" [innerHTML]="currentTourStep.content"></div>
-                    <div class="tour-buttons">
-                        <button *ngIf="!guidedTourService.onResizeMessage"
-                            (click)="guidedTourService.skipTour()"
-                            class="skip-button link-button">
-                            {{ skipText }}
-                        </button>
-                        <button *ngIf="!guidedTourService.onLastStep && !guidedTourService.onResizeMessage"
-                            class="next-button"
-                            (click)="guidedTourService.nextStep()">
-                            {{ nextText }}
-                            <ng-container *ngIf="progressIndicatorLocation === progressIndicatorLocations.InsideNextButton">
-                                <ng-container *ngTemplateOutlet="progress"></ng-container>
-                            </ng-container>
-                        </button>
-                        <button *ngIf="guidedTourService.onLastStep"
-                            class="next-button"
-                            (click)="guidedTourService.nextStep()">
-                            {{ doneText }}
-                        </button>
-
-                        <button *ngIf="guidedTourService.onResizeMessage"
-                            class="next-button"
-                            (click)="guidedTourService.resetTour()">
-                            {{ closeText }}
-                        </button>
-                        <button *ngIf="!guidedTourService.onFirstStep && !guidedTourService.onResizeMessage"
-                            class="back-button link-button"
-                            (click)="guidedTourService.backStep()">
-                            {{ backText }}
-                        </button>
-                    </div>
+                  }
+                  <div class="tour-content" [innerHTML]="currentTourStep.content"></div>
+                  <div class="tour-buttons">
+                    @if (!guidedTourService.onResizeMessage) {
+                      <button
+                        (click)="guidedTourService.skipTour()"
+                        class="skip-button link-button">
+                        {{ skipText }}
+                      </button>
+                    }
+                    @if (!guidedTourService.onLastStep && !guidedTourService.onResizeMessage) {
+                      <button
+                        class="next-button"
+                        (click)="guidedTourService.nextStep()">
+                        {{ nextText }}
+                        @if (progressIndicatorLocation === progressIndicatorLocations.InsideNextButton) {
+                          <ng-container *ngTemplateOutlet="progress"></ng-container>
+                        }
+                      </button>
+                    }
+                    @if (guidedTourService.onLastStep) {
+                      <button
+                        class="next-button"
+                        (click)="guidedTourService.nextStep()">
+                        {{ doneText }}
+                      </button>
+                    }
+                    @if (guidedTourService.onResizeMessage) {
+                      <button
+                        class="next-button"
+                        (click)="guidedTourService.resetTour()">
+                        {{ closeText }}
+                      </button>
+                    }
+                    @if (!guidedTourService.onFirstStep && !guidedTourService.onResizeMessage) {
+                      <button
+                        class="back-button link-button"
+                        (click)="guidedTourService.backStep()">
+                        {{ backText }}
+                      </button>
+                    }
+                  </div>
                 </div>
-            </div>
-        </div>
+              </div>
+            }
+          </div>
+        }
         <ng-template #progress>
             <ng-container *ngTemplateOutlet="
                 progressIndicator || defaultProgressIndicator; 
@@ -91,14 +117,20 @@ import { WindowRefService } from "./windowref.service";
             "></ng-container> 
         </ng-template>
         <ng-template #defaultProgressIndicator let-currentStepNumber="currentStepNumber" let-totalSteps="totalSteps">
-            <ng-container *ngIf="progressIndicatorLocation === progressIndicatorLocations.InsideNextButton">&nbsp;</ng-container>{{ currentStepNumber }}/{{ totalSteps }}
-        </ng-template>
-    `,
+          @if (progressIndicatorLocation === progressIndicatorLocations.InsideNextButton) {
+            &nbsp;
+            }{{ currentStepNumber }}/{{ totalSteps }}
+          </ng-template>
+        `,
     styleUrls: ['./guided-tour.component.scss'],
     encapsulation: ViewEncapsulation.None,
-    standalone: false
+    imports: [NgClass, NgTemplateOutlet]
 })
 export class GuidedTourComponent implements AfterViewInit, OnDestroy {
+    guidedTourService = inject(GuidedTourService);
+    private windowRef = inject(WindowRefService);
+    private dom = inject(DOCUMENT);
+
     @Input() public topOfPageAdjustment = 0;
     @Input() public tourStepWidth = 300;
     @Input() public minimalTourStepWidth = 200;
@@ -118,12 +150,6 @@ export class GuidedTourComponent implements AfterViewInit, OnDestroy {
 
     private resizeSubscription: Subscription | undefined;
     private scrollSubscription: Subscription | undefined;
-
-    constructor(
-        public guidedTourService: GuidedTourService,
-        private windowRef: WindowRefService,
-        @Inject(DOCUMENT) private dom: any
-    ) { }
 
     private get maxWidthAdjustmentForTourStep(): number {
         return this.tourStepWidth - this.minimalTourStepWidth;
