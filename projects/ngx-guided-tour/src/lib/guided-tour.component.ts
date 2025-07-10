@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, DOCUMENT, ElementRef, OnDestroy, TemplateRef, ViewChild, ViewEncapsulation, inject, input } from '@angular/core';
+import { AfterViewInit, Component, DOCUMENT, ElementRef, OnDestroy, TemplateRef, ViewEncapsulation, inject, input, viewChild } from '@angular/core';
 import { fromEvent, Subscription } from 'rxjs';
 
 import { NgClass, NgTemplateOutlet } from '@angular/common';
@@ -141,7 +141,7 @@ export class GuidedTourComponent implements AfterViewInit, OnDestroy {
     public readonly backText = input<string | undefined>('Back');
     public readonly progressIndicatorLocation = input<ProgressIndicatorLocation | undefined>(ProgressIndicatorLocation.InsideNextButton);
     public readonly progressIndicator = input<TemplateRef<any>>();
-    @ViewChild('tourStep', { static: false }) public tourStep!: ElementRef;
+    public readonly tourStep = viewChild.required<ElementRef>('tourStep');
     public highlightPadding = 4;
     public currentTourStep: TourStep | null = null;
     public selectedElementRect: DOMRect | null = null;
@@ -156,7 +156,7 @@ export class GuidedTourComponent implements AfterViewInit, OnDestroy {
     }
 
     private get widthAdjustmentForScreenBound(): number {
-        if (!this.tourStep) {
+        if (!this.tourStep()) {
             return 0;
         }
         let adjustment = 0;
@@ -262,9 +262,10 @@ export class GuidedTourComponent implements AfterViewInit, OnDestroy {
     }
 
     private isTourOnScreen(): boolean {
-        return this.tourStep
+        const tourStep = this.tourStep();
+        return tourStep
             && this.elementInViewport(this.dom.querySelector(this.currentTourStep?.selector))
-            && this.elementInViewport(this.tourStep.nativeElement);
+            && this.elementInViewport(tourStep.nativeElement);
     }
 
     // Modified from https://stackoverflow.com/questions/123999/how-to-tell-if-a-dom-element-is-visible-in-the-current-viewport
@@ -494,7 +495,8 @@ export class GuidedTourComponent implements AfterViewInit, OnDestroy {
         }
 
         const scrollAdjustment = this.currentTourStep!.scrollAdjustment ? this.currentTourStep!.scrollAdjustment : 0;
-        const tourStepHeight = typeof this.tourStep.nativeElement.getBoundingClientRect === 'function' ? this.tourStep.nativeElement.getBoundingClientRect().height : 0;
+        const tourStep = this.tourStep();
+        const tourStepHeight = typeof tourStep.nativeElement.getBoundingClientRect === 'function' ? tourStep.nativeElement.getBoundingClientRect().height : 0;
         const elementHeight = this.selectedElementRect!.height + scrollAdjustment + tourStepHeight;
 
         if ((this.windowRef.nativeWindow.innerHeight - this.topOfPageAdjustment()) < elementHeight) {

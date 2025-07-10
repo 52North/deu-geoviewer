@@ -1,6 +1,6 @@
 import { CdkConnectedOverlay, CdkOverlayOrigin } from "@angular/cdk/overlay";
 import { NgClass } from "@angular/common";
-import { AfterViewInit, Component, ComponentFactoryResolver, OnChanges, OnDestroy, SimpleChanges, ViewChild, ViewContainerRef, inject, input } from "@angular/core";
+import { AfterViewInit, Component, ComponentFactoryResolver, OnChanges, OnDestroy, SimpleChanges, ViewContainerRef, inject, input, viewChild } from "@angular/core";
 import { NgbAccordionModule, NgbCollapseModule } from "@ng-bootstrap/ng-bootstrap";
 import { TranslateModule } from "@ngx-translate/core";
 import { TileWMS } from "ol/source";
@@ -35,9 +35,9 @@ export class MapComponent implements AfterViewInit, OnChanges, OnDestroy {
 
   public mapId = 'mapid';
 
-  @ViewChild('popupContent', { read: ViewContainerRef }) popupContentContainerRef!: ViewContainerRef;
+  readonly popupContentContainerRef = viewChild.required('popupContent', { read: ViewContainerRef });
 
-  @ViewChild('dynamic', { read: ViewContainerRef }) dynamicContainerRef!: ViewContainerRef;
+  readonly dynamicContainerRef = viewChild.required('dynamic', { read: ViewContainerRef });
 
   // ui flags
   public legendOpen = false;
@@ -129,14 +129,14 @@ export class MapComponent implements AfterViewInit, OnChanges, OnDestroy {
 
   private findMapHandler(options: MapOptions): MapHandler {
     if (options instanceof WmsOptions) {
-      return new WmsMapHandler(this.config, this.popupContentContainerRef, this.factoryResolver, options);
+      return new WmsMapHandler(this.config, this.popupContentContainerRef(), this.factoryResolver, options);
     }
     if (options instanceof GeoJSONOptions) {
-      return new GeoJsonMapHandler(this.config, this.popupContentContainerRef, this.factoryResolver, options);
+      return new GeoJsonMapHandler(this.config, this.popupContentContainerRef(), this.factoryResolver, options);
     }
     if (options instanceof FiwareOptions) {
       return new FiwareMapHandler(
-        this.config, this.popupContentContainerRef, this.dynamicContainerRef, this.factoryResolver, options, this.proxyUrl
+        this.config, this.popupContentContainerRef(), this.dynamicContainerRef(), this.factoryResolver, options, this.proxyUrl
       );
     }
     return new EmptyMapHandler(this.config);
