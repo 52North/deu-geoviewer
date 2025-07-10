@@ -51,7 +51,7 @@ import { WindowRefService } from "./windowref.service";
                     && !guidedTourService.onResizeMessage) {
                     <div
                       class="tour-progress-indicator">
-                      <ng-container *ngTemplateOutlet="progress"></ng-container>
+                      <ng-container *ngTemplateOutlet="progress" />
                     </div>
                   }
                   @if (currentTourStep.title && currentTourStep.selector) {
@@ -79,7 +79,7 @@ import { WindowRefService } from "./windowref.service";
                         (click)="guidedTourService.nextStep()">
                         {{ nextText() }}
                         @if (progressIndicatorLocation() === progressIndicatorLocations.InsideNextButton) {
-                          <ng-container *ngTemplateOutlet="progress"></ng-container>
+                          <ng-container *ngTemplateOutlet="progress" />
                         }
                       </button>
                     }
@@ -114,7 +114,7 @@ import { WindowRefService } from "./windowref.service";
             <ng-container *ngTemplateOutlet="
                 progressIndicator() || defaultProgressIndicator; 
                 context: { currentStepNumber: guidedTourService.currentTourStepDisplay, totalSteps: guidedTourService.currentTourStepCount }
-            "></ng-container> 
+            " /> 
         </ng-template>
         <ng-template #defaultProgressIndicator let-currentStepNumber="currentStepNumber" let-totalSteps="totalSteps">
           @if (progressIndicatorLocation() === progressIndicatorLocations.InsideNextButton) {

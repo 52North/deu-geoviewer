@@ -10,7 +10,7 @@
     <div class="header">
       @if (distributionTitle) {
         <div class="dataset-title clickable" (click)="datasetClick()">
-          <app-language-label [languageList]="distributionTitle"></app-language-label>
+          <app-language-label [languageList]="distributionTitle" />
         </div>
       }
       @if (!distributionTitle) {
@@ -23,10 +23,10 @@
       </div>
     </div>
     <div class="catalog-title" (click)="catalogClick()">
-      <app-language-label [languageList]="catalogTitle"></app-language-label>
+      <app-language-label [languageList]="catalogTitle" />
     </div>
     <div class="publisher">
-      <app-language-label [languageList]="publisherTitle"></app-language-label>
+      <app-language-label [languageList]="publisherTitle" />
     </div>
   </div>
 

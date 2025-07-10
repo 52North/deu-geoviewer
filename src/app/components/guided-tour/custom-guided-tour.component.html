@@ -36,7 +36,7 @@
             progressIndicatorLocation === progressIndicatorLocations.TopOfTourBlock
             && !guidedTourService.onResizeMessage) {
             <div class="tour-progress-indicator">
-              <ng-container *ngTemplateOutlet="progress"></ng-container>
+              <ng-container *ngTemplateOutlet="progress" />
             </div>
           }
           @if (currentTourStep.title && currentTourStep.selector) {
@@ -85,7 +85,7 @@
   <ng-container *ngTemplateOutlet="
                 progressIndicator || defaultProgressIndicator; 
                 context: { currentStepNumber: guidedTourService.currentTourStepDisplay, totalSteps: guidedTourService.currentTourStepCount }
-            "></ng-container>
+            " />
 </ng-template>
 <ng-template #defaultProgressIndicator let-currentStepNumber="currentStepNumber" let-totalSteps="totalSteps">
   @if (progressIndicatorLocation === progressIndicatorLocations.InsideNextButton) {
