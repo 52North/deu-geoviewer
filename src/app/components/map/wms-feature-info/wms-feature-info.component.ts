@@ -28,7 +28,7 @@ export class WmsFeatureInfoComponent implements OnInit {
           res.forEach(r => this.html.push(r));
           this.loading = false;
         },
-        error => {
+        () => {
           this.html = ['Error occured, while requesting the feature info.'];
           this.loading = false;
         }

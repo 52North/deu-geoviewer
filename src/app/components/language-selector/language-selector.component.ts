@@ -34,7 +34,7 @@ export class LanguageSelectorComponent implements OnInit {
   }
 
   private setLangCodeInUrl(code: string): void {
-    this.route.queryParams.subscribe(res => {
+    this.route.queryParams.subscribe(() => {
       this.router.navigate(['.'], {
         relativeTo: this.route,
         queryParams: {

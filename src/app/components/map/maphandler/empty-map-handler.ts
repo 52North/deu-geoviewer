@@ -24,9 +24,15 @@ export class EmptyMapHandler extends MapHandler {
         return of(undefined);
     }
 
-    public mapViewDestroyed(): void { }
+    public mapViewDestroyed(): void { 
+        // No specific actions needed when the map view is destroyed in an empty map handler
+    }
 
-    public activateFeatureInfo(): void { }
+    public activateFeatureInfo(): void { 
+        // No feature info to activate in an empty map handler
+    }
 
-    public deactivateFeatureInfo(): void { }
+    public deactivateFeatureInfo(): void { 
+        // No feature info to deactivate in an empty map handler
+    }
 }

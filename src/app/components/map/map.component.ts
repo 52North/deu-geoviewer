@@ -5,6 +5,7 @@ import { NgbAccordionModule, NgbCollapseModule } from "@ng-bootstrap/ng-bootstra
 import { TranslateModule } from "@ngx-translate/core";
 import { TileWMS } from "ol/source";
 
+import { PROXY_URL } from "../../../main";
 import { ConfigurationService } from "../../configuration/configuration.service";
 import { EmptyMapHandler } from "./maphandler/empty-map-handler";
 import { FiwareMapHandler } from "./maphandler/firware-map-handler";
@@ -22,7 +23,7 @@ import { WmsMapHandler } from "./maphandler/wms-map-handler";
 export class MapComponent implements AfterViewInit, OnChanges, OnDestroy {
   private factoryResolver = inject(ComponentFactoryResolver);
   private config = inject(ConfigurationService);
-  private proxyUrl = inject<string>('PROXY_URL' as any);
+  private proxyUrl = inject<string>(PROXY_URL);
 
   // toggle() {
   //   debugger;

@@ -1,38 +1,39 @@
 export interface CkanResource {
-    id: string;
-    type: DatasetType | undefined;
+  id: string;
+  type: DatasetType | undefined;
 }
 
 export interface LangTitle {
-    code: string;
-    title: string;
+  code: string;
+  title: string;
 }
 
 export type TitleInput = string | LangTitle[];
 
 export interface Dataset {
-    title: TitleInput;
-    description: string;
-    resource: CkanResource;
-    primaryUrl: string;
-    secondaryUrl?: string;
+  title: TitleInput;
+  description: string;
+  resource: CkanResource;
+  primaryUrl: string;
+  secondaryUrl?: string;
 }
 
 export enum DatasetType {
-    WMS = 'WMS',
-    GEOJSON = 'GEOJSON',
-    FIWARE = 'FIWARE'
+  WMS = 'WMS',
+  GEOJSON = 'GEOJSON',
+  FIWARE = 'FIWARE',
 }
 
 export interface KeyValuePair {
-    key: string;
-    value: string;
+  key: string;
+  value: string;
 }
 
 export function parseDatasetType(str: string): DatasetType | undefined {
-    if (str) {
-        str = str.toUpperCase();
-        return (DatasetType as any)[str];
-    }
-    return undefined;
+  if (str) {
+    str = str.toUpperCase();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return (DatasetType as any)[str];
+  }
+  return undefined;
 }

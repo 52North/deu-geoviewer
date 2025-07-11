@@ -1,12 +1,17 @@
-import { HttpClient } from "@angular/common/http";
-import { Injectable, inject } from "@angular/core";
-import WMSCapabilities from "ol/format/WMSCapabilities";
-import { Observable, throwError } from "rxjs";
-import { catchError, map } from "rxjs/operators";
+import { HttpClient } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core';
+import WMSCapabilities from 'ol/format/WMSCapabilities';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
-import { ConfigurationService } from "../configuration/configuration.service";
-import { CkanResource } from "../model";
-import { NotAvailableError, NotSupportedError, NotSupportedReason } from "./error-handling/model";
+import { PROXY_URL } from '../../main';
+import { ConfigurationService } from '../configuration/configuration.service';
+import { CkanResource } from '../model';
+import {
+  NotAvailableError,
+  NotSupportedError,
+  NotSupportedReason,
+} from './error-handling/model';
 
 interface InternalWMSLayer {
   Name: string;
@@ -20,7 +25,7 @@ interface InternalWMSLayer {
   }[];
   BoundingBox: {
     crs: string;
-    extent: number[]
+    extent: number[];
   }[];
   Style: {
     Abstract: string;
@@ -30,7 +35,7 @@ interface InternalWMSLayer {
       Format: string;
       OnlineResource: string;
       size: number[];
-    }[]
+    }[];
   }[];
   EX_GeographicBoundingBox: number[];
   queryable?: boolean;
@@ -47,16 +52,22 @@ export interface WMSLayer {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class WmsService {
   private http = inject(HttpClient);
-  private proxyUrl = inject<string>('PROXY_URL' as any);
+  private proxyUrl = inject(PROXY_URL);
   private config = inject(ConfigurationService);
 
-
-  public getLayerTree(wmsurl: string, resource: CkanResource): Observable<WMSLayer> {
-    return this.getCapabilities(wmsurl, resource).pipe(map(res => this.createLayer(res.Capability.Layer, this.cleanUpWMSUrl(wmsurl))));
+  public getLayerTree(
+    wmsurl: string,
+    resource: CkanResource
+  ): Observable<WMSLayer> {
+    return this.getCapabilities(wmsurl, resource).pipe(
+      map((res) =>
+        this.createLayer(res.Capability.Layer, this.cleanUpWMSUrl(wmsurl))
+      )
+    );
   }
 
   public asList(entry: WMSLayer, list: WMSLayer[]): WMSLayer[] {
@@ -64,7 +75,7 @@ export class WmsService {
       list.push({ ...entry });
     }
     if (entry.childLayer && entry.childLayer.length > 0) {
-      entry.childLayer.forEach(e => this.asList(e, list));
+      entry.childLayer.forEach((e) => this.asList(e, list));
     }
     return list;
   }
@@ -77,7 +88,9 @@ export class WmsService {
       url,
       bbox: layer.EX_GeographicBoundingBox,
       queryable: layer.queryable === undefined ? true : layer.queryable,
-      childLayer: layer.Layer ? layer.Layer.map(l => this.createLayer(l, url)) : []
+      childLayer: layer.Layer
+        ? layer.Layer.map((l) => this.createLayer(l, url))
+        : [],
     };
   }
 
@@ -86,15 +99,24 @@ export class WmsService {
     return url.origin + url.pathname;
   }
 
-  private getCapabilities(url: string, resource: CkanResource): Observable<any> {
+  private getCapabilities(
+    url: string,
+    resource: CkanResource
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ): Observable<any> {
     const wmsRequesturl = `${this.proxyUrl}${this.createCapabilitiesUrl(url)}`;
     return this.http.get(wmsRequesturl, { responseType: 'text' }).pipe(
-      catchError(err => this.handleError(url, err, resource)),
-      map(res => {
+      catchError((err) => this.handleError(url, err, resource)),
+      map((res) => {
         try {
           return new WMSCapabilities().read(res);
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (error) {
-          throw new NotSupportedError(url, resource, NotSupportedReason.metadata);
+          throw new NotSupportedError(
+            url,
+            resource,
+            NotSupportedReason.metadata
+          );
         }
       })
     );
@@ -103,19 +125,24 @@ export class WmsService {
   private createCapabilitiesUrl(urlStr: string): string {
     const url = new URL(urlStr);
     const { searchParams } = url;
-    if (!searchParams.has("request")) {
-      searchParams.set("request", "GetCapabilities");
+    if (!searchParams.has('request')) {
+      searchParams.set('request', 'GetCapabilities');
     }
-    if (!searchParams.has("service")) {
-      searchParams.set("service", "wms");
+    if (!searchParams.has('service')) {
+      searchParams.set('service', 'wms');
     }
-    if (!searchParams.has("version")) {
-      searchParams.set("version", "1.3.0");
+    if (!searchParams.has('version')) {
+      searchParams.set('version', '1.3.0');
     }
     return url.toString();
   }
 
-  private handleError(url: string, err: any, resource: CkanResource): Observable<never> {
+  private handleError(
+    url: string,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    err: any,
+    resource: CkanResource
+  ): Observable<never> {
     return throwError(new NotAvailableError(url, resource, err));
   }
 }

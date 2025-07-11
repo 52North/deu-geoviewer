@@ -1,6 +1,7 @@
 import { TestBed } from "@angular/core/testing";
 import { TranslateModule } from "@ngx-translate/core";
 
+import { DEPLOY_URL } from "../../main";
 import { ContactService } from "./contact.service";
 
 describe('ContactService', () => {
@@ -12,7 +13,7 @@ describe('ContactService', () => {
         TranslateModule.forRoot(),
       ],
       providers: [
-        { provide: 'DEPLOY_URL', useValue: "" },
+        { provide: DEPLOY_URL, useValue: "" },
       ]
     });
     service = TestBed.inject(ContactService);

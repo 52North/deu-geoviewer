@@ -96,6 +96,7 @@ export class GeoJsonMapHandler extends MapHandler {
         return of(undefined);
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     public mapViewDestroyed(): void { }
 
     public activateFeatureInfo(): void {
@@ -134,8 +135,8 @@ export class GeoJsonMapHandler extends MapHandler {
             this.overlay.setPosition(coordinate);
             if (evt.selected.length) {
                 const properties = evt.selected[0].getKeys()
-                    .filter((e: any) => e !== 'geometry')
-                    .map((e: any) => ({ key: e, value: evt.selected[0].get(e) }));
+                    .filter((e) => e !== 'geometry')
+                    .map((e) => ({ key: e, value: evt.selected[0].get(e) }));
                 this.viewContainerRef.clear();
                 const factory = this.factoryResolver.resolveComponentFactory(FeatureInfoPopupComponent);
                 const component = factory.create(this.viewContainerRef.injector);
@@ -157,6 +158,7 @@ export class GeoJsonMapHandler extends MapHandler {
                 throw new NotSupportedError(this.options.url, this.options.resource, NotSupportedReason.crs);
             }
         } catch (error) {
+            console.error(error);
             throw new NotSupportedError(this.options.url, this.options.resource, NotSupportedReason.crs);
         }
     }

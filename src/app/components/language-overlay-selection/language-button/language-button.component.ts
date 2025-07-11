@@ -28,7 +28,7 @@ export class LanguageButtonComponent implements OnInit {
   public currentLang: string | undefined;
 
   ngOnInit(): void {
-    this.translate.onLangChange.subscribe(res => this.setLanguage());
+    this.translate.onLangChange.subscribe(() => this.setLanguage());
     this.setLanguage();
   }
 

@@ -8,7 +8,7 @@ import { TitleInput } from "../../model";
   providedIn: 'root'
 })
 export class DatasetTitleService {
-  public title: Subject<TitleInput> = new Subject();
+  public title = new Subject<TitleInput>();
 }
 
 @Component({
@@ -28,7 +28,7 @@ export class DatasetTitleComponent implements OnInit {
 
   ngOnInit(): void {
     this.titleSrvc.title.subscribe(res => this.setTitle(res));
-    this.translate.onLangChange.subscribe(l => this.updateTitle());
+    this.translate.onLangChange.subscribe(() => this.updateTitle());
   }
 
   setTitle(res: TitleInput) {

@@ -4,6 +4,7 @@ import { TranslateModule } from "@ngx-translate/core";
 import { GuidedTourComponent } from "ngx-guided-tour";
 
 @Component({
+    // eslint-disable-next-line @angular-eslint/component-selector
     selector: 'ngx-guided-tour',
     templateUrl: 'custom-guided-tour.component.html',
     styleUrls: ['./custom-guided-tour.component.scss'],

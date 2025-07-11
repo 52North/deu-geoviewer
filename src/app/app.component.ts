@@ -19,7 +19,7 @@ export class AppComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.translateSrvc.onLangChange.subscribe(lang => this.setTitle());
+    this.translateSrvc.onLangChange.subscribe(() => this.setTitle());
     this.setTitle();
   }
 

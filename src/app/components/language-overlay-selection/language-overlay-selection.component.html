@@ -46,7 +46,7 @@
                 @for (lang of languages; track lang; let even = $even) {
                   @if (even) {
                     <li class="ecl-language-list__item"
-                      [ngClass]="{'ecl-language-list__item--is-active': currentLangCode === lang.code}" (click)="selectLanguage(lang)">
+                      [ngClass]="{'ecl-language-list__item--is-active': currentLangCode === lang.code}" (click)="selectLanguage(lang)" aria-hidden="true">
                       <a class="ecl-link ecl-link--standalone ecl-language-list__link" [lang]="lang.code">
                         <span>{{lang.label}}</span>
                         @if (currentLangCode === lang.code) {
@@ -79,7 +79,7 @@
                 @for (lang of languages; track lang; let odd = $odd) {
                   @if (odd) {
                     <li class="ecl-language-list__item"
-                      [ngClass]="{'ecl-language-list__item--is-active': currentLangCode === lang.code}" (click)="selectLanguage(lang)">
+                      [ngClass]="{'ecl-language-list__item--is-active': currentLangCode === lang.code}" (click)="selectLanguage(lang)" aria-hidden="true">
                       <a class="ecl-link ecl-link--standalone ecl-language-list__link" [lang]="lang.code">
                         <span>{{lang.label}}</span>
                         @if (currentLangCode === lang.code) {

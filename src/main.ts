@@ -1,11 +1,11 @@
 /// <reference types="@angular/localize" />
 import { OverlayModule } from "@angular/cdk/overlay";
 import { HttpClient, provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
-import { enableProdMode, ErrorHandler, importProvidersFrom, inject, provideAppInitializer } from "@angular/core";
+import { enableProdMode, ErrorHandler, importProvidersFrom, inject, InjectionToken, provideAppInitializer } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { bootstrapApplication, BrowserModule } from "@angular/platform-browser";
 import { NgbAccordionModule, NgbModalModule } from "@ng-bootstrap/ng-bootstrap";
-import { TranslateLoader, TranslateModule, TranslateService } from "@ngx-translate/core";
+import { InterpolatableTranslationObject, TranslateLoader, TranslateModule, TranslateService } from "@ngx-translate/core";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { GuidedTourService, WindowRefService } from "ngx-guided-tour";
 
@@ -13,14 +13,14 @@ import { AppRoutingModule } from "./app/app-routing.module";
 import { AppComponent } from "./app/app.component";
 import { Configuration } from "./app/configuration/configuration.model";
 import { ConfigurationService } from "./app/configuration/configuration.service";
-import { GeneralErrorHandler as GeneralErrorHandler } from "./app/services/error-handling/general-error-handler.service";
+import { GeneralErrorHandler } from "./app/services/error-handling/general-error-handler.service";
 import { environment } from "./environments/environment";
 
 if (environment.production) {
     enableProdMode();
 }
 
-export function initApplication(configService: ConfigurationService, translate: TranslateService): () => Promise<void> {
+export function initApplication(configService: ConfigurationService, translate: TranslateService): () => Promise<void | InterpolatableTranslationObject> {
     return () => configService.loadConfiguration().then((config: Configuration) => {
         let lang = 'en';
         const url = window.location.href;
@@ -45,12 +45,16 @@ export const translateConfig = {
     }
 };
 
+export const PROXY_URL = new InjectionToken<string>('PROXY_URL');
+export const DEPLOY_URL = new InjectionToken<string>('DEPLOY_URL');
+export const API_URL = new InjectionToken<string>('API_URL');
+
 bootstrapApplication(AppComponent, {
     providers: [
         importProvidersFrom(AppRoutingModule, BrowserModule, FormsModule, NgbModalModule, NgbAccordionModule, TranslateModule.forRoot(translateConfig), OverlayModule),
-        { provide: 'PROXY_URL', useValue: environment.proxyUrl },
-        { provide: 'DEPLOY_URL', useValue: environment.deployUrl },
-        { provide: 'API_URL', useValue: environment.apiUrl },
+        { provide: PROXY_URL, useValue: environment.proxyUrl },
+        { provide: DEPLOY_URL, useValue: environment.deployUrl },
+        { provide: API_URL, useValue: environment.apiUrl },
         {
             provide: ErrorHandler,
             useClass: GeneralErrorHandler

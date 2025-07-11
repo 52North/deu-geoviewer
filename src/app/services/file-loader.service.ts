@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 
+import { PROXY_URL } from '../../main';
 import { NotSupportedError, NotSupportedReason } from './error-handling/model';
 
 @Injectable({
@@ -8,7 +9,7 @@ import { NotSupportedError, NotSupportedReason } from './error-handling/model';
 })
 export class FileLoaderService {
   private http = inject(HttpClient);
-  private proxyUrl = inject<string>('PROXY_URL' as any);
+  private proxyUrl = inject<string>(PROXY_URL);
 
 
   loadFile(fileUrl: string, type: string) {

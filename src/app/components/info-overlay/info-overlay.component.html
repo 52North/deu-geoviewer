@@ -9,7 +9,7 @@
   <div class="overlay-content">
     <div class="header">
       @if (distributionTitle) {
-        <div class="dataset-title clickable" (click)="datasetClick()">
+        <div class="dataset-title clickable" (click)="datasetClick()" aria-hidden="true">
           <app-language-label [languageList]="distributionTitle" />
         </div>
       }
@@ -22,7 +22,7 @@
         </button>
       </div>
     </div>
-    <div class="catalog-title" (click)="catalogClick()">
+    <div class="catalog-title" (click)="catalogClick()" aria-hidden="true">
       <app-language-label [languageList]="catalogTitle" />
     </div>
     <div class="publisher">

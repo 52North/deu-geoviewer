@@ -24,7 +24,7 @@ export class LanguageLabelComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    this.translate.onLangChange.subscribe(l => this.adjustLabel());
+    this.translate.onLangChange.subscribe(() => this.adjustLabel());
     this.adjustLabel();
   }
 

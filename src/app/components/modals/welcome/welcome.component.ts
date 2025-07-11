@@ -19,7 +19,7 @@ const INITIAL_HIDE_DISPLAY_STORAGE_KEY = 'INITIAL_HIDE_DISPLAY_STORAGE_KEY';
 export class WelcomeScreenService {
   private overlay = inject(Overlay);
 
-  public welcomeScreenClosed: EventEmitter<void> = new EventEmitter();
+  public welcomeScreenClosed = new EventEmitter<void>();
 
   constructor() {
     if (!this.shouldInitialHide()) {

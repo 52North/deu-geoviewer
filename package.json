@@ -23,8 +23,8 @@
     "@angular/platform-browser-dynamic": "^20.1.0",
     "@angular/router": "^20.1.0",
     "@ng-bootstrap/ng-bootstrap": "^19.0.1",
-    "@ngx-translate/core": "^14.0.0",
-    "@ngx-translate/http-loader": "^7.0.0",
+    "@ngx-translate/core": "^16.0.4",
+    "@ngx-translate/http-loader": "^16.0.1",
     "@popperjs/core": "^2.11.6",
     "@types/ol": "^6.5.3",
     "@types/proj4": "^2.5.2",
@@ -43,6 +43,8 @@
     "@types/jasmine": "~3.6.0",
     "@types/lodash": "^4.14.198",
     "@types/node": "^12.11.1",
+    "angular-eslint": "20.1.1",
+    "eslint": "^9.29.0",
     "jasmine-core": "~5.1.1",
     "jasmine-spec-reporter": "~7.0.0",
     "karma": "~6.4.2",
@@ -56,6 +58,7 @@
     "tablemark-cli": "^3.0.0",
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",
-    "typescript": "~5.8.3"
+    "typescript": "~5.8.3",
+    "typescript-eslint": "8.34.1"
   }
 }

@@ -7,7 +7,7 @@
 }
 @if (currentTourStep && !isOrbShowing) {
   <div>
-    <div class="guided-tour-user-input-mask" (click)="backdropClick($event)"></div>
+    <div class="guided-tour-user-input-mask" (click)="backdropClick($event)" aria-hidden="true"></div>
     <div class="guided-tour-spotlight-overlay" [style.top.px]="overlayTop" [style.left.px]="overlayLeft"
       [style.height.px]="overlayHeight" [style.width.px]="overlayWidth">
     </div>
