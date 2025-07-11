@@ -4,6 +4,7 @@ import {
   Component,
   EventEmitter,
   Injectable,
+  OnInit,
   inject,
   input,
   output,
@@ -66,12 +67,18 @@ export class WelcomeScreenService {
   styleUrls: ['./welcome.component.scss'],
   imports: [FormsModule, TranslateModule],
 })
-export class WelcomeComponent {
+export class WelcomeComponent implements OnInit {
   public readonly closeScreen = output<boolean>();
 
   public readonly initialHide = input.required<boolean>();
 
+  protected hide = false;
+
+  ngOnInit(): void {
+    this.hide = this.initialHide();
+  }
+
   close(): void {
-    this.closeScreen.emit(this.initialHide());
+    this.closeScreen.emit(this.hide);
   }
 }

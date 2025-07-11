@@ -27,7 +27,7 @@
         type="checkbox"
         class="custom-control-input"
         id="hideWelcomeCheck"
-        [ngModel]="initialHide()"
+        [(ngModel)]="hide"
       />
       <label class="custom-control-label" for="hideWelcomeCheck">{{
         "welcome-screen.not-display-again" | translate
