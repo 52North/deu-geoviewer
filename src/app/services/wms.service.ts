@@ -64,7 +64,7 @@ export class WmsService {
     resource: CkanResource
   ): Observable<WMSLayer> {
     return this.getCapabilities(wmsurl, resource).pipe(
-      map((res) =>
+      map(res =>
         this.createLayer(res.Capability.Layer, this.cleanUpWMSUrl(wmsurl))
       )
     );
@@ -75,7 +75,7 @@ export class WmsService {
       list.push({ ...entry });
     }
     if (entry.childLayer && entry.childLayer.length > 0) {
-      entry.childLayer.forEach((e) => this.asList(e, list));
+      entry.childLayer.forEach(e => this.asList(e, list));
     }
     return list;
   }
@@ -89,7 +89,7 @@ export class WmsService {
       bbox: layer.EX_GeographicBoundingBox,
       queryable: layer.queryable === undefined ? true : layer.queryable,
       childLayer: layer.Layer
-        ? layer.Layer.map((l) => this.createLayer(l, url))
+        ? layer.Layer.map(l => this.createLayer(l, url))
         : [],
     };
   }
@@ -106,8 +106,8 @@ export class WmsService {
   ): Observable<any> {
     const wmsRequesturl = `${this.proxyUrl}${this.createCapabilitiesUrl(url)}`;
     return this.http.get(wmsRequesturl, { responseType: 'text' }).pipe(
-      catchError((err) => this.handleError(url, err, resource)),
-      map((res) => {
+      catchError(err => this.handleError(url, err, resource)),
+      map(res => {
         try {
           return new WMSCapabilities().read(res);
           // eslint-disable-next-line @typescript-eslint/no-unused-vars

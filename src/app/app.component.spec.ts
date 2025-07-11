@@ -1,23 +1,24 @@
-import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
-import { TestBed } from "@angular/core/testing";
-import { RouterTestingModule } from "@angular/router/testing";
-import { TranslateModule } from "@ngx-translate/core";
-import { GuidedTourService, WindowRefService } from "ngx-guided-tour";
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
+import { TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { TranslateModule } from '@ngx-translate/core';
+import { GuidedTourService, WindowRefService } from 'ngx-guided-tour';
 
-import { AppComponent } from "./app.component";
+import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [RouterTestingModule,
-        TranslateModule.forRoot(),
-        AppComponent],
-    providers: [
+      imports: [RouterTestingModule, TranslateModule.forRoot(), AppComponent],
+      providers: [
         GuidedTourService,
         WindowRefService,
-        provideHttpClient(withInterceptorsFromDi())
-    ]
-}).compileComponents();
+        provideHttpClient(withInterceptorsFromDi()),
+      ],
+    }).compileComponents();
   });
 
   it('should create the app', () => {
@@ -25,5 +26,4 @@ describe('AppComponent', () => {
     const app = fixture.componentInstance;
     expect(app).toBeTruthy();
   });
-
 });

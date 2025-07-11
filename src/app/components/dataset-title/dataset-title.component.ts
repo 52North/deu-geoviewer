@@ -1,11 +1,11 @@
-import { Component, Injectable, OnInit, inject } from "@angular/core";
-import { TranslateService } from "@ngx-translate/core";
-import { Subject } from "rxjs";
+import { Component, Injectable, OnInit, inject } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { Subject } from 'rxjs';
 
-import { TitleInput } from "../../model";
+import { TitleInput } from '../../model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DatasetTitleService {
   public title = new Subject<TitleInput>();
@@ -15,12 +15,11 @@ export class DatasetTitleService {
   selector: 'app-dataset-title',
   templateUrl: './dataset-title.component.html',
   styleUrls: ['./dataset-title.component.scss'],
-  standalone: true
+  standalone: true,
 })
 export class DatasetTitleComponent implements OnInit {
   titleSrvc = inject(DatasetTitleService);
   translate = inject(TranslateService);
-
 
   title: string | undefined;
 
@@ -45,6 +44,4 @@ export class DatasetTitleComponent implements OnInit {
       this.title = match?.title;
     }
   }
-
 }
-

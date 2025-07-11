@@ -40,7 +40,7 @@ export class DatasetService {
     return this.http
       .get(url, { headers: { accept: 'application/ld+json' } })
       .pipe(
-        catchError((err) => this.handleError(url, err, resource)),
+        catchError(err => this.handleError(url, err, resource)),
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         map((res: any) => {
           if (!res) {
@@ -177,7 +177,7 @@ export class DatasetService {
   getGeoJSON(url: string, resource: CkanResource): Observable<any> {
     return this.http
       .get(`${this.proxyUrl}${url}`)
-      .pipe(catchError((err) => this.handleError(url, err, resource)));
+      .pipe(catchError(err => this.handleError(url, err, resource)));
   }
 
   private handleError(
@@ -192,9 +192,7 @@ export class DatasetService {
   private getFormat(format: string | string[]): DatasetType {
     let type: DatasetType | undefined;
     if (Array.isArray(format)) {
-      type = format
-        .map((e) => this.identifyFormat(e))
-        .find((e) => e !== undefined);
+      type = format.map(e => this.identifyFormat(e)).find(e => e !== undefined);
     } else {
       type = this.identifyFormat(format);
     }

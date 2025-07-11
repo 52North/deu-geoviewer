@@ -86,9 +86,9 @@ export abstract class MapHandler {
     const layers: TileLayer<TileImage>[] = [];
     const crsCode = this.findMapProjection(projection);
     const layerConfs = this.config.configuration.baseLayer.filter(
-      (e) => !e.crs || e.crs === crsCode
+      e => !e.crs || e.crs === crsCode
     );
-    layerConfs.forEach((lc) => {
+    layerConfs.forEach(lc => {
       switch (lc.type) {
         case 'WMTS': {
           const wmtsSource = new WMTS({
@@ -139,7 +139,7 @@ export abstract class MapHandler {
 
   protected getDefaultExtent(projection: Projection): Extent {
     const defExtent = this.config.configuration.defaultMapExtent.find(
-      (e) => e.crs === projection.getCode()
+      e => e.crs === projection.getCode()
     );
     if (defExtent) {
       return defExtent.extent;
@@ -189,10 +189,10 @@ export abstract class MapHandler {
 
   private findMapProjection(projection: Projection): string {
     const code = projection.getCode();
-    if (EPSG_3857.find((e) => e.getCode() === code)) {
+    if (EPSG_3857.find(e => e.getCode() === code)) {
       return MapProjection.EPSG_3857;
     }
-    if (EPSG_4326.find((e) => e.getCode() === code)) {
+    if (EPSG_4326.find(e => e.getCode() === code)) {
       return MapProjection.EPSG_4326;
     }
     return code;

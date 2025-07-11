@@ -6,11 +6,10 @@ import { ErrorComponent } from '../../components/modals/error/error.component';
 import { ViewerError } from './model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class GeneralErrorHandler extends ErrorHandler {
   private overlay = inject(Overlay);
-
 
   public handleError(error: Error): void {
     if (error instanceof ViewerError) {
@@ -22,8 +21,12 @@ export class GeneralErrorHandler extends ErrorHandler {
 
   public openErrorScreen(error: ViewerError): void {
     const config = new OverlayConfig({
-      positionStrategy: this.overlay.position().global().centerHorizontally().centerVertically(),
-      hasBackdrop: true
+      positionStrategy: this.overlay
+        .position()
+        .global()
+        .centerHorizontally()
+        .centerVertically(),
+      hasBackdrop: true,
     });
     const overlayRef = this.overlay.create(config);
     const portal = new ComponentPortal(ErrorComponent);

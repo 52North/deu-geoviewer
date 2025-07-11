@@ -4,11 +4,10 @@ import { Injectable, inject } from '@angular/core';
 import { Configuration } from './configuration.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ConfigurationService {
   private http = inject(HttpClient);
-
 
   private readonly CONFIGURATION_URL = './assets/config/configuration.json';
 
@@ -23,5 +22,4 @@ export class ConfigurationService {
         return configuration;
       });
   }
-
 }

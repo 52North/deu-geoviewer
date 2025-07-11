@@ -1,14 +1,14 @@
-import { NgClass, NgTemplateOutlet } from "@angular/common";
-import { Component, ViewEncapsulation } from "@angular/core";
-import { TranslateModule } from "@ngx-translate/core";
-import { GuidedTourComponent } from "ngx-guided-tour";
+import { NgClass, NgTemplateOutlet } from '@angular/common';
+import { Component, ViewEncapsulation } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
+import { GuidedTourComponent } from 'ngx-guided-tour';
 
 @Component({
-    // eslint-disable-next-line @angular-eslint/component-selector
-    selector: 'ngx-guided-tour',
-    templateUrl: 'custom-guided-tour.component.html',
-    styleUrls: ['./custom-guided-tour.component.scss'],
-    encapsulation: ViewEncapsulation.None,
-    imports: [NgClass, NgTemplateOutlet, TranslateModule]
+  // eslint-disable-next-line @angular-eslint/component-selector
+  selector: 'ngx-guided-tour',
+  templateUrl: 'custom-guided-tour.component.html',
+  styleUrls: ['./custom-guided-tour.component.scss'],
+  encapsulation: ViewEncapsulation.None,
+  imports: [NgClass, NgTemplateOutlet, TranslateModule],
 })
-export class CustomGuidedTourComponent extends GuidedTourComponent { }
+export class CustomGuidedTourComponent extends GuidedTourComponent {}

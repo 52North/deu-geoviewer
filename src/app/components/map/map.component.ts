@@ -1,24 +1,51 @@
-import { CdkConnectedOverlay, CdkOverlayOrigin } from "@angular/cdk/overlay";
-import { NgClass } from "@angular/common";
-import { AfterViewInit, Component, ComponentFactoryResolver, OnChanges, OnDestroy, SimpleChanges, ViewContainerRef, inject, input, viewChild } from "@angular/core";
-import { NgbAccordionModule, NgbCollapseModule } from "@ng-bootstrap/ng-bootstrap";
-import { TranslateModule } from "@ngx-translate/core";
-import { TileWMS } from "ol/source";
+import { CdkConnectedOverlay, CdkOverlayOrigin } from '@angular/cdk/overlay';
+import { NgClass } from '@angular/common';
+import {
+  AfterViewInit,
+  Component,
+  ComponentFactoryResolver,
+  OnChanges,
+  OnDestroy,
+  SimpleChanges,
+  ViewContainerRef,
+  inject,
+  input,
+  viewChild,
+} from '@angular/core';
+import {
+  NgbAccordionModule,
+  NgbCollapseModule,
+} from '@ng-bootstrap/ng-bootstrap';
+import { TranslateModule } from '@ngx-translate/core';
+import { TileWMS } from 'ol/source';
 
-import { PROXY_URL } from "../../../main";
-import { ConfigurationService } from "../../configuration/configuration.service";
-import { EmptyMapHandler } from "./maphandler/empty-map-handler";
-import { FiwareMapHandler } from "./maphandler/firware-map-handler";
-import { GeoJsonMapHandler } from "./maphandler/geojson-map-handler";
-import { MapHandler } from "./maphandler/map-handler";
-import { FiwareOptions, GeoJSONOptions, LegendEntry, MapOptions, WmsOptions } from "./maphandler/model";
-import { WmsMapHandler } from "./maphandler/wms-map-handler";
+import { PROXY_URL } from '../../../main';
+import { ConfigurationService } from '../../configuration/configuration.service';
+import { EmptyMapHandler } from './maphandler/empty-map-handler';
+import { FiwareMapHandler } from './maphandler/firware-map-handler';
+import { GeoJsonMapHandler } from './maphandler/geojson-map-handler';
+import { MapHandler } from './maphandler/map-handler';
+import {
+  FiwareOptions,
+  GeoJSONOptions,
+  LegendEntry,
+  MapOptions,
+  WmsOptions,
+} from './maphandler/model';
+import { WmsMapHandler } from './maphandler/wms-map-handler';
 
 @Component({
-    selector: 'app-map',
-    templateUrl: './map.component.html',
-    styleUrls: ['./map.component.scss'],
-    imports: [CdkConnectedOverlay, CdkOverlayOrigin, NgClass, TranslateModule, NgbAccordionModule, NgbCollapseModule]
+  selector: 'app-map',
+  templateUrl: './map.component.html',
+  styleUrls: ['./map.component.scss'],
+  imports: [
+    CdkConnectedOverlay,
+    CdkOverlayOrigin,
+    NgClass,
+    TranslateModule,
+    NgbAccordionModule,
+    NgbCollapseModule,
+  ],
 })
 export class MapComponent implements AfterViewInit, OnChanges, OnDestroy {
   private factoryResolver = inject(ComponentFactoryResolver);
@@ -36,9 +63,13 @@ export class MapComponent implements AfterViewInit, OnChanges, OnDestroy {
 
   public mapId = 'mapid';
 
-  readonly popupContentContainerRef = viewChild.required('popupContent', { read: ViewContainerRef });
+  readonly popupContentContainerRef = viewChild.required('popupContent', {
+    read: ViewContainerRef,
+  });
 
-  readonly dynamicContainerRef = viewChild.required('dynamic', { read: ViewContainerRef });
+  readonly dynamicContainerRef = viewChild.required('dynamic', {
+    read: ViewContainerRef,
+  });
 
   // ui flags
   public legendOpen = false;
@@ -116,13 +147,15 @@ export class MapComponent implements AfterViewInit, OnChanges, OnDestroy {
     const options = this.options();
     if (options && this.viewInit) {
       this.mapHandler = this.findMapHandler(options);
-      this.mapHandler.mapLoading.subscribe(ml => this.mapLoading = ml);
+      this.mapHandler.mapLoading.subscribe(ml => (this.mapLoading = ml));
       this.mapHandler.createMap(this.mapId).subscribe(() => {
         this.mapHandler?.activateFeatureInfo();
         const entries = this.mapHandler?.getLegendEntries();
         if (entries) {
           this.legendEntries = entries;
-          if (this.legendEntries?.length) { setTimeout(() => this.legendOpen = true, 1000); }
+          if (this.legendEntries?.length) {
+            setTimeout(() => (this.legendOpen = true), 1000);
+          }
         }
       });
     }
@@ -130,17 +163,31 @@ export class MapComponent implements AfterViewInit, OnChanges, OnDestroy {
 
   private findMapHandler(options: MapOptions): MapHandler {
     if (options instanceof WmsOptions) {
-      return new WmsMapHandler(this.config, this.popupContentContainerRef(), this.factoryResolver, options);
+      return new WmsMapHandler(
+        this.config,
+        this.popupContentContainerRef(),
+        this.factoryResolver,
+        options
+      );
     }
     if (options instanceof GeoJSONOptions) {
-      return new GeoJsonMapHandler(this.config, this.popupContentContainerRef(), this.factoryResolver, options);
+      return new GeoJsonMapHandler(
+        this.config,
+        this.popupContentContainerRef(),
+        this.factoryResolver,
+        options
+      );
     }
     if (options instanceof FiwareOptions) {
       return new FiwareMapHandler(
-        this.config, this.popupContentContainerRef(), this.dynamicContainerRef(), this.factoryResolver, options, this.proxyUrl
+        this.config,
+        this.popupContentContainerRef(),
+        this.dynamicContainerRef(),
+        this.factoryResolver,
+        options,
+        this.proxyUrl
       );
     }
     return new EmptyMapHandler(this.config);
   }
-
 }

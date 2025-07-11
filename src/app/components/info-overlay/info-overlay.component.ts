@@ -87,10 +87,10 @@ export class InfoOverlayComponent implements OnInit {
       .get<DeuDataset>(
         `${this.apiUrl}datasets/${datasetId}.jsonld?useNormalizedId=true`
       )
-      .subscribe((res) => {
+      .subscribe(res => {
         this.tryToGetPublisher(res, datasetId);
         const match = res['@graph'].find(
-          (e) => e['@id'].indexOf(distributionId) >= 0
+          e => e['@id'].indexOf(distributionId) >= 0
         );
         const titles = match?.title || match?.['dct:title'];
         if (titles) {
@@ -101,7 +101,7 @@ export class InfoOverlayComponent implements OnInit {
   }
 
   private tryToGetPublisher(res: DeuDataset, datasetId: string) {
-    const match = res['@graph'].find((e) => e['@id'].indexOf(datasetId) >= 0);
+    const match = res['@graph'].find(e => e['@id'].indexOf(datasetId) >= 0);
     const titles = match?.title || match?.['dct:title'];
     if (titles) {
       this.publisherTitle = this.getLanguageList(titles);
@@ -112,9 +112,9 @@ export class InfoOverlayComponent implements OnInit {
     this.catalogId = catalogId;
     this.http
       .get<DeuDataset>(`${this.apiUrl}catalogues/${catalogId}.jsonld`)
-      .subscribe((res) => {
+      .subscribe(res => {
         // first option to find catalog title
-        const match = res['@graph'].find((e) =>
+        const match = res['@graph'].find(e =>
           e['@type'] ? e['@type']?.indexOf('dcat:Catalog') >= 0 : false
         );
         const titles = match?.title || match?.['dct:title'];
@@ -125,7 +125,7 @@ export class InfoOverlayComponent implements OnInit {
         // second option to find catalog title
         const id = res['@id'];
         if (id) {
-          const entry = res['@graph'].find((e) => e['@id'] === id);
+          const entry = res['@graph'].find(e => e['@id'] === id);
           if (entry && entry['http://purl.org/dc/terms/title']) {
             this.catalogTitle = this.getLanguageList(
               entry['http://purl.org/dc/terms/title']
@@ -137,10 +137,10 @@ export class InfoOverlayComponent implements OnInit {
 
   private getLanguageList(titles: (string | Entry)[] | Entry): LangTitle[] {
     if (titles instanceof Array) {
-      const match: Entry = titles.find((e) => !(e instanceof String)) as Entry;
+      const match: Entry = titles.find(e => !(e instanceof String)) as Entry;
       if (match['@language']) {
         return filterUndefined(
-          titles.map((e) => {
+          titles.map(e => {
             if (typeof e === 'string') {
               return { code: match['@language'].substring(5, 7), title: e };
             }
@@ -188,5 +188,5 @@ export class InfoOverlayComponent implements OnInit {
 }
 
 export function filterUndefined<T>(list: (T | undefined)[]): T[] {
-  return list.filter((e) => e !== undefined) as T[];
+  return list.filter(e => e !== undefined) as T[];
 }

@@ -1,9 +1,12 @@
-import { OverlayModule } from "@angular/cdk/overlay";
-import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
-import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { TranslateModule } from "@ngx-translate/core";
+import { OverlayModule } from '@angular/cdk/overlay';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TranslateModule } from '@ngx-translate/core';
 
-import { MapComponent } from "./map.component";
+import { MapComponent } from './map.component';
 
 describe('MapComponent', () => {
   let component: MapComponent;
@@ -11,11 +14,9 @@ describe('MapComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [TranslateModule.forRoot(),
-        OverlayModule,
-        MapComponent],
-    providers: [provideHttpClient(withInterceptorsFromDi())]
-}).compileComponents();
+      imports: [TranslateModule.forRoot(), OverlayModule, MapComponent],
+      providers: [provideHttpClient(withInterceptorsFromDi())],
+    }).compileComponents();
   });
 
   beforeEach(() => {

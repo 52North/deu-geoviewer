@@ -1,9 +1,8 @@
-import { HttpClient, HttpHandler } from "@angular/common/http";
-import { inject, TestBed } from "@angular/core/testing";
+import { HttpClient, HttpHandler } from '@angular/common/http';
+import { inject, TestBed } from '@angular/core/testing';
 
-import { PROXY_URL } from "../../main";
-import { FileLoaderService } from "./file-loader.service";
-
+import { PROXY_URL } from '../../main';
+import { FileLoaderService } from './file-loader.service';
 
 describe('Service: FileLoader', () => {
   beforeEach(() => {
@@ -12,7 +11,7 @@ describe('Service: FileLoader', () => {
         FileLoaderService,
         HttpClient,
         HttpHandler,
-        { provide: PROXY_URL, useValue: "" },
+        { provide: PROXY_URL, useValue: '' },
       ],
     });
   });

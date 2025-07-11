@@ -29,7 +29,7 @@ export class WmsMapHandler extends MapHandler {
   public createMap(mapId: string): Observable<void> {
     const layers = this.createBaseLayers(this.projection);
 
-    this.options.layers.forEach((e) => {
+    this.options.layers.forEach(e => {
       const layer = new TileLayer({
         visible: false,
         source: new TileWMS({
@@ -77,9 +77,9 @@ export class WmsMapHandler extends MapHandler {
   }
 
   private featureInfoClick = (evt: MapBrowserEvent<UIEvent>) => {
-    if (this.legendEntries.some((e) => e.layer.getVisible() && e.queryable)) {
+    if (this.legendEntries.some(e => e.layer.getVisible() && e.queryable)) {
       const urls: string[] = [];
-      this.legendEntries.forEach((l) => {
+      this.legendEntries.forEach(l => {
         if (l.layer.getVisible() && l.queryable) {
           const source = l.layer.getSource();
           if (source instanceof TileWMS) {

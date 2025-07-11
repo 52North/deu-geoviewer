@@ -8,9 +8,7 @@ describe('GeneralErrorHandler', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        OverlayModule
-      ]
+      imports: [OverlayModule],
     });
     service = TestBed.inject(GeneralErrorHandler);
   });

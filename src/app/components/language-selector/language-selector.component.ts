@@ -1,23 +1,21 @@
+import { Component, OnInit, inject } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
-import { Component, OnInit, inject } from "@angular/core";
-import { FormsModule } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
-import { TranslateService } from "@ngx-translate/core";
-
-import { ConfigurationService } from "../../configuration/configuration.service";
+import { ConfigurationService } from '../../configuration/configuration.service';
 
 @Component({
-    selector: 'app-language-selector',
-    templateUrl: './language-selector.component.html',
-    styleUrls: ['./language-selector.component.scss'],
-    imports: [FormsModule]
+  selector: 'app-language-selector',
+  templateUrl: './language-selector.component.html',
+  styleUrls: ['./language-selector.component.scss'],
+  imports: [FormsModule],
 })
 export class LanguageSelectorComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private translate = inject(TranslateService);
   private config = inject(ConfigurationService);
-
 
   public languages = this.config.configuration.languages;
   public currentLangCode!: string;
@@ -38,12 +36,11 @@ export class LanguageSelectorComponent implements OnInit {
       this.router.navigate(['.'], {
         relativeTo: this.route,
         queryParams: {
-          lang: code
+          lang: code,
         },
         queryParamsHandling: 'merge',
-        skipLocationChange: true
+        skipLocationChange: true,
       });
     });
   }
-
 }

@@ -43,7 +43,10 @@ export class WmsOptions extends MapOptions {
 }
 
 export class FiwareOptions extends MapOptions {
-  constructor(public url: string, public resource: CkanResource) {
+  constructor(
+    public url: string,
+    public resource: CkanResource
+  ) {
     super();
   }
 }
