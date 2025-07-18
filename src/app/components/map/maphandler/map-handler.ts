@@ -173,7 +173,7 @@ export abstract class MapHandler {
     return counter;
   }
 
-  private createPopup(): void {
+  protected createPopup(): void {
     const popup = document.getElementById('popup');
     if (popup) {
       popup.style.display = 'unset';

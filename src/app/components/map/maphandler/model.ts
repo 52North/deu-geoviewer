@@ -51,6 +51,12 @@ export class FiwareOptions extends MapOptions {
   }
 }
 
+export class OGCFeaturesOptions extends MapOptions {
+  constructor(public url: string) {
+    super();
+  }
+}
+
 export interface LegendEntry {
   title: string;
   abstract: string;

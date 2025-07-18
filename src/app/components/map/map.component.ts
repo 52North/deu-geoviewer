@@ -30,8 +30,10 @@ import {
   GeoJSONOptions,
   LegendEntry,
   MapOptions,
+  OGCFeaturesOptions,
   WmsOptions,
 } from './maphandler/model';
+import { OGCFeatureMapHandler } from './maphandler/ogc-feature-handler';
 import { WmsMapHandler } from './maphandler/wms-map-handler';
 
 @Component({
@@ -51,11 +53,7 @@ export class MapComponent implements AfterViewInit, OnChanges, OnDestroy {
   private factoryResolver = inject(ComponentFactoryResolver);
   private config = inject(ConfigurationService);
   private proxyUrl = inject<string>(PROXY_URL);
-
-  // toggle() {
-  //   debugger;
-  //   // accordion.toggle('panel-'+i); $event.stopPropagation()
-  // }
+  private ogcFeatureHandler = inject(OGCFeatureMapHandler);
 
   readonly options = input<MapOptions>();
 
@@ -187,6 +185,14 @@ export class MapComponent implements AfterViewInit, OnChanges, OnDestroy {
         options,
         this.proxyUrl
       );
+    }
+    if (options instanceof OGCFeaturesOptions) {
+      this.ogcFeatureHandler.setProps({
+        dynamicContainerRef: this.dynamicContainerRef(),
+        popupContainerRef: this.popupContentContainerRef(),
+        options,
+      });
+      return this.ogcFeatureHandler;
     }
     return new EmptyMapHandler(this.config);
   }

@@ -1,0 +1,16 @@
+@if (collectionResponse) {
+  <div class="content">
+    <div>OGC Feature API</div>
+    <div>{{ collectionResponse.title }}</div>
+    <div class="list-group">
+      @for (coll of collectionResponse.collections; track $index) {
+        <button
+          class="list-group-item list-group-item-action"
+          [ngClass]="{ active: coll.id === selectedCollection()?.id }"
+          (click)="selectCollection(coll)">
+          {{ coll.title }}
+        </button>
+      }
+    </div>
+  </div>
+}

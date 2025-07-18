@@ -1,0 +1,22 @@
+@if (loadingFeatures() || featureResults()) {
+  <div class="content">
+    @if (!loadingFeatures() && featureResults()) {
+      <div>
+        {{ featureResults()!.displayedCount }} of
+        {{ featureResults()!.completeCount }} features are displayed.
+      </div>
+      <div style="display: flex">
+        <div style="flex: 1"></div>
+        <button
+          type="button"
+          class="btn btn-primary btn-sm"
+          (click)="loadMore()">
+          Load more
+        </button>
+      </div>
+    }
+    @if (loadingFeatures()) {
+      <div>loading features</div>
+    }
+  </div>
+}

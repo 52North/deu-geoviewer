@@ -1,0 +1,17 @@
+:host {
+    position: absolute;
+    top: 200px;
+    left: 10px;
+    bottom: 70px;
+    max-width: 300px;
+    overflow: auto;
+    z-index: 10;
+    background-color: white;
+    padding: 3px;
+    border-bottom-right-radius: 5px;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+
+    .content {
+        overflow: auto;
+    }
+}
