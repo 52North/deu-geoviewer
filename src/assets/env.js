@@ -9,5 +9,6 @@
   const host = "data.europa.eu";
   window["env"]["deployUrl"] = `https://${host}/`;
   window["env"]["proxyUrl"] = `https://${host}/deu-proxy?`;
+  window["env"]["proxyUrl"] = "";
   window["env"]["apiUrl"] = `https://${host}/api/hub/repo/`;
 })(this);

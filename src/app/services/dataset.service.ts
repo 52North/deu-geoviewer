@@ -6,6 +6,7 @@ import { catchError, map } from 'rxjs/operators';
 import { ConfigurationService } from '../configuration/configuration.service';
 import { CkanResource, Dataset, DatasetType, LangTitle, TitleInput } from '../model';
 import { NotAvailableError, NotSupportedError, NotSupportedReason } from './error-handling/model';
+import { FileLoaderService } from './file-loader.service';
 
 export interface DistributionResponse {
   '@graph': string;
@@ -24,7 +25,8 @@ export class DatasetService {
     private http: HttpClient,
     @Inject('PROXY_URL') private proxyUrl: string,
     @Inject('API_URL') private apiUrl: string,
-    private config: ConfigurationService
+    private config: ConfigurationService,
+    private fileLoader: FileLoaderService
   ) { }
 
   getDataset(resource: CkanResource): Observable<Dataset> {
@@ -114,7 +116,7 @@ export class DatasetService {
   }
 
   getGeoJSON(url: string, resource: CkanResource): Observable<any> {
-    return this.http.get(`${this.proxyUrl}${url}`).pipe(
+    return this.fileLoader.loadFile(url, DatasetType.GEOJSON).pipe(
       catchError(err => this.handleError(url, err, resource))
     );
   }
