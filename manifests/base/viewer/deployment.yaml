@@ -23,7 +23,7 @@ spec:
           value: /geo-viewer/
         - name: DEPLOY_URL
           value: https://$(HOST_NAME)/
-        image: 52north/deu-viewer:latest
+        image: 52north/deu-geoviewer:latest
         imagePullPolicy: Always
         name: geo-viewer
         ports:

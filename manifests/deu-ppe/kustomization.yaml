@@ -14,7 +14,7 @@ configMapGenerator:
       - API_HOST_NAME=ppe.data.europa.eu
 
 images:
-  - name: 52north/deu-viewer:latest
+  - name: 52north/deu-geoviewer:latest
     newTag: 1.0.6
-  - name: 52north/deu-proxy:latest
-    newTag: 2.0.2
+  - name: 52north/deu-geoviewer-proxy:latest
+    newTag: 2.0.3
