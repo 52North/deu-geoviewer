@@ -17,4 +17,4 @@ images:
   - name: 52north/deu-viewer:latest
     newTag: 1.0.6
   - name: 52north/deu-proxy:latest
-    newTag: 2.0.3
+    newTag: 2.0.2

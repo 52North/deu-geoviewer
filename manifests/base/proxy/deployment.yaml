@@ -21,7 +21,7 @@ spec:
               value: /etc/ckan-proxy.json
             - name: LOGGING_LEVEL
               value: debug
-          image: 52north/deu-geoviewer-proxy:latest
+          image: 52north/deu-proxy:latest
           imagePullPolicy: Always
           name: deu-proxy
           ports:
