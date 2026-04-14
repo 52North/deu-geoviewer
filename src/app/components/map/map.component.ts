@@ -4,6 +4,7 @@ import {
   AfterViewInit,
   Component,
   ComponentFactoryResolver,
+  inject,
   Inject,
   Input,
   OnChanges,
@@ -17,11 +18,13 @@ import { TranslateModule } from "@ngx-translate/core";
 import { TileWMS } from "ol/source";
 
 import { ConfigurationService } from "../../configuration/configuration.service";
+import { OGCFeaturesService } from "../../services/OGCFeatures.service";
 import { EmptyMapHandler } from "./maphandler/empty-map-handler";
 import { FiwareMapHandler } from "./maphandler/firware-map-handler";
 import { GeoJsonMapHandler } from "./maphandler/geojson-map-handler";
 import { MapHandler } from "./maphandler/map-handler";
-import { FiwareOptions, GeoJSONOptions, LegendEntry, MapOptions, WmsOptions } from "./maphandler/model";
+import { FiwareOptions, GeoJSONOptions, LegendEntry, MapOptions, OGCFeaturesOptions, WmsOptions } from "./maphandler/model";
+import { OGCFeatureMapHandler } from "./maphandler/ogc-feature-handler";
 import { WmsMapHandler } from "./maphandler/wms-map-handler";
 
 @Component({
@@ -42,6 +45,8 @@ export class MapComponent implements AfterViewInit, OnChanges, OnDestroy {
   @ViewChild('popupContent', { read: ViewContainerRef }) popupContentContainerRef!: ViewContainerRef;
 
   @ViewChild('dynamic', { read: ViewContainerRef }) dynamicContainerRef!: ViewContainerRef;
+
+  private ogcFeatureSrvc = inject(OGCFeaturesService);
 
   // ui flags
   public legendOpen = false;
@@ -146,6 +151,16 @@ export class MapComponent implements AfterViewInit, OnChanges, OnDestroy {
     if (options instanceof FiwareOptions) {
       return new FiwareMapHandler(
         this.config, this.popupContentContainerRef, this.dynamicContainerRef, this.factoryResolver, options, this.proxyUrl
+      );
+    }
+    if (options instanceof OGCFeaturesOptions) {
+      return new OGCFeatureMapHandler(
+        this.config,
+        this.popupContentContainerRef,
+        this.dynamicContainerRef,
+        this.factoryResolver,
+        this.ogcFeatureSrvc,
+        options,
       );
     }
     return new EmptyMapHandler(this.config);

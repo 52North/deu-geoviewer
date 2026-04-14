@@ -78,5 +78,8 @@
   "error.httpIssues.502": "The resource is not available due to a erroneously configured gateway",
   "error.httpIssues.503": "The resource is currently not available due to overload or maintenance",
   "error.httpIssues.504": "The resource is not available due to a erroneously configured or unresponsive gateway",
-  "error.httpIssues.505": "The resource does not support the given HTTP version"
+  "error.httpIssues.505": "The resource does not support the given HTTP version",
+  "features-loaded.label": "features loaded",
+  "features-loaded.loading": "Loading...",
+  "features-loaded.load-more": "Load more features"
 }

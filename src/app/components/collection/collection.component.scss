@@ -1,0 +1,34 @@
+:host {
+  position: absolute;
+  left: 10px;
+  width: 300px;
+  top: 10px;
+  z-index: 100;
+
+  .collection-wrapper {
+    padding: 5px;
+    background-color: white;
+    max-height: 400px;
+
+    overflow-y: auto;
+
+    .collection-title {
+      margin-bottom: 0.25rem;
+    }
+
+    .collection-description {
+      font-size: 0.875rem;
+      color: #6c757d;
+      margin-bottom: 0.75rem;
+    }
+
+    .list-group-item {
+      cursor: pointer;
+
+      .collection-item-title {
+        font-weight: 500;
+      }
+    }
+  }
+
+}

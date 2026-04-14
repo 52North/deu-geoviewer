@@ -1,0 +1,29 @@
+<div class="features-hint" *ngIf="featureResults() && featureResults()">
+  <div
+    class="collection-title"
+    *ngIf="selectedCollection() && selectedCollection()?.title"
+  >
+    {{ selectedCollection()?.title }}
+  </div>
+
+  <div class="feature-count">
+    <span>{{ featureResults()?.displayedCount }}</span>
+    <span> / </span>
+    <span>{{ featureResults()?.completeCount }}</span>
+    <span> {{ "features-loaded.label" | translate }}</span>
+  </div>
+
+  <button
+    *ngIf="hasMoreFeatures()"
+    class="btn btn-sm btn-primary"
+    [disabled]="loadingFeatures()"
+    (click)="loadAdditionalFeatures()"
+  >
+    <span *ngIf="loadingFeatures()">{{
+      "features-loaded.loading" | translate
+    }}</span>
+    <span *ngIf="!loadingFeatures || !loadingFeatures()">{{
+      "features-loaded.load-more" | translate
+    }}</span>
+  </button>
+</div>

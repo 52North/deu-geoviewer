@@ -2,7 +2,6 @@ import { Map, Overlay } from 'ol';
 import Attribution from 'ol/control/Attribution';
 import Control from 'ol/control/Control';
 import { Extent } from 'ol/extent';
-import Layer from 'ol/layer/Layer';
 import TileLayer from 'ol/layer/Tile';
 import { PROJECTIONS as EPSG_3857 } from 'ol/proj/epsg3857';
 import { PROJECTIONS as EPSG_4326 } from 'ol/proj/epsg4326';

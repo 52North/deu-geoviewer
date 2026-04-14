@@ -7,7 +7,7 @@ import { TranslateModule } from "@ngx-translate/core";
 import { DatasetTitleService } from "../../components/dataset-title/dataset-title.component";
 import { InfoOverlayComponent } from "../../components/info-overlay/info-overlay.component";
 import { MapComponent } from "../../components/map/map.component";
-import { GeoJSONOptions, MapOptions, WmsOptions } from "../../components/map/maphandler/model";
+import { GeoJSONOptions, MapOptions, OGCFeaturesOptions, WmsOptions } from "../../components/map/maphandler/model";
 import { LegalDisclaimerService } from "../../components/modals/legal-disclaimer/legal-disclaimer.component";
 import { LoadingDatasetComponent } from "../../components/modals/loading-dataset/loading-dataset.component";
 import { DatasetType, parseDatasetType } from "../../model";
@@ -54,7 +54,7 @@ export class MapViewComponent implements OnInit {
     const type = params.type;
     const file = params.file;
     if (file && type) {
-      this.loadFile(file, type);
+      this.loadUrl(file, type);
     } else if (distributionId) {
       this.loadDistribution(distributionId, type);
     } else {
@@ -128,7 +128,7 @@ export class MapViewComponent implements OnInit {
   }
 
   private loadFile(fileUrl: string, type: string) {
-    this.showloading()
+    this.showloading();
     this.fileLoader.loadFile(fileUrl, type).subscribe({
       next: res => {
         this.mapOptions = new GeoJSONOptions(fileUrl, { id: 'bla', type: DatasetType.GEOJSON }, res);
@@ -138,6 +138,28 @@ export class MapViewComponent implements OnInit {
         this.handleError(err);
       }
     });
+  }
+  
+  private loadUrl(url: string, type: string) {
+    this.showloading();
+    if (type === 'ogcfeature') {
+      this.mapOptions = new OGCFeaturesOptions(url);
+      this.hideLoading();
+    } else {
+      this.fileLoader.loadFile(url, type).subscribe({
+        next: res => {
+          this.mapOptions = new GeoJSONOptions(
+            url,
+            { id: 'bla', type: DatasetType.GEOJSON },
+            res
+          );
+          this.hideLoading();
+        },
+        error: err => {
+          this.handleError(err);
+        },
+      });
+    }
   }
 
   private handleError(error: ViewerError): void {

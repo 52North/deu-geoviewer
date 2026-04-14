@@ -1,0 +1,36 @@
+:host {
+    position: absolute;
+    left: 320px;
+    width: 300px;
+    top: 10px;
+    z-index: 100;
+}
+
+.features-hint {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 4px;
+    font-size: 0.875rem;
+
+    .collection-title {
+        font-size: 0.9rem;
+    }
+
+    .feature-count {
+        color: #555;
+    }
+
+    .load-more-btn {
+        align-self: flex-start;
+        padding: 4px 10px;
+        cursor: pointer;
+
+        &:disabled {
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+    }
+}
