@@ -1,6 +1,5 @@
 <ul>
-  <li><a routerLink="">Empty</a></li>
-   <li>
+  <li>
     <a
       [routerLink]="['/']"
       [queryParams]="{
@@ -15,29 +14,9 @@
       [routerLink]="['/']"
       [queryParams]="{
         type: 'ogcfeature',
-        file: 'https://ogc-api.nrw.de/inspire-lc-le/v1/',
-      }"
-      >ogc-api.nrw.de</a
-    >
-  </li>
-  <li>
-    <a
-      [routerLink]="['/']"
-      [queryParams]="{
-        type: 'ogcfeature',
         file: 'https://api.hamburg.de/datasets/v1/ambulante_pflegedienste',
       }"
       >Ambulante Pflegedienste Hamburg</a
-    >
-  </li>
-  <li>
-    <a
-      [routerLink]="['/']"
-      [queryParams]="{
-        type: 'ogcfeature',
-        file: 'https://geo.rijkswaterstaat.nl/services/ogc/gdr/kerngis_droog/ogc/features/v1/collections',
-      }"
-      >OGC API/Webservice Rijkswaterstaat</a
     >
   </li>
 </ul>
