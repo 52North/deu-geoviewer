@@ -31,12 +31,6 @@ import { FeatureInfoPopupComponent } from '../feature-info-popup/feature-info-po
 import { MapHandler } from './map-handler';
 import { MapProjection, OGCFeaturesOptions } from './model';
 
-interface OGCFeatureMapHandlerProps {
-  popupContainerRef: ViewContainerRef;
-  dynamicContainerRef: ViewContainerRef;
-  options: OGCFeaturesOptions;
-}
-
 export interface FeatureResult {
   completeCount: number;
   displayedCount: number;
@@ -75,12 +69,6 @@ const featureHoverStyle = new Style({
 });
 
 export class OGCFeatureMapHandler extends MapHandler {
-  // private factoryResolver = inject(ComponentFactoryResolver);
-  // private ogcFeatureSrvc = inject(OGCFeaturesService);
-  // private configService = inject(ConfigurationService);
-  // private options: OGCFeaturesOptions | undefined;
-  // private dynamicContainerRef: ViewContainerRef | undefined;
-  // private popupContainerRef: ViewContainerRef | undefined;
   private serviceUrl: string | undefined;
 
   private collectionComponent: ComponentRef<CollectionComponent> | undefined;
@@ -105,7 +93,7 @@ export class OGCFeatureMapHandler extends MapHandler {
     private dynamicContainerRef: ViewContainerRef,
     private factoryResolver: ComponentFactoryResolver,
     private ogcFeatureSrvc: OGCFeaturesService,
-    private options: OGCFeaturesOptions,
+    private options: OGCFeaturesOptions
   ) {
     super(config);
     this.vectorLayer = new VectorLayer({
@@ -126,33 +114,26 @@ export class OGCFeatureMapHandler extends MapHandler {
     return this._selectedCollection.asReadonly();
   }
 
-  // setProps(props: OGCFeatureMapHandlerProps) {
-  //   debugger;
-  //   // this.options = props.options;
-  //   // this.dynamicContainerRef = props.dynamicContainerRef;
-  //   // this.popupContainerRef = props.popupContainerRef;
-  //   // this.createPopup();
-  // }
-
   createMap(mapId: string): Observable<void> {
     // debugger;
     return this.determineUrl(this.options!.url).pipe(
-      catchError((err) => {
+      catchError(err => {
         console.error(err);
         throw err;
       }),
-      map((res) => {
+      map(res => {
         this.initMap(mapId, res.extent?.spatial);
         if (this.serviceUrl) {
           this.ogcFeatureSrvc.getCollections(this.serviceUrl).subscribe({
-            next: (coll) => this.showCollections(coll),
-            error: (err) => console.error(err),
+            next: coll => this.showCollections(coll),
+            error: err => console.error(err),
           });
         }
-      }),
+      })
     );
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   mapViewDestroyed(): void {}
 
   activateFeatureInfo(): void {
@@ -160,7 +141,7 @@ export class OGCFeatureMapHandler extends MapHandler {
       this.clickSelectGeojsonFeature = new Select({
         layers: [this.vectorLayer],
       });
-      this.clickSelectGeojsonFeature.on('select', (evt) => {
+      this.clickSelectGeojsonFeature.on('select', evt => {
         this.clickSelectGeojsonFeature!.getFeatures().clear();
         this.showGeoJsonFeature(evt);
       });
@@ -171,7 +152,7 @@ export class OGCFeatureMapHandler extends MapHandler {
         style: featureHoverStyle,
         layers: [this.vectorLayer],
       });
-      this.hoverSelectGeojsonFeature.on('select', (evt) => {
+      this.hoverSelectGeojsonFeature.on('select', evt => {
         this.map.getTargetElement().style.cursor =
           evt.selected.length > 0 ? 'pointer' : '';
       });
@@ -186,11 +167,11 @@ export class OGCFeatureMapHandler extends MapHandler {
       if (evt.selected.length) {
         const properties = evt.selected[0]
           .getKeys()
-          .filter((e) => e !== 'geometry')
-          .map((e) => ({ key: e, value: evt.selected[0].get(e) }));
+          .filter(e => e !== 'geometry')
+          .map(e => ({ key: e, value: evt.selected[0].get(e) }));
         this.popupContainerRef.clear();
         const factory = this.factoryResolver.resolveComponentFactory(
-          FeatureInfoPopupComponent,
+          FeatureInfoPopupComponent
         );
         const component = factory.create(this.popupContainerRef.injector);
         component.setInput('properties', properties);
@@ -219,17 +200,11 @@ export class OGCFeatureMapHandler extends MapHandler {
     this.ogcFeatureSrvc
       .getCollectionItems(collection, this.serviceUrl, {
         limit: COLLECTION_ITEMS_COUNT,
-        // bbox: {
-        //   minLon: 7.8,
-        //   minLat: 51.7,
-        //   maxLon: 7.9,
-        //   maxLat: 51.8,
-        // },
       })
       .subscribe({
-        next: (items) => {
+        next: items => {
           this.vectorSource.addFeatures(new GeoJSON().readFeatures(items));
-          const nextLink = items.links?.find((e) => e.rel === 'next');
+          const nextLink = items.links?.find(e => e.rel === 'next');
           this._featureResults.set({
             completeCount: items.numberMatched,
             displayedCount: items.numberReturned,
@@ -237,7 +212,7 @@ export class OGCFeatureMapHandler extends MapHandler {
           this.nextFeaturesUrl = nextLink;
           this._loadingFeatures.set(false);
         },
-        error: (err) => console.error(err),
+        error: err => console.error(err),
       });
   }
 
@@ -247,12 +222,12 @@ export class OGCFeatureMapHandler extends MapHandler {
       this.ogcFeatureSrvc
         .getCollectionItemsByNextLink(this.nextFeaturesUrl)
         .subscribe({
-          next: (items) => {
+          next: items => {
             if (items.features?.length) {
               this.vectorSource.addFeatures(new GeoJSON().readFeatures(items));
             }
-            const nextLink = items.links?.find((e) => e.rel === 'next');
-            this._featureResults.update((prev) => {
+            const nextLink = items.links?.find(e => e.rel === 'next');
+            this._featureResults.update(prev => {
               const previousDisplayCount = prev?.displayedCount
                 ? prev.displayedCount
                 : 0;
@@ -264,16 +239,14 @@ export class OGCFeatureMapHandler extends MapHandler {
             this.nextFeaturesUrl = nextLink;
             this._loadingFeatures.set(false);
           },
-          error: (err) => console.error(err),
+          error: err => console.error(err),
         });
     }
   }
 
   private initMap(
     mapId: string,
-    spatial:
-      | { description?: string; bbox: number[][]; crs: string }
-      | undefined,
+    spatial: { description?: string; bbox: number[][]; crs: string } | undefined
   ) {
     const projection = new Projection({ code: MapProjection.EPSG_4326 });
     const layers = this.createBaseLayers(projection);
@@ -312,7 +285,7 @@ export class OGCFeatureMapHandler extends MapHandler {
     const extent = transformExtent(
       mergedExtent,
       spatial.crs,
-      MapProjection.EPSG_4326,
+      MapProjection.EPSG_4326
     );
     this.map.getView().fit(extent);
   }
@@ -320,7 +293,7 @@ export class OGCFeatureMapHandler extends MapHandler {
   private determineUrl(url: string): Observable<LandingPage> {
     this.serviceUrl = url;
     return this.ogcFeatureSrvc.getLandingPage(url).pipe(
-      catchError((err) => {
+      catchError(err => {
         if (err.message === UNVALID_LANDING_PAGE) {
           const idx = url.lastIndexOf('/');
           const newUrl = url.slice(0, idx);
@@ -328,7 +301,7 @@ export class OGCFeatureMapHandler extends MapHandler {
         } else {
           throw err;
         }
-      }),
+      })
     );
   }
 
@@ -337,12 +310,12 @@ export class OGCFeatureMapHandler extends MapHandler {
       const factory =
         this.factoryResolver.resolveComponentFactory(CollectionComponent);
       this.collectionComponent = factory.create(
-        this.dynamicContainerRef!.injector,
+        this.dynamicContainerRef!.injector
       );
       this.collectionComponent.instance.selectedCollection =
         this.selectedCollection;
       this.collectionComponent.instance.collectionSelected.subscribe(
-        (collection: Collection) => this.loadCollection(collection),
+        (collection: Collection) => this.loadCollection(collection)
       );
       this.dynamicContainerRef!.insert(this.collectionComponent.hostView);
     }
@@ -352,10 +325,10 @@ export class OGCFeatureMapHandler extends MapHandler {
   private initFeaturesHint() {
     if (!this.featureHintComponent) {
       const factory = this.factoryResolver.resolveComponentFactory(
-        FeaturesLoadedHintComponent,
+        FeaturesLoadedHintComponent
       );
       this.featureHintComponent = factory.create(
-        this.dynamicContainerRef!.injector,
+        this.dynamicContainerRef!.injector
       );
       this.featureHintComponent.instance.loadingFeatures = this.loadingFeatures;
       this.featureHintComponent.instance.featureResults = this.featureResults;

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
@@ -6,7 +7,7 @@ export const environment = {
   production: false,
   proxyUrl: window['env' as any]['proxyUrl' as any],
   deployUrl: window['env' as any]['deployUrl' as any],
-  apiUrl: window['env' as any]['apiUrl' as any]
+  apiUrl: window['env' as any]['apiUrl' as any],
 };
 
 /*

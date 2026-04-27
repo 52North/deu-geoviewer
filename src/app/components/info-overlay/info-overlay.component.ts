@@ -1,12 +1,17 @@
-import { CdkConnectedOverlay, CdkOverlayOrigin, ConnectedPosition } from "@angular/cdk/overlay";
-import { NgIf } from "@angular/common";
-import { HttpClient } from "@angular/common/http";
-import { Component, Inject, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
-import { TranslateService } from "@ngx-translate/core";
+import {
+  CdkConnectedOverlay,
+  CdkOverlayOrigin,
+  ConnectedPosition,
+} from '@angular/cdk/overlay';
 
-import { LanguageLabelComponent } from "../language-label/language-label.component";
-import { LangTitle } from "./../../model";
+import { HttpClient } from '@angular/common/http';
+import { Component, OnInit, inject } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+
+import { API_URL, DEPLOY_URL } from '../../../main';
+import { LanguageLabelComponent } from '../language-label/language-label.component';
+import { LangTitle } from './../../model';
 
 interface Entry {
   '@language': string;
@@ -14,6 +19,7 @@ interface Entry {
 }
 
 interface DeuDataset {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   '@context': any;
   '@id'?: string;
   '@graph': {
@@ -25,8 +31,9 @@ interface DeuDataset {
     'dct:title'?: (Entry | string)[];
     'dct:publisher'?: string;
     'dct:name'?: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     [key: string]: any;
-  }[]
+  }[];
 }
 
 const CATALOG_ID_PARAM = 'catalog';
@@ -37,10 +44,14 @@ const DISTRIBUTION_ID_PARAM = 'distribution';
   selector: 'app-info-overlay',
   templateUrl: './info-overlay.component.html',
   styleUrls: ['./info-overlay.component.scss'],
-  standalone: true,
-  imports: [CdkOverlayOrigin, CdkConnectedOverlay, NgIf, LanguageLabelComponent]
+  imports: [CdkOverlayOrigin, CdkConnectedOverlay, LanguageLabelComponent],
 })
 export class InfoOverlayComponent implements OnInit {
+  private http = inject(HttpClient);
+  private translate = inject(TranslateService);
+  private apiUrl = inject<string>(API_URL);
+  private deployUrl = inject<string>(DEPLOY_URL);
+  private route = inject(ActivatedRoute);
 
   distributionTitle: LangTitle[] | undefined;
   catalogTitle: LangTitle[] | undefined;
@@ -51,20 +62,14 @@ export class InfoOverlayComponent implements OnInit {
 
   isOpen = false;
 
-  position: ConnectedPosition[] = [{
-    overlayX: 'start',
-    overlayY: 'top',
-    originX: 'start',
-    originY: 'top'
-  }];
-
-  constructor(
-    private http: HttpClient,
-    private translate: TranslateService,
-    @Inject('API_URL') private apiUrl: string,
-    @Inject('DEPLOY_URL') private deployUrl: string,
-    private route: ActivatedRoute
-  ) { }
+  position: ConnectedPosition[] = [
+    {
+      overlayX: 'start',
+      overlayY: 'top',
+      originX: 'start',
+      originY: 'top',
+    },
+  ];
 
   ngOnInit() {
     const params = this.route.snapshot.queryParams;
@@ -78,15 +83,21 @@ export class InfoOverlayComponent implements OnInit {
 
   private loadDataset(datasetId: string, distributionId: string) {
     this.datasetId = datasetId;
-    this.http.get<DeuDataset>(`${this.apiUrl}datasets/${datasetId}.jsonld?useNormalizedId=true`).subscribe(res => {
-      this.tryToGetPublisher(res, datasetId);
-      const match = res['@graph'].find(e => e['@id'].indexOf(distributionId) >= 0);
-      const titles = match?.title || match?.['dct:title'];
-      if (titles) {
-        this.distributionTitle = this.getLanguageList(titles);
-      }
-      this.isOpen = true;
-    });
+    this.http
+      .get<DeuDataset>(
+        `${this.apiUrl}datasets/${datasetId}.jsonld?useNormalizedId=true`
+      )
+      .subscribe(res => {
+        this.tryToGetPublisher(res, datasetId);
+        const match = res['@graph'].find(
+          e => e['@id'].indexOf(distributionId) >= 0
+        );
+        const titles = match?.title || match?.['dct:title'];
+        if (titles) {
+          this.distributionTitle = this.getLanguageList(titles);
+        }
+        this.isOpen = true;
+      });
   }
 
   private tryToGetPublisher(res: DeuDataset, datasetId: string) {
@@ -99,23 +110,29 @@ export class InfoOverlayComponent implements OnInit {
 
   private loadCatalog(catalogId: string) {
     this.catalogId = catalogId;
-    this.http.get<DeuDataset>(`${this.apiUrl}catalogues/${catalogId}.jsonld`).subscribe(res => {
-      // first option to find catalog title
-      const match = res['@graph'].find(e => e['@type'] ? e['@type']?.indexOf('dcat:Catalog') >= 0 : false);
-      const titles = match?.title || match?.['dct:title'];
-      if (titles) {
-        this.catalogTitle = this.getLanguageList(titles);
-        return;
-      }
-      // second option to find catalog title
-      const id = res['@id'];
-      if (id) {
-        const entry = res['@graph'].find(e => e['@id'] === id);
-        if (entry && entry['http://purl.org/dc/terms/title']) {
-          this.catalogTitle = this.getLanguageList(entry['http://purl.org/dc/terms/title']);
+    this.http
+      .get<DeuDataset>(`${this.apiUrl}catalogues/${catalogId}.jsonld`)
+      .subscribe(res => {
+        // first option to find catalog title
+        const match = res['@graph'].find(e =>
+          e['@type'] ? e['@type']?.indexOf('dcat:Catalog') >= 0 : false
+        );
+        const titles = match?.title || match?.['dct:title'];
+        if (titles) {
+          this.catalogTitle = this.getLanguageList(titles);
+          return;
         }
-      }
-    });
+        // second option to find catalog title
+        const id = res['@id'];
+        if (id) {
+          const entry = res['@graph'].find(e => e['@id'] === id);
+          if (entry && entry['http://purl.org/dc/terms/title']) {
+            this.catalogTitle = this.getLanguageList(
+              entry['http://purl.org/dc/terms/title']
+            );
+          }
+        }
+      });
   }
 
   private getLanguageList(titles: (string | Entry)[] | Entry): LangTitle[] {
@@ -127,19 +144,32 @@ export class InfoOverlayComponent implements OnInit {
             if (typeof e === 'string') {
               return { code: match['@language'].substring(5, 7), title: e };
             }
-            if (typeof e === 'object' && e.hasOwnProperty('@language') && e.hasOwnProperty('@value')) {
-              return { code: e['@language'].substring(0, 2), title: e['@value'] };
+            if (
+              typeof e === 'object' &&
+              Object.prototype.hasOwnProperty.call(e, '@language') &&
+              Object.prototype.hasOwnProperty.call(e, '@value')
+            ) {
+              return {
+                code: e['@language'].substring(0, 2),
+                title: e['@value'],
+              };
             }
             return undefined;
           })
         );
       }
     }
-    if (titles instanceof Object && titles.hasOwnProperty('@language') && titles.hasOwnProperty('@value')) {
-      return [{
-        code: (titles as Entry)['@language'].substring(0, 2),
-        title: (titles as Entry)['@value']
-      }]
+    if (
+      titles instanceof Object &&
+      Object.prototype.hasOwnProperty.call(titles, '@language') &&
+      Object.prototype.hasOwnProperty.call(titles, '@value')
+    ) {
+      return [
+        {
+          code: (titles as Entry)['@language'].substring(0, 2),
+          title: (titles as Entry)['@value'],
+        },
+      ];
     }
     return [];
   }
@@ -155,7 +185,6 @@ export class InfoOverlayComponent implements OnInit {
     const url = `${this.deployUrl}data/datasets?catalog=${this.catalogId}&showcatalogdetails=true&locale=${langCode}`;
     window.open(url, '_traget');
   }
-
 }
 
 export function filterUndefined<T>(list: (T | undefined)[]): T[] {

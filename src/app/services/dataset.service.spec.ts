@@ -1,6 +1,10 @@
-import { HttpClientModule } from '@angular/common/http';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 
+import { API_URL, PROXY_URL } from '../../main';
 import { DatasetService } from './dataset.service';
 
 describe('DatasetService', () => {
@@ -8,13 +12,12 @@ describe('DatasetService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientModule
-      ],
+      imports: [],
       providers: [
-        { provide: 'PROXY_URL', useValue: "" },
-        { provide: 'API_URL', useValue: "" },
-      ]
+        { provide: PROXY_URL, useValue: '' },
+        { provide: API_URL, useValue: '' },
+        provideHttpClient(withInterceptorsFromDi()),
+      ],
     });
     service = TestBed.inject(DatasetService);
   });

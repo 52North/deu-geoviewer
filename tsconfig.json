@@ -6,21 +6,19 @@
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
     "strict": true,
+    "esModuleInterop": true,
     "skipLibCheck": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "declaration": false,
     "paths": {
       "ngx-guided-tour": [
         "dist/ngx-guided-tour"
-        // "project/ngx-guided-tour/src/public-api.ts",
       ]
     },
-    "downlevelIteration": true,
     "experimentalDecorators": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "importHelpers": true,
     "target": "ES2022",
     "module": "es2020",

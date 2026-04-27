@@ -1,17 +1,27 @@
-<div class="collection-wrapper" *ngIf="collectionResponse">
-  <h5 class="collection-title" *ngIf="collectionResponse.title">{{ collectionResponse.title }}</h5>
-  <p class="collection-description" *ngIf="collectionResponse.description">{{ collectionResponse.description }}</p>
+@if (collectionResponse) {
+  <div class="collection-wrapper">
+    @if (collectionResponse.title) {
+      <h5 class="collection-title">{{ collectionResponse.title }}</h5>
+    }
+    @if (collectionResponse.description) {
+      <p class="collection-description">{{ collectionResponse.description }}</p>
+    }
 
-  <ul class="list-group">
-    <li
-      *ngFor="let collection of collectionResponse.collections"
-      class="list-group-item list-group-item-action"
-      [class.active]="selectedCollection()?.id === collection.id"
-      role="button"
-      (click)="selectCollection(collection)"
-    >
-      <div class="collection-item-title">{{ collection.title || collection.id }}</div>
-      <small class="text-muted" *ngIf="collection.description">{{ collection.description }}</small>
-    </li>
-  </ul>
-</div>
+    <ul class="list-group">
+      @for (collection of collectionResponse.collections; track collection.id) {
+        <li
+          class="list-group-item list-group-item-action"
+          [class.active]="selectedCollection()?.id === collection.id"
+          role="button"
+          tabindex="0"
+          (click)="selectCollection(collection)"
+        >
+          <div class="collection-item-title">{{ collection.title || collection.id }}</div>
+          @if (collection.description) {
+            <small class="text-muted">{{ collection.description }}</small>
+          }
+        </li>
+      }
+    </ul>
+  </div>
+}

@@ -1,7 +1,7 @@
-import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { TranslateModule } from "@ngx-translate/core";
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TranslateModule } from '@ngx-translate/core';
 
-import { WelcomeComponent } from "./welcome.component";
+import { WelcomeComponent } from './welcome.component';
 
 describe('WelcomeComponent', () => {
   let component: WelcomeComponent;
@@ -9,10 +9,7 @@ describe('WelcomeComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        TranslateModule.forRoot(),
-        WelcomeComponent
-      ]
+      imports: [TranslateModule.forRoot(), WelcomeComponent],
     }).compileComponents();
   });
 

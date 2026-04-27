@@ -1,16 +1,9 @@
-import { Component, OnInit } from "@angular/core";
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-loading-dataset',
   templateUrl: './loading-dataset.component.html',
   styleUrls: ['./loading-dataset.component.scss'],
-  standalone: true
+  standalone: true,
 })
-export class LoadingDatasetComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
-}
+export class LoadingDatasetComponent {}

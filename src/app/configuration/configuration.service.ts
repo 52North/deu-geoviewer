@@ -1,18 +1,17 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 
 import { Configuration } from './configuration.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ConfigurationService {
+  private http = inject(HttpClient);
 
   private readonly CONFIGURATION_URL = './assets/config/configuration.json';
 
   configuration!: Configuration;
-
-  constructor(private http: HttpClient) { }
 
   loadConfiguration(): Promise<Configuration> {
     return this.http
@@ -23,5 +22,4 @@ export class ConfigurationService {
         return configuration;
       });
   }
-
 }

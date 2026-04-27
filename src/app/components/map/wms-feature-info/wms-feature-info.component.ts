@@ -1,41 +1,38 @@
-import { NgFor, NgIf } from "@angular/common";
-import { HttpClient } from "@angular/common/http";
-import { Component, Input, OnInit } from "@angular/core";
-import { forkJoin } from "rxjs";
+import { HttpClient } from '@angular/common/http';
+import { Component, OnInit, inject, input } from '@angular/core';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-wms-feature-info',
   templateUrl: './wms-feature-info.component.html',
   styleUrls: ['./wms-feature-info.component.scss'],
-  standalone: true,
-  imports: [NgIf, NgFor]
+  imports: [],
 })
 export class WmsFeatureInfoComponent implements OnInit {
+  private http = inject(HttpClient);
 
-  @Input() featureInfoUrl: string[] = [];
+  readonly featureInfoUrl = input<string[]>([]);
 
   public html: string[] = [];
   public loading = false;
 
-  constructor(
-    private http: HttpClient
-  ) { }
-
   ngOnInit(): void {
-    if (this.featureInfoUrl.length) {
+    const featureInfoUrl = this.featureInfoUrl();
+    if (featureInfoUrl.length) {
       this.loading = true;
-      const temp = this.featureInfoUrl.map(e => this.http.get(e, { responseType: 'text' }));
+      const temp = featureInfoUrl.map(e =>
+        this.http.get(e, { responseType: 'text' })
+      );
       forkJoin(temp).subscribe(
         res => {
           res.forEach(r => this.html.push(r));
           this.loading = false;
         },
-        error => {
+        () => {
           this.html = ['Error occured, while requesting the feature info.'];
           this.loading = false;
         }
       );
     }
   }
-
 }

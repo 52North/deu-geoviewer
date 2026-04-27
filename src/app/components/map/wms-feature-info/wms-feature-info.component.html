@@ -1,12 +1,20 @@
-<div style="display: flex; align-items: center;" *ngIf="loading">
+@if (loading) {
+  <div style="display: flex; align-items: center;">
     <div class="spinner-grow text-primary" role="status"></div>
     <div>Loading feature info...</div>
-</div>
+  </div>
+}
 
-<div *ngIf="!loading && !html.length">
+@if (!loading && !html.length) {
+  <div>
     No features at this position
-</div>
+  </div>
+}
 
-<div *ngIf="html.length">
-    <div *ngFor="let item of html" [innerHTML]="item"></div>
-</div>
+@if (html.length) {
+  <div>
+    @for (item of html; track item) {
+      <div [innerHTML]="item"></div>
+    }
+  </div>
+}

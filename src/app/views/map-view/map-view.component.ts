@@ -1,52 +1,53 @@
-import { Overlay, OverlayConfig, OverlayRef } from "@angular/cdk/overlay";
-import { ComponentPortal } from "@angular/cdk/portal";
-import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
-import { TranslateModule } from "@ngx-translate/core";
+import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
+import { ComponentPortal } from '@angular/cdk/portal';
+import { Component, OnInit, inject } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 
-import { DatasetTitleService } from "../../components/dataset-title/dataset-title.component";
-import { InfoOverlayComponent } from "../../components/info-overlay/info-overlay.component";
-import { MapComponent } from "../../components/map/map.component";
-import { GeoJSONOptions, MapOptions, OGCFeaturesOptions, WmsOptions } from "../../components/map/maphandler/model";
-import { LegalDisclaimerService } from "../../components/modals/legal-disclaimer/legal-disclaimer.component";
-import { LoadingDatasetComponent } from "../../components/modals/loading-dataset/loading-dataset.component";
-import { DatasetType, parseDatasetType } from "../../model";
-import { DatasetService } from "../../services/dataset.service";
-import { GeneralErrorHandler } from "../../services/error-handling/general-error-handler.service";
-import { ViewerError } from "../../services/error-handling/model";
-import { FileLoaderService } from "../../services/file-loader.service";
-import { FiwareOptions } from "./../../components/map/maphandler/model";
-import { WelcomeScreenService } from "./../../components/modals/welcome/welcome.component";
-import { ContactService } from "./../../services/contact.service";
-import { TutorialService } from "./../../services/intro.service";
-import { WmsService } from "./../../services/wms.service";
+import { DatasetTitleService } from '../../components/dataset-title/dataset-title.component';
+import { InfoOverlayComponent } from '../../components/info-overlay/info-overlay.component';
+import { MapComponent } from '../../components/map/map.component';
+import {
+  GeoJSONOptions,
+  MapOptions,
+  OGCFeaturesOptions,
+  WmsOptions,
+} from '../../components/map/maphandler/model';
+import { LegalDisclaimerService } from '../../components/modals/legal-disclaimer/legal-disclaimer.component';
+import { LoadingDatasetComponent } from '../../components/modals/loading-dataset/loading-dataset.component';
+import { DatasetType, parseDatasetType } from '../../model';
+import { DatasetService } from '../../services/dataset.service';
+import { GeneralErrorHandler } from '../../services/error-handling/general-error-handler.service';
+import { ViewerError } from '../../services/error-handling/model';
+import { FileLoaderService } from '../../services/file-loader.service';
+import { FiwareOptions } from './../../components/map/maphandler/model';
+import { WelcomeScreenService } from './../../components/modals/welcome/welcome.component';
+import { ContactService } from './../../services/contact.service';
+import { TutorialService } from './../../services/intro.service';
+import { WmsService } from './../../services/wms.service';
 
 @Component({
   selector: 'app-map-view',
   templateUrl: './map-view.component.html',
   styleUrls: ['./map-view.component.scss'],
-  standalone: true,
-  imports: [InfoOverlayComponent, MapComponent, TranslateModule]
+  imports: [InfoOverlayComponent, MapComponent, TranslateModule],
 })
 export class MapViewComponent implements OnInit {
+  private datasetSrvc = inject(DatasetService);
+  private route = inject(ActivatedRoute);
+  private wmsSrvc = inject(WmsService);
+  private welcomeSrvc = inject(WelcomeScreenService);
+  private tutorialSrvc = inject(TutorialService);
+  private errorSrvc = inject(GeneralErrorHandler);
+  private legalDisclaimerSrvc = inject(LegalDisclaimerService);
+  private datasetTitleSrvc = inject(DatasetTitleService);
+  private contactSrvc = inject(ContactService);
+  private fileLoader = inject(FileLoaderService);
+  overlay = inject(Overlay);
 
   public mapOptions: MapOptions | undefined;
 
   private loadingOverlayRef!: OverlayRef;
-
-  constructor(
-    private datasetSrvc: DatasetService,
-    private route: ActivatedRoute,
-    private wmsSrvc: WmsService,
-    private welcomeSrvc: WelcomeScreenService,
-    private tutorialSrvc: TutorialService,
-    private errorSrvc: GeneralErrorHandler,
-    private legalDisclaimerSrvc: LegalDisclaimerService,
-    private datasetTitleSrvc: DatasetTitleService,
-    private contactSrvc: ContactService,
-    private fileLoader: FileLoaderService,
-    public overlay: Overlay
-  ) { }
 
   ngOnInit(): void {
     const params = this.route.snapshot.queryParams;
@@ -89,7 +90,11 @@ export class MapViewComponent implements OnInit {
         if (resource.type === DatasetType.GEOJSON) {
           this.datasetSrvc.getGeoJSON(dataset.primaryUrl, resource).subscribe(
             geojson => {
-              this.mapOptions = new GeoJSONOptions(dataset.primaryUrl, resource, geojson);
+              this.mapOptions = new GeoJSONOptions(
+                dataset.primaryUrl,
+                resource,
+                geojson
+              );
               this.hideLoading();
             },
             error => this.handleError(error)
@@ -99,19 +104,29 @@ export class MapViewComponent implements OnInit {
           this.wmsSrvc.getLayerTree(dataset.primaryUrl, resource).subscribe(
             layerTree => {
               const layerList = this.wmsSrvc.asList(layerTree, []);
-              this.mapOptions = new WmsOptions(dataset.primaryUrl, resource, layerList);
+              this.mapOptions = new WmsOptions(
+                dataset.primaryUrl,
+                resource,
+                layerList
+              );
               this.hideLoading();
             },
             errorPrimary => {
               if (dataset.secondaryUrl) {
-                this.wmsSrvc.getLayerTree(dataset.secondaryUrl, resource).subscribe(
-                  layerTree => {
-                    const layerList = this.wmsSrvc.asList(layerTree, []);
-                    this.mapOptions = new WmsOptions(dataset.primaryUrl, resource, layerList);
-                    this.hideLoading();
-                  },
-                  errorSecondary => this.handleError(errorSecondary)
-                );
+                this.wmsSrvc
+                  .getLayerTree(dataset.secondaryUrl, resource)
+                  .subscribe(
+                    layerTree => {
+                      const layerList = this.wmsSrvc.asList(layerTree, []);
+                      this.mapOptions = new WmsOptions(
+                        dataset.primaryUrl,
+                        resource,
+                        layerList
+                      );
+                      this.hideLoading();
+                    },
+                    errorSecondary => this.handleError(errorSecondary)
+                  );
               } else {
                 this.handleError(errorPrimary);
               }
@@ -127,29 +142,16 @@ export class MapViewComponent implements OnInit {
     );
   }
 
-  private loadFile(fileUrl: string, type: string) {
-    this.showloading();
-    this.fileLoader.loadFile(fileUrl, type).subscribe({
-      next: res => {
-        this.mapOptions = new GeoJSONOptions(fileUrl, { id: 'bla', type: DatasetType.GEOJSON }, res);
-        this.hideLoading();
-      },
-      error: err => {
-        this.handleError(err);
-      }
-    });
-  }
-  
-  private loadUrl(url: string, type: string) {
+  private loadUrl(fileUrl: string, type: string) {
     this.showloading();
     if (type === 'ogcfeature') {
-      this.mapOptions = new OGCFeaturesOptions(url);
+      this.mapOptions = new OGCFeaturesOptions(fileUrl);
       this.hideLoading();
     } else {
-      this.fileLoader.loadFile(url, type).subscribe({
+      this.fileLoader.loadFile(fileUrl, type).subscribe({
         next: res => {
           this.mapOptions = new GeoJSONOptions(
-            url,
+            fileUrl,
             { id: 'bla', type: DatasetType.GEOJSON },
             res
           );
@@ -170,7 +172,11 @@ export class MapViewComponent implements OnInit {
 
   private showloading(): void {
     const config = new OverlayConfig();
-    config.positionStrategy = this.overlay.position().global().centerHorizontally().centerVertically();
+    config.positionStrategy = this.overlay
+      .position()
+      .global()
+      .centerHorizontally()
+      .centerVertically();
     this.loadingOverlayRef = this.overlay.create(config);
     const loadingPortal = new ComponentPortal(LoadingDatasetComponent);
     this.loadingOverlayRef.attach(loadingPortal);

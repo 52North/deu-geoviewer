@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 
-import { NotSupportedError, NotSupportedReason } from './error-handling/model';
 import { Observable } from 'rxjs';
-import { map,  } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
+import { PROXY_URL } from '../../main';
+import { NotSupportedError, NotSupportedReason } from './error-handling/model';
 
 interface Link {
   href?: string;
@@ -66,16 +67,16 @@ function fetchPaginated<T, R>(
   nextURL: (response: T) => string | null,
   merge: (responses: T[]) => R
 ): Observable<R> {
-  return new Observable((observer) => {
+  return new Observable(observer => {
     fetch(url).subscribe({
-      next: (initialResponse) => {
+      next: initialResponse => {
         const next = nextURL(initialResponse);
         if (!next) {
           observer.next(merge([initialResponse]));
           observer.complete();
           return;
         }
-        const responses$ = new Observable<T>((o) => {
+        const responses$ = new Observable<T>(o => {
           const subscriber = {
             next: (value?: any) => {
               o.next(value);
@@ -93,15 +94,15 @@ function fetchPaginated<T, R>(
         });
         const responses: T[] = [initialResponse];
         responses$.subscribe({
-          next: (value) => responses.push(value),
-          error: (error) => observer.error(error),
+          next: value => responses.push(value),
+          error: error => observer.error(error),
           complete: () => {
             observer.next(merge(responses));
             observer.complete();
           },
         });
       },
-      error: (error) => {
+      error: error => {
         observer.error(error);
         observer.complete();
       },
@@ -114,10 +115,8 @@ function fetchPaginated<T, R>(
   providedIn: 'root',
 })
 export class FileLoaderService {
-  constructor(
-    private http: HttpClient,
-    @Inject('PROXY_URL') private proxyUrl: string
-  ) {}
+  private http = inject(HttpClient);
+  private proxyUrl = inject<string>(PROXY_URL);
 
   getNextUrl(value: FeatureCollection): string | null {
     const mimeType = 'application/geo+json';
@@ -149,7 +148,7 @@ export class FileLoaderService {
       }, []),
     };
   }
-  
+
   toFeatureCollection(geojson: GeoJSON): FeatureCollection {
     if (isFeatureCollection(geojson)) {
       return geojson;
@@ -157,7 +156,7 @@ export class FileLoaderService {
       return newFeatureCollection([geojson]);
     } else if (isGeometryCollection(geojson)) {
       return newFeatureCollection(
-        geojson.geometries.map((geometry) => newFeature({}, geometry))
+        geojson.geometries.map(geometry => newFeature({}, geometry))
       );
     } else {
       return newFeatureCollection([newFeature({}, geojson)]);
@@ -166,7 +165,7 @@ export class FileLoaderService {
 
   fetchFeatureCollection(url: string): Observable<FeatureCollection> {
     return this.http.get<GeoJSON>(`${this.proxyUrl}${url}`).pipe(
-      map((geojson) => {
+      map(geojson => {
         if (!isGeoJSON(geojson)) {
           throw new Error('invalid GeoJSON');
         }
@@ -187,7 +186,7 @@ export class FileLoaderService {
   loadFile(fileUrl: string, type: string) {
     switch (type.toLocaleLowerCase()) {
       case 'geojson':
-        return this.loadGeoJSON(fileUrl);
+        return this.loadGeoJSON(`${this.proxyUrl}${fileUrl}`);
       default:
         throw new NotSupportedError(
           fileUrl,

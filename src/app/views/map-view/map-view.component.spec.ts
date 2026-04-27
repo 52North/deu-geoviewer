@@ -1,11 +1,14 @@
-import { OverlayModule } from "@angular/cdk/overlay";
-import { HttpClientModule } from "@angular/common/http";
-import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { RouterModule } from "@angular/router";
-import { TranslateModule } from "@ngx-translate/core";
+import { OverlayModule } from '@angular/cdk/overlay';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterModule } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 
-import { MapViewComponent } from "./map-view.component";
-import { translateConfig } from "../../../main";
+import { MapViewComponent } from './map-view.component';
+import { translateConfig } from '../../../main';
 
 describe('MapViewComponent', () => {
   let component: MapViewComponent;
@@ -14,12 +17,12 @@ describe('MapViewComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        HttpClientModule,
         RouterModule.forRoot([]),
         OverlayModule,
         TranslateModule.forRoot(translateConfig),
-        MapViewComponent
-      ]
+        MapViewComponent,
+      ],
+      providers: [provideHttpClient(withInterceptorsFromDi())],
     }).compileComponents();
   });
 

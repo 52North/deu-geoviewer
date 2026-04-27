@@ -1,7 +1,10 @@
-import { HttpClientModule } from "@angular/common/http";
-import { ComponentFixture, TestBed } from "@angular/core/testing";
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { WmsFeatureInfoComponent } from "./wms-feature-info.component";
+import { WmsFeatureInfoComponent } from './wms-feature-info.component';
 
 describe('WmsFeatureInfoComponent', () => {
   let component: WmsFeatureInfoComponent;
@@ -9,10 +12,8 @@ describe('WmsFeatureInfoComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        HttpClientModule,
-        WmsFeatureInfoComponent
-      ]
+      imports: [WmsFeatureInfoComponent],
+      providers: [provideHttpClient(withInterceptorsFromDi())],
     }).compileComponents();
   });
 

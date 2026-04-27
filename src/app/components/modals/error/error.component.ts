@@ -1,29 +1,25 @@
-import { OverlayRef } from "@angular/cdk/overlay";
-import { Component, OnInit } from "@angular/core";
-import { TranslateModule, TranslateService } from "@ngx-translate/core";
+import { OverlayRef } from '@angular/cdk/overlay';
+import { Component, OnInit, inject } from '@angular/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
-import { ViewerError } from "../../../services/error-handling/model";
-import { ContactService } from "./../../../services/contact.service";
+import { ViewerError } from '../../../services/error-handling/model';
+import { ContactService } from './../../../services/contact.service';
 
 @Component({
   selector: 'app-error',
   templateUrl: './error.component.html',
   styleUrls: ['./error.component.scss'],
-  standalone: true,
-  imports: [TranslateModule]
+  imports: [TranslateModule],
 })
 export class ErrorComponent implements OnInit {
+  private translate = inject(TranslateService);
+  private contactSrvc = inject(ContactService);
 
   public overlayRef!: OverlayRef;
 
   public error!: ViewerError;
 
   public errorMessage: string | undefined;
-
-  constructor(
-    private translate: TranslateService,
-    private contactSrvc: ContactService
-  ) { }
 
   ngOnInit(): void {
     if (this.error instanceof ViewerError) {
@@ -41,5 +37,4 @@ export class ErrorComponent implements OnInit {
       this.contactSrvc.openContact(this.error.createTicket(translation), 'en');
     });
   }
-
 }

@@ -1,23 +1,25 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { GuidedTour, GuidedTourService, Orientation } from 'ngx-guided-tour';
 import { first } from 'rxjs/operators';
 
 import { WelcomeScreenService } from '../components/modals/welcome/welcome.component';
 
-const INITIAL_INTRO_DISPLAYED_STORAGE_KEY = 'INITIAL_INTRO_DISPLAYED_STORAGE_KEY';
+const INITIAL_INTRO_DISPLAYED_STORAGE_KEY =
+  'INITIAL_INTRO_DISPLAYED_STORAGE_KEY';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TutorialService {
+  private translate = inject(TranslateService);
+  private guidedTourService = inject(GuidedTourService);
+  private welcomeScreen = inject(WelcomeScreenService);
 
-  constructor(
-    private translate: TranslateService,
-    private guidedTourService: GuidedTourService,
-    private welcomeScreen: WelcomeScreenService
-  ) {
-    this.welcomeScreen.welcomeScreenClosed.pipe(first()).subscribe(res => this.initionalTutorialDisplay());
+  constructor() {
+    this.welcomeScreen.welcomeScreenClosed
+      .pipe(first())
+      .subscribe(() => this.initionalTutorialDisplay());
   }
 
   public initionalTutorialDisplay(): void {
@@ -39,39 +41,36 @@ export class TutorialService {
       steps: [
         {
           content: this.translate.instant('tutorial.step1'),
-          orientation: Orientation.Bottom
+          orientation: Orientation.Bottom,
         },
         {
-          content: this.translate.instant('tutorial.step2')
+          content: this.translate.instant('tutorial.step2'),
         },
         {
           selector: '.map .zoom-buttons',
           content: this.translate.instant('tutorial.step3'),
           orientation: Orientation.Left,
-          highlightPadding: 5
+          highlightPadding: 5,
         },
         {
           content: this.translate.instant('tutorial.step4'),
           selector: '.map .feature-buttons',
           orientation: Orientation.Top,
-          highlightPadding: 5
+          highlightPadding: 5,
         },
         {
           content: this.translate.instant('tutorial.step5'),
           selector: '.map .feature-buttons .legend-button',
           orientation: Orientation.TopLeft,
-          highlightPadding: 5
+          highlightPadding: 5,
         },
         {
           content: this.translate.instant('tutorial.step6'),
           selector: '.map .feature-buttons .feature-info-button',
           orientation: Orientation.Top,
-          highlightPadding: 5
-        }
-      ]
+          highlightPadding: 5,
+        },
+      ],
     };
   }
-
 }
-
-

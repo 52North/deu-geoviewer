@@ -1,50 +1,74 @@
-import { CdkConnectedOverlay, CdkOverlayOrigin } from "@angular/cdk/overlay";
-import { NgClass, NgFor, NgIf } from "@angular/common";
+import { CdkConnectedOverlay, CdkOverlayOrigin } from '@angular/cdk/overlay';
+import { NgClass } from '@angular/common';
 import {
   AfterViewInit,
   Component,
   ComponentFactoryResolver,
-  inject,
-  Inject,
-  Input,
   OnChanges,
   OnDestroy,
   SimpleChanges,
-  ViewChild,
   ViewContainerRef,
-} from "@angular/core";
-import { NgbAccordion, NgbPanel, NgbPanelContent, NgbPanelHeader } from "@ng-bootstrap/ng-bootstrap";
-import { TranslateModule } from "@ngx-translate/core";
-import { TileWMS } from "ol/source";
+  inject,
+  input,
+  viewChild,
+} from '@angular/core';
+import {
+  NgbAccordionModule,
+  NgbCollapseModule,
+} from '@ng-bootstrap/ng-bootstrap';
+import { TranslateModule } from '@ngx-translate/core';
+import { TileWMS } from 'ol/source';
 
-import { ConfigurationService } from "../../configuration/configuration.service";
-import { OGCFeaturesService } from "../../services/OGCFeatures.service";
-import { EmptyMapHandler } from "./maphandler/empty-map-handler";
-import { FiwareMapHandler } from "./maphandler/firware-map-handler";
-import { GeoJsonMapHandler } from "./maphandler/geojson-map-handler";
-import { MapHandler } from "./maphandler/map-handler";
-import { FiwareOptions, GeoJSONOptions, LegendEntry, MapOptions, OGCFeaturesOptions, WmsOptions } from "./maphandler/model";
-import { OGCFeatureMapHandler } from "./maphandler/ogc-feature-handler";
-import { WmsMapHandler } from "./maphandler/wms-map-handler";
+import { PROXY_URL } from '../../../main';
+import { ConfigurationService } from '../../configuration/configuration.service';
+import { OGCFeaturesService } from '../../services/OGCFeatures.service';
+import { EmptyMapHandler } from './maphandler/empty-map-handler';
+import { FiwareMapHandler } from './maphandler/firware-map-handler';
+import { GeoJsonMapHandler } from './maphandler/geojson-map-handler';
+import { MapHandler } from './maphandler/map-handler';
+import {
+  FiwareOptions,
+  GeoJSONOptions,
+  LegendEntry,
+  MapOptions,
+  OGCFeaturesOptions,
+  WmsOptions,
+} from './maphandler/model';
+import { OGCFeatureMapHandler } from './maphandler/ogc-feature-handler';
+import { WmsMapHandler } from './maphandler/wms-map-handler';
 
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss'],
-  standalone: true,
-  imports: [CdkConnectedOverlay, NgIf, NgbAccordion, NgFor, NgbPanel, NgbPanelHeader, NgbPanelContent, CdkOverlayOrigin, NgClass, TranslateModule]
+  imports: [
+    CdkConnectedOverlay,
+    CdkOverlayOrigin,
+    NgClass,
+    TranslateModule,
+    NgbAccordionModule,
+    NgbCollapseModule,
+  ],
 })
 export class MapComponent implements AfterViewInit, OnChanges, OnDestroy {
+  private factoryResolver = inject(ComponentFactoryResolver);
+  private config = inject(ConfigurationService);
+  private proxyUrl = inject<string>(PROXY_URL);
+  // private ogcFeatureHandler = inject(OGCFeatureMapHandler);
 
-  @Input() options?: MapOptions;
+  readonly options = input<MapOptions>();
 
   public mapLoading!: boolean;
 
   public mapId = 'mapid';
 
-  @ViewChild('popupContent', { read: ViewContainerRef }) popupContentContainerRef!: ViewContainerRef;
+  readonly popupContentContainerRef = viewChild.required('popupContent', {
+    read: ViewContainerRef,
+  });
 
-  @ViewChild('dynamic', { read: ViewContainerRef }) dynamicContainerRef!: ViewContainerRef;
+  readonly dynamicContainerRef = viewChild.required('dynamic', {
+    read: ViewContainerRef,
+  });
 
   private ogcFeatureSrvc = inject(OGCFeaturesService);
 
@@ -59,12 +83,6 @@ export class MapComponent implements AfterViewInit, OnChanges, OnDestroy {
   private mapHandler: MapHandler | undefined;
 
   private viewInit = false;
-
-  constructor(
-    private factoryResolver: ComponentFactoryResolver,
-    private config: ConfigurationService,
-    @Inject('PROXY_URL') private proxyUrl: string,
-  ) { }
 
   ngOnDestroy(): void {
     if (this.mapHandler) {
@@ -127,15 +145,18 @@ export class MapComponent implements AfterViewInit, OnChanges, OnDestroy {
   }
 
   private initMap(): void {
-    if (this.options && this.viewInit) {
-      this.mapHandler = this.findMapHandler(this.options);
-      this.mapHandler.mapLoading.subscribe(ml => this.mapLoading = ml);
+    const options = this.options();
+    if (options && this.viewInit) {
+      this.mapHandler = this.findMapHandler(options);
+      this.mapHandler.mapLoading.subscribe(ml => (this.mapLoading = ml));
       this.mapHandler.createMap(this.mapId).subscribe(() => {
         this.mapHandler?.activateFeatureInfo();
         const entries = this.mapHandler?.getLegendEntries();
         if (entries) {
           this.legendEntries = entries;
-          if (this.legendEntries?.length) { setTimeout(() => this.legendOpen = true, 1000); }
+          if (this.legendEntries?.length) {
+            setTimeout(() => (this.legendOpen = true), 1000);
+          }
         }
       });
     }
@@ -143,27 +164,41 @@ export class MapComponent implements AfterViewInit, OnChanges, OnDestroy {
 
   private findMapHandler(options: MapOptions): MapHandler {
     if (options instanceof WmsOptions) {
-      return new WmsMapHandler(this.config, this.popupContentContainerRef, this.factoryResolver, options);
+      return new WmsMapHandler(
+        this.config,
+        this.popupContentContainerRef(),
+        this.factoryResolver,
+        options
+      );
     }
     if (options instanceof GeoJSONOptions) {
-      return new GeoJsonMapHandler(this.config, this.popupContentContainerRef, this.factoryResolver, options);
+      return new GeoJsonMapHandler(
+        this.config,
+        this.popupContentContainerRef(),
+        this.factoryResolver,
+        options
+      );
     }
     if (options instanceof FiwareOptions) {
       return new FiwareMapHandler(
-        this.config, this.popupContentContainerRef, this.dynamicContainerRef, this.factoryResolver, options, this.proxyUrl
+        this.config,
+        this.popupContentContainerRef(),
+        this.dynamicContainerRef(),
+        this.factoryResolver,
+        options,
+        this.proxyUrl
       );
     }
     if (options instanceof OGCFeaturesOptions) {
       return new OGCFeatureMapHandler(
         this.config,
-        this.popupContentContainerRef,
-        this.dynamicContainerRef,
+        this.popupContentContainerRef(),
+        this.dynamicContainerRef(),
         this.factoryResolver,
         this.ogcFeatureSrvc,
-        options,
+        options
       );
     }
     return new EmptyMapHandler(this.config);
   }
-
 }

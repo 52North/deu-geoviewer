@@ -13,8 +13,8 @@ spec:
     spec:
       containers:
         - env:
-            - name: SEARCH_ENDPOINT
-              value: http://piveau-hub-search.fokus.svc.cluster.local:8080/search
+            - name: SPARQL_ENDPOINT
+              value: http://virtuoso.fokus.svc.cluster.local:8890/sparql
             - name: WHITELIST_UPDATE_INTERVAL_MINUTES
               value: "60"
             - name: CONFIG_FILE

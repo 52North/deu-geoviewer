@@ -1,7 +1,7 @@
-import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { TranslateModule } from "@ngx-translate/core";
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TranslateModule } from '@ngx-translate/core';
 
-import { LegalDisclaimerComponent } from "./legal-disclaimer.component";
+import { LegalDisclaimerComponent } from './legal-disclaimer.component';
 
 describe('LegalDisclaimerComponent', () => {
   let component: LegalDisclaimerComponent;
@@ -9,12 +9,8 @@ describe('LegalDisclaimerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        TranslateModule.forRoot(),
-        LegalDisclaimerComponent
-      ]
-    })
-      .compileComponents();
+      imports: [TranslateModule.forRoot(), LegalDisclaimerComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

@@ -1,11 +1,14 @@
-import { HttpClientModule } from "@angular/common/http";
-import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { RouterModule } from "@angular/router";
-import { TranslateModule } from "@ngx-translate/core";
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterModule } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 
-import { ConfigurationService } from "./../../configuration/configuration.service";
-import { LanguageSelectorComponent } from "./language-selector.component";
-import { translateConfig } from "../../../main";
+import { ConfigurationService } from './../../configuration/configuration.service';
+import { LanguageSelectorComponent } from './language-selector.component';
+import { translateConfig } from '../../../main';
 
 describe('LanguageSelectorComponent', () => {
   let component: LanguageSelectorComponent;
@@ -16,19 +19,19 @@ describe('LanguageSelectorComponent', () => {
       imports: [
         RouterModule.forRoot([]),
         TranslateModule.forRoot(translateConfig),
-        HttpClientModule,
-        LanguageSelectorComponent
+        LanguageSelectorComponent,
       ],
       providers: [
         {
           provide: ConfigurationService,
           useValue: {
             configuration: {
-              languages: []
-            }
-          }
-        }
-      ]
+              languages: [],
+            },
+          },
+        },
+        provideHttpClient(withInterceptorsFromDi()),
+      ],
     }).compileComponents();
   });
 
