@@ -262,9 +262,17 @@ export class GuidedTourComponent implements AfterViewInit, OnDestroy {
     }
 
     private isTourOnScreen(): boolean {
+        const selector = this.currentTourStep?.selector;
+        if (!selector) {
+            return false;
+        }
         const tourStep = this.tourStep();
+        const selectedElement = this.dom.querySelector(selector);
+        if (!selectedElement) {
+            return false;
+        }
         return tourStep
-            && this.elementInViewport(this.dom.querySelector(this.currentTourStep?.selector))
+            && this.elementInViewport(selectedElement as HTMLElement)
             && this.elementInViewport(tourStep.nativeElement);
     }
 

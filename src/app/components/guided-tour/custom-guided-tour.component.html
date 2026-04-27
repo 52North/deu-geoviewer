@@ -33,7 +33,7 @@
             </button>
           </div>
           @if (
-            progressIndicatorLocation === progressIndicatorLocations.TopOfTourBlock
+            progressIndicatorLocation() === progressIndicatorLocations.TopOfTourBlock
             && !guidedTourService.onResizeMessage) {
             <div class="tour-progress-indicator">
               <ng-container *ngTemplateOutlet="progress" />
@@ -53,7 +53,7 @@
           <div class="tour-buttons">
             @if (guidedTourService.onResizeMessage) {
               <button class="next-button" (click)="guidedTourService.resetTour()">
-                {{ closeText }}
+                {{ closeText() }}
               </button>
             }
             @if (!guidedTourService.onFirstStep && !guidedTourService.onResizeMessage) {
@@ -83,12 +83,12 @@
 }
 <ng-template #progress>
   <ng-container *ngTemplateOutlet="
-                progressIndicator || defaultProgressIndicator; 
+                progressIndicator() || defaultProgressIndicator; 
                 context: { currentStepNumber: guidedTourService.currentTourStepDisplay, totalSteps: guidedTourService.currentTourStepCount }
             " />
 </ng-template>
 <ng-template #defaultProgressIndicator let-currentStepNumber="currentStepNumber" let-totalSteps="totalSteps">
-  @if (progressIndicatorLocation === progressIndicatorLocations.InsideNextButton) {
+  @if (progressIndicatorLocation() === progressIndicatorLocations.InsideNextButton) {
     &nbsp;
   }
   {{ currentStepNumber }}/{{ totalSteps }}

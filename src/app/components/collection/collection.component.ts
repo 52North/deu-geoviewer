@@ -1,4 +1,3 @@
-import { NgFor, NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, Output, Signal } from '@angular/core';
 import {
   Collection,
@@ -10,7 +9,7 @@ import {
   templateUrl: './collection.component.html',
   styleUrls: ['./collection.component.scss'],
   standalone: true,
-  imports: [NgFor, NgIf],
+  imports: [],
 })
 export class CollectionComponent {
   @Input() collectionResponse: CollectionResponse | undefined;
