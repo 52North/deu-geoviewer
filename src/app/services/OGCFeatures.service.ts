@@ -118,6 +118,14 @@ export class OGCFeaturesService {
     return this.httpClient.get<CollectionItem>(url);
   }
 
+  getCollection(
+    serviceUrl: string,
+    collectionId: string
+  ): Observable<Collection> {
+    const url = `${serviceUrl}/collections/${collectionId}`;
+    return this.httpClient.get<Collection>(url);
+  }
+
   getCollectionItemsByNextLink(link: Link): Observable<CollectionItem> {
     return this.httpClient.get<CollectionItem>(link.href);
   }
