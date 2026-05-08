@@ -3,7 +3,7 @@
   "version": "1.0.6",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng build ngx-guided-tour && ng serve",
     "build": "ng build ngx-guided-tour && ng build",
     "test": "ng test",
     "lint": "ng lint",
