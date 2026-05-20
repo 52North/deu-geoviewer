@@ -2,6 +2,7 @@ import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  HostBinding,
   Input,
   Signal,
   computed,
@@ -23,6 +24,11 @@ export class FeaturesLoadedHintComponent {
   @Input() featureResults!: Signal<FeatureResult | undefined>;
   @Input() selectedCollection!: Signal<Collection | undefined>;
   @Input() loadAdditionalFeatures!: () => void;
+  @Input() collectionListVisible = true;
+
+  @HostBinding('class.no-collection-list') get noCollectionList() {
+    return !this.collectionListVisible;
+  }
 
   hasMoreFeatures = computed(() => {
     const results = this.featureResults?.();

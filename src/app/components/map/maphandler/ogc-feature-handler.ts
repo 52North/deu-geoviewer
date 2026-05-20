@@ -115,8 +115,8 @@ export class OGCFeatureMapHandler extends MapHandler {
   }
 
   createMap(mapId: string): Observable<void> {
-    // debugger;
-    return this.determineUrl(this.options!.url).pipe(
+    const originalUrl = this.options!.url;
+    return this.determineUrl(originalUrl).pipe(
       catchError(err => {
         console.error(err);
         throw err;
@@ -124,6 +124,28 @@ export class OGCFeatureMapHandler extends MapHandler {
       map(res => {
         this.initMap(mapId, res.extent?.spatial);
         if (this.serviceUrl) {
+          const collectionsPrefix = `${this.serviceUrl}/collections/`;
+          if (originalUrl.startsWith(collectionsPrefix)) {
+            const collectionId = originalUrl
+              .slice(collectionsPrefix.length)
+              .split('?')[0]
+              .replace(/\/$/, '');
+            if (collectionId && !collectionId.includes('/')) {
+              if (this.featureHintComponent) {
+                this.featureHintComponent.setInput(
+                  'collectionListVisible',
+                  false
+                );
+              }
+              this.ogcFeatureSrvc
+                .getCollection(this.serviceUrl, collectionId)
+                .subscribe({
+                  next: collection => this.loadCollection(collection),
+                  error: err => console.error(err),
+                });
+              return;
+            }
+          }
           this.ogcFeatureSrvc.getCollections(this.serviceUrl).subscribe({
             next: coll => this.showCollections(coll),
             error: err => console.error(err),

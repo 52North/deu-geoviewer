@@ -4,6 +4,10 @@
     width: 300px;
     top: 10px;
     z-index: 100;
+
+    &.no-collection-list {
+        left: 10px;
+    }
 }
 
 .features-hint {
