@@ -1,27 +1,74 @@
-# geoViewer
+# DEU GeoViewer
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.0.5.
+An Angular-based map viewer application built with [OpenLayers](https://openlayers.org/) and [Angular](https://angular.io/) (v20).
 
-## Development server
+## Prerequisites
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+- Node.js 22+
+- npm
 
-## Code scaffolding
+## Installation
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+```bash
+npm install
+```
 
-## Build
+## Local Development
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+This workspace contains two Angular projects:
 
-## Running unit tests
+- **`deu-viewer`** — the main application
+- **`ngx-guided-tour`** — a local Angular library bundled in `projects/ngx-guided-tour/`
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Because `ngx-guided-tour` is a local library, it must be built before the main app. The npm scripts handle this automatically.
 
-## Running end-to-end tests
+### Development server
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+```bash
+npm start
+```
 
-## Further help
+This builds `ngx-guided-tour` first, then starts the dev server. Navigate to `http://localhost:4200/`. The app reloads automatically on source file changes.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+> **Do not use `ng serve` directly** — it skips the library build and will fail.
+
+### Build
+
+```bash
+npm run build
+```
+
+Builds `ngx-guided-tour` and then the main application. Build artifacts are written to `dist/deu-viewer/browser/`.
+
+### Linting
+
+```bash
+npm run lint
+```
+
+### License report
+
+```bash
+npm run license-report
+```
+
+Generates a license report for all dependencies in `license/license-report.md`.
+
+## Docker
+
+A multi-stage `Dockerfile` is included. The image builds the app and serves it via nginx.
+
+```bash
+docker build -t deu-geoviewer .
+docker run -p 8080:80 deu-geoviewer
+```
+
+Environment variables available at runtime:
+
+| Variable | Default | Description |
+| --- | --- | --- |
+| `PORT` | `80` | Port nginx listens on |
+| `BASE_HREF` | `/` | Base href for the Angular app |
+| `PROXY_URL` | `https://www.europeandataportal.eu/mapapps-proxy?` | Map proxy URL |
+| `DEPLOY_URL` | `https://ppe.data.europa.eu/` | Deployment URL |
+
