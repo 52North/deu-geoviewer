@@ -51,12 +51,14 @@
   </div>
 
   <div class="feature-buttons">
-    <div>
-      <button type="button" class="btn legend-button" [disabled]="legendEntries.length === 0"
-        (click)="legendOpen = !legendOpen" cdkOverlayOrigin
-        [ngClass]="{'btn-primary': legendOpen, 'btn-light': !legendOpen}" #legendOverlay="cdkOverlayOrigin">
-        {{'functions.legend' | translate}}
-      </button>
+    <div cdkOverlayOrigin #legendOverlay="cdkOverlayOrigin">
+      @if (legendEntries.length > 0) {
+        <button type="button" class="btn legend-button"
+          (click)="legendOpen = !legendOpen"
+          [ngClass]="{'btn-primary': legendOpen, 'btn-light': !legendOpen}">
+          {{'functions.legend' | translate}}
+        </button>
+      }
     </div>
     <div>
       <button type="button" class="btn feature-info-button" (click)="toggleFeatureInfo()"
