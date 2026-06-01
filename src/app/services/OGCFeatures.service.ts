@@ -26,7 +26,7 @@ export interface LandingPage {
   title?: string;
   description?: string;
   extent?: Extent;
-  links: Link[];
+  links?: Link[];
 }
 
 export interface Collection {
@@ -82,11 +82,11 @@ export class OGCFeaturesService {
   getLandingPage(url: string): Observable<LandingPage> {
     return this.httpClient.get<LandingPage>(url).pipe(
       tap(res => {
-        const serviceCheck = res.links.find(
+        const serviceCheck = res.links?.find(
           e => e.rel === 'service-desc' || e.rel === 'service-doc'
         );
-        const conformanceCheck = res.links.find(e => e.rel === 'conformance');
-        const dataCheck = res.links.find(e => e.rel === 'data');
+        const conformanceCheck = res.links?.find(e => e.rel === 'conformance');
+        const dataCheck = res.links?.find(e => e.rel === 'data');
         if (!serviceCheck || !conformanceCheck || !dataCheck) {
           throw new Error(UNVALID_LANDING_PAGE);
         }

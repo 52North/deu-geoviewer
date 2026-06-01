@@ -19,9 +19,10 @@ export interface Dataset {
 }
 
 export enum DatasetType {
-  WMS = 'WMS',
-  GEOJSON = 'GEOJSON',
-  FIWARE = 'FIWARE',
+  WMS,
+  GEOJSON,
+  FIWARE,
+  OGCAPIFEATURES,
 }
 
 export interface KeyValuePair {
@@ -29,11 +30,17 @@ export interface KeyValuePair {
   value: string;
 }
 
+const datasetTypeAliases: Record<string, DatasetType> = {
+  WMS: DatasetType.WMS,
+  GEOJSON: DatasetType.GEOJSON,
+  FIWARE: DatasetType.FIWARE,
+  OGCAPIFEATURES: DatasetType.OGCAPIFEATURES,
+  'OGC API FEATURES': DatasetType.OGCAPIFEATURES,
+};
+
 export function parseDatasetType(str: string): DatasetType | undefined {
   if (str) {
-    str = str.toUpperCase();
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return (DatasetType as any)[str];
+    return datasetTypeAliases[str.toUpperCase()] ?? datasetTypeAliases[str];
   }
   return undefined;
 }

@@ -147,6 +147,10 @@ export class MapViewComponent implements OnInit {
           this.mapOptions = new FiwareOptions(dataset.primaryUrl, resource);
           this.hideLoading();
         }
+        if (resource.type === DatasetType.OGCAPIFEATURES) {
+          this.mapOptions = new OGCFeaturesOptions(dataset.primaryUrl);
+          this.hideLoading();
+        }
       },
       error => this.handleError(error)
     );

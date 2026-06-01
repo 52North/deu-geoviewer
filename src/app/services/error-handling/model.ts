@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { getValue, InterpolatableTranslationObject } from '@ngx-translate/core';
 
-import { CkanResource } from '../../model';
+import { CkanResource, DatasetType } from '../../model';
 
 export abstract class ViewerError {
   constructor(
@@ -42,8 +42,8 @@ export abstract class ViewerError {
   }
 
   protected get resourceType(): string {
-    return this.ckanResource && this.ckanResource.type
-      ? this.ckanResource.type
+    return this.ckanResource && this.ckanResource.type !== undefined
+      ? DatasetType[this.ckanResource.type]
       : 'n/a';
   }
 }
