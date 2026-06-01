@@ -17,6 +17,7 @@ export interface Configuration {
   }[];
   languages: LanguageConfig[];
   supportTicketPrefix: string;
+  helpPage: string;
 }
 
 export interface LanguageConfig {

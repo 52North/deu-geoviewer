@@ -15,6 +15,7 @@ import {
 } from '../../components/map/maphandler/model';
 import { LegalDisclaimerService } from '../../components/modals/legal-disclaimer/legal-disclaimer.component';
 import { LoadingDatasetComponent } from '../../components/modals/loading-dataset/loading-dataset.component';
+import { ConfigurationService } from '../../configuration/configuration.service';
 import { DatasetType, parseDatasetType } from '../../model';
 import { DatasetService } from '../../services/dataset.service';
 import { GeneralErrorHandler } from '../../services/error-handling/general-error-handler.service';
@@ -43,6 +44,8 @@ export class MapViewComponent implements OnInit {
   private datasetTitleSrvc = inject(DatasetTitleService);
   private contactSrvc = inject(ContactService);
   private fileLoader = inject(FileLoaderService);
+  private configSrvc = inject(ConfigurationService);
+
   overlay = inject(Overlay);
 
   public mapOptions: MapOptions | undefined;
@@ -77,6 +80,13 @@ export class MapViewComponent implements OnInit {
 
   public openContactPage(): void {
     this.contactSrvc.openContact();
+  }
+
+  public openHelpPage(): void {
+    const url = this.configSrvc.configuration.helpPage;
+    if (url) {
+      window.open(url, '_blank');
+    }
   }
 
   private loadDistribution(id: string, type: string): void {

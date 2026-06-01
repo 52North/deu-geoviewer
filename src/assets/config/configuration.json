@@ -242,5 +242,6 @@
       "label": "svenska"
     }
   ],
-  "supportTicketPrefix": "https://www.europeandataportal.eu/en/feedback/form?"
+  "supportTicketPrefix": "https://www.europeandataportal.eu/en/feedback/form?",
+  "helpPage": "https://dataeuropa.gitlab.io/data-provider-manual/data-visualisation/"
 }
