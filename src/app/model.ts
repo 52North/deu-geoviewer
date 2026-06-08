@@ -36,6 +36,7 @@ const datasetTypeAliases: Record<string, DatasetType> = {
   FIWARE: DatasetType.FIWARE,
   OGCAPIFEATURES: DatasetType.OGCAPIFEATURES,
   'OGC API FEATURES': DatasetType.OGCAPIFEATURES,
+  OGCFEAT: DatasetType.OGCAPIFEATURES,
 };
 
 export function parseDatasetType(str: string): DatasetType | undefined {
