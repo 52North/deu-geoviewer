@@ -88,7 +88,7 @@ export class DatasetService {
           resource.type = resource.type
             ? resource.type
             : this.getFormat(format);
-          if (!resource.type) {
+          if (resource.type === undefined) {
             throw new NotSupportedError(
               url,
               resource,
@@ -197,7 +197,7 @@ export class DatasetService {
     } else {
       type = this.identifyFormat(format);
     }
-    if (type) {
+    if (type !== undefined) {
       return type;
     } else {
       throw new Error(`Couldn't find supported format`);
