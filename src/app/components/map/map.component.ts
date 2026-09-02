@@ -10,6 +10,7 @@ import {
   ViewContainerRef,
   inject,
   input,
+  output,
   viewChild,
 } from '@angular/core';
 import {
@@ -21,6 +22,7 @@ import { TileWMS } from 'ol/source';
 
 import { PROXY_URL } from '../../../main';
 import { ConfigurationService } from '../../configuration/configuration.service';
+import { ViewerError } from '../../services/error-handling/model';
 import { OGCFeaturesService } from '../../services/OGCFeatures.service';
 import { EmptyMapHandler } from './maphandler/empty-map-handler';
 import { FiwareMapHandler } from './maphandler/firware-map-handler';
@@ -57,6 +59,8 @@ export class MapComponent implements AfterViewInit, OnChanges, OnDestroy {
   // private ogcFeatureHandler = inject(OGCFeatureMapHandler);
 
   readonly options = input<MapOptions>();
+
+  readonly mapError = output<ViewerError>();
 
   public mapLoading!: boolean;
 
@@ -149,15 +153,19 @@ export class MapComponent implements AfterViewInit, OnChanges, OnDestroy {
     if (options && this.viewInit) {
       this.mapHandler = this.findMapHandler(options);
       this.mapHandler.mapLoading.subscribe(ml => (this.mapLoading = ml));
-      this.mapHandler.createMap(this.mapId).subscribe(() => {
-        this.mapHandler?.activateFeatureInfo();
-        const entries = this.mapHandler?.getLegendEntries();
-        if (entries) {
-          this.legendEntries = entries;
-          if (this.legendEntries?.length) {
-            setTimeout(() => (this.legendOpen = true), 1000);
+      this.mapHandler.mapError.subscribe(err => this.mapError.emit(err));
+      this.mapHandler.createMap(this.mapId).subscribe({
+        next: () => {
+          this.mapHandler?.activateFeatureInfo();
+          const entries = this.mapHandler?.getLegendEntries();
+          if (entries) {
+            this.legendEntries = entries;
+            if (this.legendEntries?.length) {
+              setTimeout(() => (this.legendOpen = true), 1000);
+            }
           }
-        }
+        },
+        error: err => console.error(err),
       });
     }
   }

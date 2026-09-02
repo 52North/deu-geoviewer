@@ -10,6 +10,7 @@ import { TileArcGISRest, TileImage, WMTS } from 'ol/source';
 import WMTSTileGrid from 'ol/tilegrid/WMTS';
 import { Observable, Subject } from 'rxjs';
 
+import { ViewerError } from '../../../services/error-handling/model';
 import { ConfigurationService } from './../../../configuration/configuration.service';
 import { LegendEntry, MapProjection } from './model';
 
@@ -21,6 +22,8 @@ export abstract class MapHandler {
   protected legendEntries: LegendEntry[] = [];
 
   public mapLoading: Subject<boolean> = new Subject<boolean>();
+
+  public mapError: Subject<ViewerError> = new Subject<ViewerError>();
 
   constructor(protected config: ConfigurationService) {
     this.createPopup();

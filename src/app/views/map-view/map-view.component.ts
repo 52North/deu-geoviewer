@@ -148,7 +148,10 @@ export class MapViewComponent implements OnInit {
           this.hideLoading();
         }
         if (resource.type === DatasetType.OGCAPIFEATURES) {
-          this.mapOptions = new OGCFeaturesOptions(dataset.primaryUrl);
+          this.mapOptions = new OGCFeaturesOptions(
+            dataset.primaryUrl,
+            resource
+          );
           this.hideLoading();
         }
       },
@@ -159,7 +162,10 @@ export class MapViewComponent implements OnInit {
   private loadUrl(fileUrl: string, type: string) {
     this.showloading();
     if (type === 'ogcfeature') {
-      this.mapOptions = new OGCFeaturesOptions(fileUrl);
+      this.mapOptions = new OGCFeaturesOptions(fileUrl, {
+        id: '',
+        type: DatasetType.OGCAPIFEATURES,
+      });
       this.hideLoading();
     } else {
       this.fileLoader.loadFile(fileUrl, type).subscribe({
@@ -181,6 +187,10 @@ export class MapViewComponent implements OnInit {
   private handleError(error: ViewerError): void {
     this.hideLoading();
     this.mapOptions = new MapOptions();
+    this.errorSrvc.openErrorScreen(error);
+  }
+
+  public handleMapError(error: ViewerError): void {
     this.errorSrvc.openErrorScreen(error);
   }
 

@@ -113,8 +113,13 @@ export class NotAvailableError extends ViewerError {
   }
 
   public get messageKey(): string {
-    if (this.error instanceof HttpErrorResponse && this.error.status) {
-      return `error.httpIssues.${this.error.status}`;
+    if (this.error instanceof HttpErrorResponse) {
+      if (this.error.status === 0) {
+        return `error.httpIssues.unreachable`;
+      }
+      if (this.error.status) {
+        return `error.httpIssues.${this.error.status}`;
+      }
     }
     return `error.httpIssues.generic`;
   }

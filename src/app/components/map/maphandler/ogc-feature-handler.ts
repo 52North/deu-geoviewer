@@ -14,9 +14,10 @@ import { Projection, transformExtent } from 'ol/proj';
 import VectorSource from 'ol/source/Vector';
 import { Fill, Stroke, Style } from 'ol/style';
 import CircleStyle from 'ol/style/Circle';
-import { Observable } from 'rxjs';
+import { EMPTY, Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { ConfigurationService } from '../../../configuration/configuration.service';
+import { NotAvailableError } from '../../../services/error-handling/model';
 import {
   Collection,
   CollectionResponse,
@@ -118,8 +119,9 @@ export class OGCFeatureMapHandler extends MapHandler {
     const originalUrl = this.options!.url;
     return this.determineUrl(originalUrl).pipe(
       catchError(err => {
-        console.error(err);
-        throw err;
+        this.initMap(mapId, undefined);
+        this.reportError(err);
+        return EMPTY;
       }),
       map(res => {
         this.initMap(mapId, res.extent?.spatial);
@@ -141,14 +143,14 @@ export class OGCFeatureMapHandler extends MapHandler {
                 .getCollection(this.serviceUrl, collectionId)
                 .subscribe({
                   next: collection => this.loadCollection(collection),
-                  error: err => console.error(err),
+                  error: err => this.reportError(err),
                 });
               return;
             }
           }
           this.ogcFeatureSrvc.getCollections(this.serviceUrl).subscribe({
             next: coll => this.showCollections(coll),
-            error: err => console.error(err),
+            error: err => this.reportError(err),
           });
         }
       })
@@ -234,7 +236,10 @@ export class OGCFeatureMapHandler extends MapHandler {
           this.nextFeaturesUrl = nextLink;
           this._loadingFeatures.set(false);
         },
-        error: err => console.error(err),
+        error: err => {
+          this._loadingFeatures.set(false);
+          this.reportError(err);
+        },
       });
   }
 
@@ -261,9 +266,22 @@ export class OGCFeatureMapHandler extends MapHandler {
             this.nextFeaturesUrl = nextLink;
             this._loadingFeatures.set(false);
           },
-          error: err => console.error(err),
+          error: err => {
+            this._loadingFeatures.set(false);
+            this.reportError(err);
+          },
         });
     }
+  }
+
+  private reportError(error: unknown): void {
+    this.mapError.next(
+      new NotAvailableError(
+        this.serviceUrl ?? this.options.url,
+        this.options.resource,
+        error
+      )
+    );
   }
 
   private initMap(

@@ -48,6 +48,7 @@
   "error.general.unsupportedResource": "An unsupported resource was found at the given URL.",
   "error.general.errorSource": "The following error source was determined:",
   "error.httpIssues.generic": "A server error occurred while requesting the given resource",
+  "error.httpIssues.unreachable": "The service could not be reached from the browser. It may not allow requests from other websites (CORS).",
   "error.detaildErrors.metadata": "The metadata document of the service is erroneous.",
   "error.general.requestedUrl": "Requested URL",
   "error.general.technicalSupport": "If the problem persists in the future, please contact the technical support",

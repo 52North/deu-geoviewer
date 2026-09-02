@@ -52,7 +52,10 @@ export class FiwareOptions extends MapOptions {
 }
 
 export class OGCFeaturesOptions extends MapOptions {
-  constructor(public url: string) {
+  constructor(
+    public url: string,
+    public resource: CkanResource
+  ) {
     super();
   }
 }
