@@ -11,6 +11,7 @@ import {
   inject,
   input,
   output,
+  signal,
   viewChild,
 } from '@angular/core';
 import {
@@ -39,6 +40,8 @@ import {
 import { OGCFeatureMapHandler } from './maphandler/ogc-feature-handler';
 import { WmsMapHandler } from './maphandler/wms-map-handler';
 
+const SLOW_RESPONSE_HINT_DELAY = 15000;
+
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
@@ -62,7 +65,9 @@ export class MapComponent implements AfterViewInit, OnChanges, OnDestroy {
 
   readonly mapError = output<ViewerError>();
 
-  public mapLoading!: boolean;
+  public mapLoading = signal(false);
+
+  public slowResponse = signal(false);
 
   public mapId = 'mapid';
 
@@ -88,7 +93,10 @@ export class MapComponent implements AfterViewInit, OnChanges, OnDestroy {
 
   private viewInit = false;
 
+  private slowResponseTimer: ReturnType<typeof setTimeout> | undefined;
+
   ngOnDestroy(): void {
+    this.setMapLoading(false);
     if (this.mapHandler) {
       this.mapHandler.mapViewDestroyed();
     }
@@ -152,7 +160,7 @@ export class MapComponent implements AfterViewInit, OnChanges, OnDestroy {
     const options = this.options();
     if (options && this.viewInit) {
       this.mapHandler = this.findMapHandler(options);
-      this.mapHandler.mapLoading.subscribe(ml => (this.mapLoading = ml));
+      this.mapHandler.mapLoading.subscribe(ml => this.setMapLoading(ml));
       this.mapHandler.mapError.subscribe(err => this.mapError.emit(err));
       this.mapHandler.createMap(this.mapId).subscribe({
         next: () => {
@@ -167,6 +175,22 @@ export class MapComponent implements AfterViewInit, OnChanges, OnDestroy {
         },
         error: err => console.error(err),
       });
+    }
+  }
+
+  private setMapLoading(loading: boolean): void {
+    this.mapLoading.set(loading);
+    if (this.slowResponseTimer) {
+      clearTimeout(this.slowResponseTimer);
+      this.slowResponseTimer = undefined;
+    }
+    if (loading) {
+      this.slowResponseTimer = setTimeout(
+        () => this.slowResponse.set(true),
+        SLOW_RESPONSE_HINT_DELAY
+      );
+    } else {
+      this.slowResponse.set(false);
     }
   }
 

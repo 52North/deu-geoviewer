@@ -117,7 +117,7 @@ export class OGCFeatureMapHandler extends MapHandler {
 
   createMap(mapId: string): Observable<void> {
     const originalUrl = this.options!.url;
-    return this.determineUrl(originalUrl).pipe(
+    return this.withLoading(this.determineUrl(originalUrl)).pipe(
       catchError(err => {
         this.initMap(mapId, undefined);
         this.reportError(err);
@@ -139,16 +139,18 @@ export class OGCFeatureMapHandler extends MapHandler {
                   false
                 );
               }
-              this.ogcFeatureSrvc
-                .getCollection(this.serviceUrl, collectionId)
-                .subscribe({
-                  next: collection => this.loadCollection(collection),
-                  error: err => this.reportError(err),
-                });
+              this.withLoading(
+                this.ogcFeatureSrvc.getCollection(this.serviceUrl, collectionId)
+              ).subscribe({
+                next: collection => this.loadCollection(collection),
+                error: err => this.reportError(err),
+              });
               return;
             }
           }
-          this.ogcFeatureSrvc.getCollections(this.serviceUrl).subscribe({
+          this.withLoading(
+            this.ogcFeatureSrvc.getCollections(this.serviceUrl)
+          ).subscribe({
             next: coll => this.showCollections(coll),
             error: err => this.reportError(err),
           });
@@ -221,26 +223,26 @@ export class OGCFeatureMapHandler extends MapHandler {
     }
     this.vectorSource.clear();
     this._loadingFeatures.set(true);
-    this.ogcFeatureSrvc
-      .getCollectionItems(collection, this.serviceUrl, {
+    this.withLoading(
+      this.ogcFeatureSrvc.getCollectionItems(collection, this.serviceUrl, {
         limit: COLLECTION_ITEMS_COUNT,
       })
-      .subscribe({
-        next: items => {
-          this.vectorSource.addFeatures(new GeoJSON().readFeatures(items));
-          const nextLink = items.links?.find(e => e.rel === 'next');
-          this._featureResults.set({
-            completeCount: items.numberMatched,
-            displayedCount: items.numberReturned,
-          });
-          this.nextFeaturesUrl = nextLink;
-          this._loadingFeatures.set(false);
-        },
-        error: err => {
-          this._loadingFeatures.set(false);
-          this.reportError(err);
-        },
-      });
+    ).subscribe({
+      next: items => {
+        this.vectorSource.addFeatures(new GeoJSON().readFeatures(items));
+        const nextLink = items.links?.find(e => e.rel === 'next');
+        this._featureResults.set({
+          completeCount: items.numberMatched,
+          displayedCount: items.numberReturned,
+        });
+        this.nextFeaturesUrl = nextLink;
+        this._loadingFeatures.set(false);
+      },
+      error: err => {
+        this._loadingFeatures.set(false);
+        this.reportError(err);
+      },
+    });
   }
 
   loadAdditionalFeatures() {

@@ -35,8 +35,13 @@
 
 <div class="map" [attr.id]="mapId">
 
-  @if (mapLoading) {
-    <div class="spinner-border loading-spinner"> </div>
+  @if (mapLoading()) {
+    <div class="loading-indicator">
+      <div class="spinner-border"> </div>
+      @if (slowResponse()) {
+        <div class="slow-response-hint">{{'map-loading.slow-response' | translate}}</div>
+      }
+    </div>
   }
 
   <div class="zoom-buttons btn-group-vertical btn-group-sm">

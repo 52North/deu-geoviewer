@@ -8,7 +8,8 @@ import { PROJECTIONS as EPSG_4326 } from 'ol/proj/epsg4326';
 import Projection from 'ol/proj/Projection';
 import { TileArcGISRest, TileImage, WMTS } from 'ol/source';
 import WMTSTileGrid from 'ol/tilegrid/WMTS';
-import { Observable, Subject } from 'rxjs';
+import { defer, Observable, Subject } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 
 import { ViewerError } from '../../../services/error-handling/model';
 import { ConfigurationService } from './../../../configuration/configuration.service';
@@ -24,6 +25,8 @@ export abstract class MapHandler {
   public mapLoading: Subject<boolean> = new Subject<boolean>();
 
   public mapError: Subject<ViewerError> = new Subject<ViewerError>();
+
+  private loadingCounter = 0;
 
   constructor(protected config: ConfigurationService) {
     this.createPopup();
@@ -154,26 +157,33 @@ export abstract class MapHandler {
   }
 
   private addloadingEvents(source: TileImage): void {
-    let counter = 0;
-    source.on('tileloadstart', () => (counter = this.increaseCounter(counter)));
-    source.on('tileloadend', () => (counter = this.decreaseCounter(counter)));
-    source.on('tileloaderror', () => (counter = this.decreaseCounter(counter)));
+    source.on('tileloadstart', () => this.startLoading());
+    source.on('tileloadend', () => this.finishLoading());
+    source.on('tileloaderror', () => this.finishLoading());
   }
 
-  private decreaseCounter(counter: number): number {
-    counter--;
-    if (counter === 0) {
-      this.mapLoading.next(false);
-    }
-    return counter;
-  }
-
-  private increaseCounter(counter: number): number {
-    if (counter === 0) {
+  protected startLoading(): void {
+    if (this.loadingCounter === 0) {
       this.mapLoading.next(true);
     }
-    counter++;
-    return counter;
+    this.loadingCounter++;
+  }
+
+  protected finishLoading(): void {
+    if (this.loadingCounter === 0) {
+      return;
+    }
+    this.loadingCounter--;
+    if (this.loadingCounter === 0) {
+      this.mapLoading.next(false);
+    }
+  }
+
+  protected withLoading<T>(request: Observable<T>): Observable<T> {
+    return defer(() => {
+      this.startLoading();
+      return request;
+    }).pipe(finalize(() => this.finishLoading()));
   }
 
   protected createPopup(): void {

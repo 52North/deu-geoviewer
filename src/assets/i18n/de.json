@@ -80,6 +80,7 @@
   "error.httpIssues.503": "Die Ressource ist derzeit wegen Überlastung oder Wartung nicht verfügbar",
   "error.httpIssues.504": "Die Ressource ist aufgrund eines fehlerhaft konfigurierten oder nicht-reagierenden Gateways nicht verfügbar",
   "error.httpIssues.505": "Die Ressource unterstützt die angegebene HTTP-Version nicht",
+  "map-loading.slow-response": "Der Dienst des Anbieters antwortet langsam. Bitte haben Sie einen Moment Geduld.",
   "features-loaded.label": "Features geladen",
   "features-loaded.loading": "Lädt...",
   "features-loaded.load-more": "Weitere Features laden"
