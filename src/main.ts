@@ -24,6 +24,7 @@ import {
 } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { GuidedTourService, WindowRefService } from 'ngx-guided-tour';
+import { switchMap } from 'rxjs/operators';
 
 import { AppRoutingModule } from './app/app-routing.module';
 import { AppComponent } from './app/app.component';
@@ -36,13 +37,15 @@ if (environment.production) {
   enableProdMode();
 }
 
+export const FALLBACK_LANGUAGE = 'en';
+
 export function initApplication(
   configService: ConfigurationService,
   translate: TranslateService
 ): () => Promise<void | InterpolatableTranslationObject> {
   return () =>
     configService.loadConfiguration().then((config: Configuration) => {
-      let lang = 'en';
+      let lang: string = FALLBACK_LANGUAGE;
       const url = window.location.href;
       const name = 'lang';
       const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
@@ -53,13 +56,17 @@ export function initApplication(
           lang = match.code;
         }
       }
-      translate.setDefaultLang(lang);
-      return translate.use(lang).toPromise();
+      translate.setDefaultLang(FALLBACK_LANGUAGE);
+      return translate
+        .use(FALLBACK_LANGUAGE)
+        .pipe(switchMap(() => translate.use(lang)))
+        .toPromise();
     });
 }
 
 export const translateConfig = {
-  defaultLanguage: 'en',
+  defaultLanguage: FALLBACK_LANGUAGE,
+  useDefaultLang: true,
   loader: {
     provide: TranslateLoader,
     useFactory: (http: HttpClient) =>
