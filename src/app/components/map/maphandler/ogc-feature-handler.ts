@@ -360,6 +360,11 @@ export class OGCFeatureMapHandler extends MapHandler {
       this.dynamicContainerRef!.insert(this.collectionComponent.hostView);
     }
     this.collectionComponent.instance.collectionResponse = coll;
+
+    // with only one collection there is nothing to choose, load it right away
+    if (coll.collections?.length === 1) {
+      this.loadCollection(coll.collections[0]);
+    }
   }
 
   private initFeaturesHint() {
