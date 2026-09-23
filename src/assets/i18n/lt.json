@@ -12,7 +12,7 @@
   "functions.feature-info": "Informacija apie funkcijas",
   "functions.legend": "Sutartiniai žymėjimai",
   "functions.no-legend": "Sutartinių žymėjimų nėra",
-  "welcome-screen.title": "Sveiki atvykę į data.europa.eu žemėlapių peržiūros programą",
+  "welcome-screen.title": "Sveiki atvykę į European Data Portal žemėlapių peržiūros programą",
   "welcome-screen.services": "Ši žemėlapių peržiūros programa turi prieigą prie išorės paslaugų ir rodo jų duomenis. Šių išorės paslaugų netvarko Europos Komisija, todėl mes neturime jokios įtakos jų prieinamumui / stabilumui. Gali kilti šios problemos:",
   "welcome-screen.information": "Jei prašote išsamios informacijos apie pasirinktą funkciją, jūsų prašymas bus perduotas į žemėlapių serverį. Jei atsakymas į šį prašymą bus pateiktas netaisyklingai arba nepateiktas (pvz., dėl serverio klaidos), informacija nebus rodoma, o vietoje to matysite tuščią langą.",
   "welcome-screen.access": "Duomenys, gaunami iš išorinio serverio gali būti pateikiami už esamo žemėlapio vaizdo ribų. Šia žemėlapių peržiūros programa siekiama automatiškai nustatyti apimamą sritį. Tačiau kai kuriais atvejais metaduomenys nėra išsamūs arba yra klaidingi, todėl jums reikės pasirinkti panoraminį vaizdą.",

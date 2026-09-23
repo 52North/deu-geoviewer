@@ -12,7 +12,7 @@
   "functions.feature-info": "Kohteen tiedot",
   "functions.legend": "Selite",
   "functions.no-legend": "Ei selitettä",
-  "welcome-screen.title": "Tervetuloa data.europa.eu kartta karttakatseluohjelmaan",
+  "welcome-screen.title": "Tervetuloa European Data Portal kartta karttakatseluohjelmaan",
   "welcome-screen.services": "Karttakatseluohjelma käyttää ulkoisia palveluja ja näyttää niiden datan. Euroopan komissio ei ylläpidä näitä ulkoisia palveluja, emmekä siten pysty vaikuttamaan niiden käytettävyyteen/luotettavuuteen. Seuraavia ongelmia saattaa ilmetä:",
   "welcome-screen.information": "Jos pyydät tarkkaa tietoa valitulle kohteelle, se hoidetaan erikoispyynnöllä karttapalvelimelle. Jos vastaus tähän pyyntöön on väärin muotoiltu tai tyhjä (esim. palvelinvirheen takia), tietoa ei voi näyttää ja ikkuna näkyy tyhjänä.",
   "welcome-screen.access": "Ulkoiselta palvelulta käytetty data saattaa sijaita nykyisen karttanäkymän ulkopuolella. Tämä karttakatseluohjelma yrittää automaattisesti tunnistaa katetun alueen. Joissakin tapauksissa metadata on puutteellinen tai virheellinen, jolloin on paneroitava oikeaan laajuuteen.",

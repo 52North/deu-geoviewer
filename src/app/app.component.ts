@@ -29,7 +29,7 @@ export class AppComponent implements OnInit {
 
   private setTitle(): void {
     this.translateSrvc.get('tagline').subscribe({
-      next: t => this.titleSrvc.setTitle(`${t} | data.europa.eu`),
+      next: t => this.titleSrvc.setTitle(`${t} | European Data Portal`),
     });
   }
 }

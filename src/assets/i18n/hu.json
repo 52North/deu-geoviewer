@@ -12,7 +12,7 @@
   "functions.feature-info": "Részletes adatok",
   "functions.legend": "Jelmagyarázat",
   "functions.no-legend": "Nincs jelmagyarázat",
-  "welcome-screen.title": "Üdvözöljük az data.europa.eu térkép-megjelenítőjében!",
+  "welcome-screen.title": "Üdvözöljük az European Data Portal térkép-megjelenítőjében!",
   "welcome-screen.services": "A térkép-megjelenítő külső szolgáltatásokhoz fér hozzá, és megjeleníti az adataikat. Ezeket a külső szolgáltatásokat nem az Európai Bizottság működteti, ezért semmilyen hatása nincs az elérhetőségükre vagy stabilitásukra. A következő problémák léphetnek fel:",
   "welcome-screen.information": "Amennyiben részletes információkat kért egy kiválasztott funkcióhoz, ezt a térképkiszolgálónak küldött külön kérés keretében kezeli a rendszer. Amennyiben erre a kérésre helytelen formátumú vagy üres (pl. kiszolgálóhiba miatt) válasz érkezik, nem jeleníthető meg információ, és üres ablak jelenik meg.",
   "welcome-screen.access": "Megtörténhet, hogy a külső kiszolgálóról elérhető adatok az aktuális térképnézeten kívül vannak. A térkép-megjelenítő megpróbálja automatikusan azonosítani a lefedett területet. Bizonyos esetekben azonban a metaadatok nem pontosak vagy hibásak, ezért szükség lehet a tényleges mérethez történő igazításra.",
